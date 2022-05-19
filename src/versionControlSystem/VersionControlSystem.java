@@ -2,7 +2,7 @@ package versionControlSystem;
 
 import project.Project;
 import user.*;
-import versionControlSystem.systemExceptions.*;
+import versionControlSystem.expections.*;
 
 import java.util.Date;
 import java.util.Iterator;
@@ -24,9 +24,11 @@ public interface VersionControlSystem {
      * @throws UnknownJobPositionException - if the job position isn't
      *                                      <code>manager</code> or <code>software developer</code>
      * @throws UserNameAlreadyExistsException - if the <code>username</code> is taken
+     * @throws ManagerUsernameInvalidException - if the <code>managerUsername</code> is either taken
+     *                                           or doens't exist
      */
      void registerManager(String jobPosition, String username, int clearanceLevel)
-            throws UnknownJobPositionException, UserNameAlreadyExistsException;
+            throws UnknownJobPositionException, UserNameAlreadyExistsException, ManagerUsernameInvalidException;
 
     /**
      * Registers a new <code>Developer</code> to the <code>VersionControlSystem</code>
@@ -39,11 +41,9 @@ public interface VersionControlSystem {
      * @throws UnknownJobPositionException - if the <code>jobPosition</code> isn't
      *                                       <code>manager</code> or <code>software developer</code>
      * @throws UserNameAlreadyExistsException - if the <code>username</code> is taken
-     * @throws ManagerUsernameInvalidException - if the <code>managerUsername</code> is either taken
-     *                                           or doens't exist
      */
     void registerDeveloper(String jobPosition, String username, String managerUsername, int clearanceLevel)
-            throws UnknownJobPositionException, UserNameAlreadyExistsException, ManagerUsernameInvalidException;
+            throws UnknownJobPositionException, UserNameAlreadyExistsException;
 
     /**
      * Lists out all <code>User</code>'s registered in the <code>VersionControlSystem</code> by insertion order.
@@ -55,8 +55,7 @@ public interface VersionControlSystem {
      * @return a <code>User Iterator</code> that iterates through the system's <code>User</code>'s
      *         by insertion order
      */
-    Iterator<User> listAllUsers()
-            throws NoUsersRegisteredException;
+    Iterator<User> listAllUsers();
 
 
     /**
@@ -118,8 +117,7 @@ public interface VersionControlSystem {
      * @return a <code>Project Iterator</code> that iterates through all the <code>Project</code>'s
      *         registered in the system
      */
-    Iterator<Project> listAllProjects()
-            throws NoProjectsException;
+    Iterator<Project> listAllProjects();
 
 
     /**
@@ -237,11 +235,8 @@ public interface VersionControlSystem {
      *
      * @return a filtered <code>Project Iterator</code> that iterates through all <code>Project</code>s that
      *         have <code>keyword</code>
-     *
-     * @throws NoProjectsWithKeywordException - if there is no <code>Project</code> with <code>keyword</code>
      */
-    Iterator<Project> listProjectsByKeyword(String keyword)
-            throws NoProjectsWithKeywordException;
+    Iterator<Project> listProjectsByKeyword(String keyword);
 
     /**
      * Presents all <code>InHouse Project</code>s that have a <code>confidentialityLevel</code>
@@ -255,12 +250,8 @@ public interface VersionControlSystem {
      *
      * @return a <code>InHouse Project Iterator</code> that iterates through all <code>Project</code>s that
      *         have a <code>confidentialityLevel</code> between <code>lowerLimit</code> and <code>upperLimit</code>
-     *
-     * @throws NoProjectWithinLimitsException - if there is no <code>Project</code> with <code>confidentialityLevel</code>
-     *                                          between <code>lowerLimit</code> and <code>upperLimit</code>
      */
-    Iterator<Project> listProjectsByConfidentiality(int lowerLimit, int upperLimit)
-            throws NoProjectWithinLimitsException;
+    Iterator<Project> listProjectsByConfidentiality(int lowerLimit, int upperLimit);
 
 
     /**
