@@ -73,8 +73,6 @@ public class Main {
      */
     private static final String TEAM_HEADER = "Latest team members:";
     private static final String TEAM_MEMBER_ADDED = "%s: added to the team.\n";
-    private static final String TEAM_MEMBER_ALREADY_MEMBER = "%s: already a member.\n";
-    private static final String TEAM_MEMBER_INSUF_CLEARENCE = "%s: insufficient clearance level.\n";
 
 
     /**
@@ -82,8 +80,6 @@ public class Main {
      */
     private static final String ARTEFACT_HEADER = "Latest project artefacts:";
     private static final String ARTEFACT_ADDED = "%s: added to the project.\n";
-    private static final String ARTEFACT_ALREADY_REGISTERED = "%s: already in the project.\n";
-    private static final String ARTEFACT_EXCEEDS_CONFIDENTIALITY = "%s: exceeds project confidentiality level.\n";
 
 
     /**
@@ -144,7 +140,7 @@ public class Main {
      */
     private static final String UNKNOWN_COMMAND = "Unknown command. Type help to see available commands.";
 
-
+    
     public static void main(String[] args) {
         interpretCommands();
     }

@@ -1,8 +1,8 @@
 package versionControlSystem;
 
-import project.Project;
-import user.*;
-import versionControlSystem.expections.*;
+import versionControlSystem.classesInterfaces.Project;
+import versionControlSystem.exceptions.*;
+import versionControlSystem.classesInterfaces.User;
 
 import java.util.Date;
 import java.util.Iterator;
@@ -157,6 +157,10 @@ public interface VersionControlSystem {
      * @throws ProjectNameDoesntExistException - if <code>projectName</code> doesn't exist
      * @throws DeveloperNotMemberException - if <code>Developer</code> with <code>developerUsername</code>
      *                                       isn't a member of <code>Project</code> with <code>projectName</code>
+     * @throws ArtefactAlreadyInProjectException - if the given <code>Artefact</code> is already registered in <code>Project</code>
+     *                                             with <code>projectName</code>
+     * @throws ArtefactExceedsConfidentialityException - if the given <code>confidentialityLevel</code> is greater than
+     *                                                   the given <code>Project</code>s confidentiality level
      */
     void addArtefact(String developerUsername, String projectName, Date date, String artefactName,
                       int confidentialityLevel, String description)
@@ -192,13 +196,12 @@ public interface VersionControlSystem {
      * @throws ProjectNameDoesntExistException - if <code>projectName</code> doesn't exist
      * @throws DeveloperNotMemberException - if <code>Developer</code> with <code>developerUsername</code>
      *                                       isn't a member of <code>Project</code> with <code>projectName</code>
-     * @throws DeveloperLowerClearanceLevelException - if <code>Developer</code> with <code>developerUsername</code>
-     *                                                 <code>clearanceLevel</code> is lower than the
-     *                                                 <code>confidentialityLevel</code> of this artefact
+     * @throws ArtefactNotInProjectException - if the <code>Artefact</code> with <code>artefactName</code> is not in
+     *                                        in <code>Project</code> with <code>projectName</code>
      */
     void reviewArtefact(String username, String projectName, String artefactName, Date date, String comment)
             throws UserNameDoesntExistException, ProjectNameDoesntExistException, DeveloperNotMemberException,
-               DeveloperLowerClearanceLevelException;
+               ArtefactNotInProjectException;
 
 
     /**
@@ -214,11 +217,8 @@ public interface VersionControlSystem {
      * @param managerUsername - <code>Manager</code>'s username to list <code>Developer</code>'s from
      *
      * @return a <code>User Iterator</code> that iterates through a <code>Manager</code>'s <code>Developer</code>s
-     *
-     * @throws UserNameDoesntExistException - if <code>developerUsername</code> doesn't
      */
-    Iterator<User> listDevelopersInfo(String managerUsername)
-            throws UserNameDoesntExistException;
+    Iterator<User> listDevelopersInfo(String managerUsername);
 
 
     /**
@@ -264,11 +264,8 @@ public interface VersionControlSystem {
      * "username": number of updates updates, number of projects projects, last update on "date".
      *
      * @return a <code>Workaholics Class</code> with the top three workaholics
-     *
-     * @throws NoWorkaholicsException - if there are no <code>User</code>'s or if no <code>User</code> has made a <code>Revision</code>
      */
-    Workaholics listWorkaholics()
-            throws NoWorkaholicsException;
+    Workaholics listWorkaholics();
 
     /**
      * Presents the two <code>User</code>s that have the most <code>Project</code>s in common.
@@ -277,9 +274,6 @@ public interface VersionControlSystem {
      *
      * @return a <code>Commonality Class</code> with the top two common <code>User</code>s and the
      *         number of <code>Project</code>s in common
-     *
-     * @throws NoCommonUsersException - if there are no <code>User</code>s with common <code>Project</code>s
      */
-    Commonality listTopCommonUsers()
-            throws NoCommonUsersException;
+    Commonality listTopCommonUsers();
 }

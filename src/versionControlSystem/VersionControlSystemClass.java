@@ -1,8 +1,8 @@
 package versionControlSystem;
 
-import project.Project;
-import user.User;
-import versionControlSystem.expections.*;
+import versionControlSystem.classesInterfaces.Project;
+import versionControlSystem.classesInterfaces.User;
+import versionControlSystem.exceptions.*;
 
 import java.util.Date;
 import java.util.Iterator;
@@ -54,12 +54,12 @@ public class VersionControlSystemClass implements VersionControlSystem {
     }
 
     @Override
-    public void reviewArtefact(String username, String projectName, String artefactName, Date date, String comment) throws UserNameDoesntExistException, ProjectNameDoesntExistException, DeveloperNotMemberException, DeveloperLowerClearanceLevelException {
+    public void reviewArtefact(String username, String projectName, String artefactName, Date date, String comment) throws UserNameDoesntExistException, ProjectNameDoesntExistException, DeveloperNotMemberException, ArtefactNotInProjectException {
 
     }
 
     @Override
-    public Iterator<User> listDevelopersInfo(String managerUsername) throws UserNameDoesntExistException {
+    public Iterator<User> listDevelopersInfo(String managerUsername) {
         return null;
     }
 
@@ -74,12 +74,12 @@ public class VersionControlSystemClass implements VersionControlSystem {
     }
 
     @Override
-    public Workaholics listWorkaholics() throws NoWorkaholicsException {
+    public Workaholics listWorkaholics(){
         return null;
     }
 
     @Override
-    public Commonality listTopCommonUsers() throws NoCommonUsersException {
+    public Commonality listTopCommonUsers(){
         return null;
     }
 }
