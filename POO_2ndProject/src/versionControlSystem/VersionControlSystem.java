@@ -26,12 +26,13 @@ public interface VersionControlSystem {
      * @throws UserNameAlreadyExistsException - if the <code>username</code> is taken
      * @throws ManagerUsernameInvalidException - if the <code>managerUsername</code> is either taken
      *                                           or doens't exist
-     */
+     
      void registerManager(String jobPosition, String username, int clearanceLevel)
             throws UnknownJobPositionException, UserNameAlreadyExistsException, ManagerUsernameInvalidException;
+     */
 
     /**
-     * Registers a new <code>Developer</code> to the <code>VersionControlSystem</code>
+     * Registers a new <code>User</code> to the <code>VersionControlSystem</code>
      *
      * @param jobPosition - new <code>User</code>' job position
      * @param username - new <code>User</code>' username
@@ -42,8 +43,8 @@ public interface VersionControlSystem {
      *                                       <code>manager</code> or <code>software developer</code>
      * @throws UserNameAlreadyExistsException - if the <code>username</code> is taken
      */
-    void registerDeveloper(String jobPosition, String username, String managerUsername, int clearanceLevel)
-            throws UnknownJobPositionException, UserNameAlreadyExistsException;
+    void registerUser(String jobPosition, String username, String managerUsername, int clearanceLevel)
+            throws UnknownJobPositionException, UserNameAlreadyExistsException, ManagerUsernameInvalidException;
 
     /**
      * Lists out all <code>User</code>'s registered in the <code>VersionControlSystem</code> by insertion order.

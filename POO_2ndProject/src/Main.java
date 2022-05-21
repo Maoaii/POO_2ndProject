@@ -1,5 +1,6 @@
 import versionControlSystem.VersionControlSystem;
 import versionControlSystem.VersionControlSystemClass;
+import versionControlSystem.exceptions.*;
 
 import java.util.Scanner;
 
@@ -9,6 +10,10 @@ public class Main {
         REGISTER, USERS, CREATE, PROJECTS, TEAM, ARTEFACTS, PROJECT, REVISION,
         MANAGES, KEYWORD, CONFIDENTIALITY, WORKAHOLICS, COMMON, HELP, EXIT, UNKNOWN
     }
+    
+    //Keywords
+    
+    private static final String MANAGER = "manager";
 
     // Output messages
 
@@ -151,10 +156,11 @@ public class Main {
     private static void interpretCommands() {
         Scanner in = new Scanner(System.in);
         VersionControlSystem eMailSystem = new VersionControlSystemClass();
+        Command command;
 
-        Command command = readCommand(in);
-
-        while (!command.equals(Command.EXIT)) {
+        do {
+        	command = readCommand(in);
+        	
             switch (command) {
                 case REGISTER: interpretRegister(in, eMailSystem); break;
                 case USERS: interpretUsers(eMailSystem); break;
@@ -174,10 +180,7 @@ public class Main {
                 default: System.out.println(UNKNOWN_COMMAND); break;
             }
             System.out.println();
-            command = readCommand(in);
-        }
-        System.out.println(EXIT_MESSAGE);
-        System.out.println();
+        }while(!command.equals(Command.EXIT));
         in.close();
     }
 
@@ -188,6 +191,26 @@ public class Main {
      * @param eMailSystem - system class
      */
     private static void interpretRegister(Scanner in, VersionControlSystem eMailSystem) {
+    	String job = in.next();
+    	String username = in.next();
+    	String managerUsername = "";
+    	if(!job.equals(MANAGER)) {
+    		managerUsername = in.next();
+    	}
+    	int clearence = in.nextInt();
+    	try {
+    		eMailSystem.registerUser(job, username, managerUsername, clearence);
+    		System.out.printf(USER_REGISTERED, username, job, clearence);
+    	}
+    	catch(UnknownJobPositionException e) {
+    		System.out.println(e.getErrorMessage());
+    	}
+    	catch(UserNameAlreadyExistsException e) {
+    		System.out.printf(e.getErrorMessage(), e.getErrorInfo());
+    	}
+    	catch(ManagerUsernameInvalidException e) {
+    		System.out.printf(e.getErrorMessage(), e.getErrorInfo());
+    	}
     }
 
     /**
