@@ -2,10 +2,11 @@ package versionControlSystem.user;
 
 import versionControlSystem.project.Revision;
 
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 
-public interface User {
+public interface User extends Comparator<User> {
 
     /**
      * @return this <code>User</code>s <code>username</code>

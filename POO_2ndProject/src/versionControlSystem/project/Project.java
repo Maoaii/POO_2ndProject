@@ -3,11 +3,6 @@ package versionControlSystem.project;
 public interface Project {
 
     /**
-     * @return the <code>projectType</code> of this <code>Project</code>
-     */
-    String getProjectType();
-
-    /**
      * @return the <code>projectName</code> of this <code>Project</code>
      */
     String getProjectName();
@@ -16,6 +11,4 @@ public interface Project {
      * @return the <code>username</code> of this <code>Project</code>s <code>ProjectManager</code>
      */
     String getProjectManagerUsername();
-
-
 }

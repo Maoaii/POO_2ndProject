@@ -1,13 +1,26 @@
 package versionControlSystem;
 
+import versionControlSystem.comparators.ComparatorByName;
 import versionControlSystem.project.Project;
 import versionControlSystem.user.User;
 import versionControlSystem.exceptions.*;
 
-import java.util.Date;
-import java.util.Iterator;
+import java.util.*;
 
 public class VersionControlSystemClass implements VersionControlSystem {
+    // Instance variables
+    private Set<User> usersByName; // Stores Users ordered by name
+    private List<Project> projectsByInsertion; // Stores Project's by insertion order
+
+    /**
+     * Version Control System constructor
+     */
+    public VersionControlSystemClass() {
+        usersByName = new TreeSet<>(new ComparatorByName());
+        projectsByInsertion = new LinkedList<>();
+    }
+
+
     @Override
     public void registerManager(String jobPosition, String username, int clearanceLevel) throws UnknownJobPositionException, UserNameAlreadyExistsException, ManagerUsernameInvalidException {
 
