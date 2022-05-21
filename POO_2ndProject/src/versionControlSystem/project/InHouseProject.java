@@ -34,6 +34,28 @@ public interface InHouseProject {
     boolean hasKeyword(String keyword);
 
     /**
+     * Adds a new <code>User</code> to this <code>InHouseProject</code>
+     *
+     * @param user - <code>User</code> to add
+     */
+    void addMember(User user);
+
+    /**
+     * Adds a new <code>Artefact</code> to this <code>InHouseProject</code>
+     *
+     * @param artefact - <code>Artefact</code> to add
+     */
+    void addArtefact(Artefact artefact);
+
+    /**
+     * Reviews an <code>Artefact</code> from this <code>InHouseProject</code>
+     *
+     * @param artefactName - reviewed <code>Artefact</code>
+     * @param revision - <code>Revision</code> to be made
+     */
+    void reviewArtefact(String artefactName, Revision revision);
+
+    /**
      * @return an <code>User Iterator</code> that iterates through all of the <code>Project</code>s members,
      *         by insertion order
      */

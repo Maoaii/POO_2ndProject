@@ -26,9 +26,9 @@ public interface VersionControlSystem {
      * @throws UserNameAlreadyExistsException - if the <code>username</code> is taken
      * @throws ManagerUsernameInvalidException - if the <code>managerUsername</code> is either taken
      *                                           or doens't exist
-     
-     void registerManager(String jobPosition, String username, int clearanceLevel)
-            throws UnknownJobPositionException, UserNameAlreadyExistsException, ManagerUsernameInvalidException;
+
+    void registerManager(String jobPosition, String username, int clearanceLevel)
+    throws UnknownJobPositionException, UserNameAlreadyExistsException, ManagerUsernameInvalidException;
      */
 
     /**
@@ -79,9 +79,9 @@ public interface VersionControlSystem {
      *                                                          <code>clearanceLevel</code>
      */
     void createInHouseProject(String managerUsername, String projectType, String projectName,
-                                     String[] keywords, int confidentialityLevel)
+                              String[] keywords, int confidentialityLevel)
             throws UnknownProjectTypeException, ManagerUsernameInvalidException,
-                   ProjectNameAlreadyExistsException, ConfidentialityLevelHigherThanManagerException;
+            ProjectNameAlreadyExistsException, ConfidentialityLevelHigherThanManagerException;
 
 
     /**
@@ -100,9 +100,9 @@ public interface VersionControlSystem {
      * @throws ProjectNameAlreadyExistsException - if <code>projectName</code> already exists
      */
     void createOutsourcedProject(String managerUsername, String projectType, String projectName,
-                              String[] keywords, String companyName)
+                                 String[] keywords, String companyName)
             throws UnknownProjectTypeException, ManagerUsernameInvalidException,
-                   ProjectNameAlreadyExistsException;
+            ProjectNameAlreadyExistsException;
 
 
     /**
@@ -140,8 +140,8 @@ public interface VersionControlSystem {
      */
     void addTeamMember(String managerUsername, String projectName, String developerUsername)
             throws ManagerUsernameInvalidException, ProjectNameDoesntExistException,
-                   ProjectNotManagedByManagerException, DeveloperAlreadyMemberException,
-                   InsufficientClearanceLevelException;
+            ProjectNotManagedByManagerException, DeveloperAlreadyMemberException,
+            InsufficientClearanceLevelException;
 
 
     /**
@@ -164,9 +164,9 @@ public interface VersionControlSystem {
      *                                                   the given <code>Project</code>s confidentiality level
      */
     void addArtefact(String developerUsername, String projectName, Date date, String artefactName,
-                      int confidentialityLevel, String description)
+                     int confidentialityLevel, String description)
             throws UserNameDoesntExistException, ProjectNameDoesntExistException, DeveloperNotMemberException,
-                   ArtefactAlreadyInProjectException, ArtefactExceedsConfidentialityException;
+            ArtefactAlreadyInProjectException, ArtefactExceedsConfidentialityException;
 
     /**
      * Lists the information regarding a single <code>Project</code>, i.e., the
@@ -202,7 +202,7 @@ public interface VersionControlSystem {
      */
     void reviewArtefact(String username, String projectName, String artefactName, Date date, String comment)
             throws UserNameDoesntExistException, ProjectNameDoesntExistException, DeveloperNotMemberException,
-               ArtefactNotInProjectException;
+            ArtefactNotInProjectException;
 
 
     /**

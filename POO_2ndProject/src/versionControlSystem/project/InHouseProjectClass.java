@@ -3,12 +3,14 @@ package versionControlSystem.project;
 import versionControlSystem.project.comparators.ArtefactComparatorByRevisionDate;
 import versionControlSystem.user.User;
 
+import java.time.LocalDate;
 import java.util.*;
 
 public class InHouseProjectClass extends AbstractProjectClass implements InHouseProject {
     // Instance variables
     private int confidentialityLevel;
     private List<User> membersByInsertion; // Stores members by insertion order
+    private Map<String, Artefact> artefacts; // Stores artefacts for easy access
     private Set<Artefact> artefactsByRevisionDateName; // Stores artefacts by revision date and name
 
 
@@ -16,6 +18,7 @@ public class InHouseProjectClass extends AbstractProjectClass implements InHouse
         super(managerUsername, projectName, keywords);
         this.confidentialityLevel = confidentialityLevel;
         membersByInsertion = new LinkedList<>();
+        artefacts = new HashMap<>();
         artefactsByRevisionDateName = new TreeSet<>(new ArtefactComparatorByRevisionDate());
     }
     @Override
@@ -41,6 +44,21 @@ public class InHouseProjectClass extends AbstractProjectClass implements InHouse
     @Override
     public boolean hasKeyword(String keyword) {
         return false;
+    }
+
+    @Override
+    public void addMember(User user) {
+        membersByInsertion.add(user);
+    }
+
+    @Override
+    public void addArtefact(Artefact artefact) {
+        artefactsByRevisionDateName.add(artefact);
+    }
+
+    @Override
+    public void reviewArtefact(String artefactName, Revision revision) {
+        artefacts.get(artefactName).reviewArtefact(revision);
     }
 
     @Override

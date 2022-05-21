@@ -1,7 +1,11 @@
 import versionControlSystem.VersionControlSystem;
 import versionControlSystem.VersionControlSystemClass;
 import versionControlSystem.exceptions.*;
+import versionControlSystem.user.Developer;
+import versionControlSystem.user.ProjectManager;
+import versionControlSystem.user.User;
 
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class Main {
@@ -10,10 +14,11 @@ public class Main {
         REGISTER, USERS, CREATE, PROJECTS, TEAM, ARTEFACTS, PROJECT, REVISION,
         MANAGES, KEYWORD, CONFIDENTIALITY, WORKAHOLICS, COMMON, HELP, EXIT, UNKNOWN
     }
-    
+
     //Keywords
-    
-    private static final String MANAGER = "manager";
+
+    private static final String PROJECTMANAGER = "manager";
+    private static final String DEVELOPER = "developer";
 
     // Output messages
 
@@ -47,6 +52,8 @@ public class Main {
      * 2.3 REGISTER Command
      */
     private static final String USER_REGISTERED = "User %s was registered as %s with clearance level %s\n";
+    private static final String PROJECTMANAGER_MESSAGE = "project manager";
+    private static final String DEVELOPER_MESSAGE = "software developer";
 
 
     /**
@@ -145,7 +152,7 @@ public class Main {
      */
     private static final String UNKNOWN_COMMAND = "Unknown command. Type help to see available commands.";
 
-    
+
     public static void main(String[] args) {
         interpretCommands();
     }
@@ -159,8 +166,8 @@ public class Main {
         Command command;
 
         do {
-        	command = readCommand(in);
-        	
+            command = readCommand(in);
+
             switch (command) {
                 case REGISTER: interpretRegister(in, eMailSystem); break;
                 case USERS: interpretUsers(eMailSystem); break;
@@ -191,26 +198,35 @@ public class Main {
      * @param eMailSystem - system class
      */
     private static void interpretRegister(Scanner in, VersionControlSystem eMailSystem) {
-    	String job = in.next();
-    	String username = in.next();
-    	String managerUsername = "";
-    	if(!job.equals(MANAGER)) {
-    		managerUsername = in.next();
-    	}
-    	int clearence = in.nextInt();
-    	try {
-    		eMailSystem.registerUser(job, username, managerUsername, clearence);
-    		System.out.printf(USER_REGISTERED, username, job, clearence);
-    	}
-    	catch(UnknownJobPositionException e) {
-    		System.out.println(e.getErrorMessage());
-    	}
-    	catch(UserNameAlreadyExistsException e) {
-    		System.out.printf(e.getErrorMessage(), e.getErrorInfo());
-    	}
-    	catch(ManagerUsernameInvalidException e) {
-    		System.out.printf(e.getErrorMessage(), e.getErrorInfo());
-    	}
+        String jobType = in.next().trim();
+        String username = in.next().trim();
+        String managerUsername = "";
+        if(jobType.equals(DEVELOPER)) {
+            managerUsername = in.next().trim();
+        }
+        int clearanceLevel = in.nextInt(); in.nextLine();
+        try {
+            eMailSystem.registerUser(jobType, username, managerUsername, clearanceLevel);
+            System.out.printf(USER_REGISTERED, username, getJobMessage(jobType), clearanceLevel);
+        }
+        catch(UnknownJobPositionException e) {
+            System.out.println(e.getErrorMessage());
+        } catch(UserNameAlreadyExistsException e) {
+            System.out.printf(e.getErrorMessage(), e.getErrorInfo());
+        } catch(ManagerUsernameInvalidException e) {
+            System.out.printf(e.getErrorMessage(), e.getErrorInfo());
+        }
+    }
+
+    /**
+     * @param jobType - job to get message
+     * @return a string with the <code>jobType</code>s message
+     */
+    private static String getJobMessage(String jobType) {
+        if (jobType.equals(PROJECTMANAGER))
+            return PROJECTMANAGER_MESSAGE;
+        else
+            return DEVELOPER_MESSAGE;
     }
 
     /**
@@ -219,6 +235,25 @@ public class Main {
      * @param eMailSystem - system class
      */
     private static void interpretUsers(VersionControlSystem eMailSystem) {
+        Iterator<User> usersIt = eMailSystem.listAllUsers();
+
+        if (!usersIt.hasNext())
+            System.out.println(NO_USERS_REGISTERED);
+        else {
+            System.out.println(USERS_HEADER);
+
+            while (usersIt.hasNext()) {
+                User user = usersIt.next();
+                
+                if (user instanceof ProjectManager)
+                    System.out.printf(USERS_LISTING_MANAGER,
+                            user.getUsername(), ((ProjectManager) user).getNumDevelopers(),
+                            ((ProjectManager) user).getNumProjectsAsManagers(), user.getNumProjectsAsMember());
+                else
+                    System.out.printf(USERS_LISTING_DEVELOPER,
+                            user.getUsername(), ((Developer) user).getManager(), user.getNumProjectsAsMember());
+            }
+        }
     }
 
     /**

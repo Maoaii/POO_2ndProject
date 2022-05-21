@@ -25,6 +25,11 @@ class ArtefactClass implements Artefact {
     }
 
     @Override
+    public void reviewArtefact(Revision revision) {
+        revisionsByNumber.add(revision);
+    }
+
+    @Override
     public String getArtefactName() {
         return artefactName;
     }

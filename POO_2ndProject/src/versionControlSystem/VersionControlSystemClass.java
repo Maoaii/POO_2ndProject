@@ -2,13 +2,21 @@ package versionControlSystem;
 
 import versionControlSystem.comparators.ComparatorByName;
 import versionControlSystem.project.Project;
+import versionControlSystem.user.DeveloperClass;
+import versionControlSystem.user.ProjectManager;
+import versionControlSystem.user.ProjectManagerClass;
 import versionControlSystem.user.User;
 import versionControlSystem.exceptions.*;
 
 import java.util.*;
 
 public class VersionControlSystemClass implements VersionControlSystem {
+    // Constants
+    private static final String PROJECTMANAGER = "manager";
+    private static final String DEVELOPER = "developer";
+
     // Instance variables
+    private Map<String, User> users;
     private Set<User> usersByName; // Stores Users ordered by name
     private List<Project> projectsByInsertion; // Stores Project's by insertion order
 
@@ -16,24 +24,47 @@ public class VersionControlSystemClass implements VersionControlSystem {
      * Version Control System constructor
      */
     public VersionControlSystemClass() {
+        users = new HashMap<>();
         usersByName = new TreeSet<>(new ComparatorByName());
         projectsByInsertion = new LinkedList<>();
     }
 
 
     @Override
-    public void registerManager(String jobPosition, String username, int clearanceLevel) throws UnknownJobPositionException, UserNameAlreadyExistsException, ManagerUsernameInvalidException {
+    public void registerUser(String jobPosition, String username, String managerUsername, int clearanceLevel)
+            throws UnknownJobPositionException, UserNameAlreadyExistsException, ManagerUsernameInvalidException {
+        boolean isManager = jobPosition.equals(PROJECTMANAGER);
+        boolean isDeveloper = jobPosition.equals(DEVELOPER);
 
-    }
+        if (!isManager && !isDeveloper)
+            throw new UnknownJobPositionException();
+        if (users.containsKey(username))
+            throw new UserNameAlreadyExistsException(username);
 
-    @Override
-    public void registerDeveloper(String jobPosition, String username, String managerUsername, int clearanceLevel) throws UnknownJobPositionException, UserNameAlreadyExistsException {
 
+        User user;
+        if (isManager) {
+            user = new ProjectManagerClass(username, clearanceLevel);
+        }
+        else {
+            User manager = users.get(managerUsername);
+
+            // If manager doesn't exist or the managerUsername doesn't belong to a manager
+            if (!users.containsKey(managerUsername) || !(manager instanceof ProjectManager))
+                throw new ManagerUsernameInvalidException(managerUsername);
+
+            user = new DeveloperClass(managerUsername, username, clearanceLevel);
+
+            ((ProjectManager) manager).addDeveloper(user);
+        }
+
+        users.put(username, user);
+        usersByName.add(user);
     }
 
     @Override
     public Iterator<User> listAllUsers() {
-        return null;
+        return usersByName.iterator();
     }
 
     @Override

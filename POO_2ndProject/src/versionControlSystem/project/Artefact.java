@@ -5,6 +5,8 @@ import java.util.Iterator;
 
 public interface Artefact {
 
+    void reviewArtefact(Revision revision);
+
     /**
      * @return this <code>Artefact</code>'s <code>name</code>
      */

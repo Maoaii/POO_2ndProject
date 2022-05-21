@@ -6,7 +6,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 
-public interface User extends Comparator<User> {
+public interface User{
 
     /**
      * @return this <code>User</code>s <code>username</code>
@@ -22,11 +22,6 @@ public interface User extends Comparator<User> {
      * @return the <code>clearanceLevel</code> of this <code>User</code>
      */
     int getClearanceLevel();
-
-    /**
-     * @return the <code>jobType</code> of this <code>User</code>
-     */
-    String getJobType();
 
     /**
      * @return a <code>Revision Iterator</code> that iterates through all <code>Revision</code>s this
