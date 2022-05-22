@@ -46,13 +46,13 @@ public class Main {
             "workaholics - top 3 employees with more artefacts updates\n" +
             "common - employees with more projects in common\n" +
             "help - shows the available commands\n" +
-            "exit - terminates the execution of the program\n";
+            "exit - terminates the execution of the program";
 
 
     /**
      * 2.3 REGISTER Command
      */
-    private static final String USER_REGISTERED = "User %s was registered as %s with clearance level %s\n";
+    private static final String USER_REGISTERED = "User %s was registered as %s with clearance level %s.\n";
     private static final String PROJECTMANAGER_MESSAGE = "project manager";
     private static final String DEVELOPER_MESSAGE = "software developer";
 
@@ -187,7 +187,6 @@ public class Main {
                 case EXIT: interpretExit(); break;
                 default: System.out.println(UNKNOWN_COMMAND); break;
             }
-            System.out.println();
         }while(!command.equals(Command.EXIT));
         in.close();
     }

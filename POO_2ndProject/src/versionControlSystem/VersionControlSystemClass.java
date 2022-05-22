@@ -1,6 +1,9 @@
 package versionControlSystem;
 
 import versionControlSystem.comparators.ComparatorByName;
+import versionControlSystem.project.InHouseProjectClass;
+import versionControlSystem.project.OutsourcedProject;
+import versionControlSystem.project.OutsourcedProjectClass;
 import versionControlSystem.project.Project;
 import versionControlSystem.user.DeveloperClass;
 import versionControlSystem.user.ProjectManager;
@@ -14,10 +17,13 @@ public class VersionControlSystemClass implements VersionControlSystem {
     // Constants
     private static final String PROJECTMANAGER = "manager";
     private static final String DEVELOPER = "developer";
+    private static final String INHOUSEPROJECT = "inhouse";
+    private static final String OUTSOURCEDPROJECT = "outsourced";
 
     // Instance variables
-    private Map<String, User> users;
+    private Map<String, User> users; // Stores users for easy access
     private Set<User> usersByName; // Stores Users ordered by name
+    private Map<String, Project> projects; // Stores projects for easy access
     private List<Project> projectsByInsertion; // Stores Project's by insertion order
 
     /**
@@ -26,6 +32,7 @@ public class VersionControlSystemClass implements VersionControlSystem {
     public VersionControlSystemClass() {
         users = new HashMap<>();
         usersByName = new TreeSet<>(new ComparatorByName());
+        projects = new HashMap<>();
         projectsByInsertion = new LinkedList<>();
     }
 
@@ -50,7 +57,7 @@ public class VersionControlSystemClass implements VersionControlSystem {
             User manager = users.get(managerUsername);
 
             // If manager doesn't exist or the managerUsername doesn't belong to a manager
-            if (!users.containsKey(managerUsername) || !(manager instanceof ProjectManager))
+            if (manager == null || !(manager instanceof ProjectManager))
                 throw new ManagerUsernameInvalidException(managerUsername);
 
             user = new DeveloperClass(managerUsername, username, clearanceLevel);
@@ -70,10 +77,33 @@ public class VersionControlSystemClass implements VersionControlSystem {
     @Override
     public void createProject(String managerUsername, String projectType, String projectName, String[] keywords, String companyName, int confidentialityLevel)
             throws UnknownProjectTypeException, ManagerUsernameInvalidException, ProjectNameAlreadyExistsException, ConfidentialityLevelHigherThanManagerException {
-        boolean isManager = projectType.equals(PROJECTMANAGER);
-        boolean isDeveloper = projectType.equals(DEVELOPER);
+        boolean isInHouse = projectType.equals(INHOUSEPROJECT);
+        boolean isOutsourced = projectType.equals(OUTSOURCEDPROJECT);
 
-        
+        if (!isInHouse && !isOutsourced)
+            throw new UnknownProjectTypeException();
+
+        User manager = users.get(managerUsername);
+        // If manager doesn't exist or the managerUsername doesn't belong to a manager
+        if (manager == null || !(manager instanceof ProjectManager))
+            throw new ManagerUsernameInvalidException(managerUsername);
+        if (projects.containsKey(projectName))
+            throw new ProjectNameAlreadyExistsException(projectName);
+        if (confidentialityLevel > manager.getClearanceLevel())
+            throw new ConfidentialityLevelHigherThanManagerException(managerUsername, manager.getClearanceLevel());
+
+
+        Project project;
+        if (isInHouse) {
+            project = new InHouseProjectClass(managerUsername, projectName, keywords, confidentialityLevel);
+        }
+        else {
+            project = new OutsourcedProjectClass(managerUsername, projectName, keywords, companyName);
+        }
+
+        ((ProjectManager) users.get(managerUsername)).addProject(project);
+        projects.put(projectName, project);
+        projectsByInsertion.add(project);
     }
 
     @Override

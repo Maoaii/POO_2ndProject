@@ -2,7 +2,7 @@ package versionControlSystem.exceptions;
 
 public class UnknownProjectTypeException extends Exception {
     // Constants
-    private static final String ERROR_MESSAGE = "Project type does not exist.\n";
+    private static final String ERROR_MESSAGE = "Unknown project type.\n";
 
     /**
      * Exception constructor
