@@ -1,6 +1,9 @@
 import versionControlSystem.VersionControlSystem;
 import versionControlSystem.VersionControlSystemClass;
 import versionControlSystem.exceptions.*;
+import versionControlSystem.project.InHouseProject;
+import versionControlSystem.project.OutsourcedProject;
+import versionControlSystem.project.Project;
 import versionControlSystem.user.Developer;
 import versionControlSystem.user.ProjectManager;
 import versionControlSystem.user.User;
@@ -298,7 +301,27 @@ public class Main {
      * @param eMailSystem - system class
      */
     private static void interpretProjects(VersionControlSystem eMailSystem) {
-    	
+        Iterator<Project> projectIt = eMailSystem.listAllProjects();
+
+        if (!projectIt.hasNext())
+            System.out.println(NO_PROJECTS_REGISTERED);
+        else {
+            System.out.println(PROJECTS_HEADER);
+
+            while (projectIt.hasNext()) {
+                Project project = projectIt.next();
+
+                if (project instanceof InHouseProject)
+                    System.out.printf(PROJECTS_LISTING_INHOUSE,
+                            project.getProjectName(), project.getProjectManagerUsername(),
+                            ((InHouseProject) project).getConfidentialityLevel(), ((InHouseProject) project).getNumMember(),
+                            ((InHouseProject) project).getNumArtefacts(), ((InHouseProject) project).getNumRevisions());
+                else
+                    System.out.printf(PROJECTS_LISTING_OUTSOURCED,
+                            project.getProjectName(), project.getProjectManagerUsername(),
+                            ((OutsourcedProject) project).getCompanyName());
+            }
+        }
     }
 
     /**
