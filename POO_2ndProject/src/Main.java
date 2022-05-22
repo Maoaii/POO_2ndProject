@@ -19,6 +19,7 @@ public class Main {
 
     private static final String PROJECTMANAGER = "manager";
     private static final String DEVELOPER = "developer";
+    private static final String INHOUSE = "inhouse";
 
     // Output messages
 
@@ -263,6 +264,47 @@ public class Main {
      * @param eMailSystem - system class
      */
     private static void interpretCreate(Scanner in, VersionControlSystem eMailSystem) {
+    	String manager = in.next();
+    	String projectType = in.next();
+    	String name = in.nextLine().trim();
+    	int numKeywords = in.nextInt();
+    	String[] keywords = new String[numKeywords];
+    	for(int i = 0; i < numKeywords; i++) {
+    		keywords[i] = in.next();
+    	}
+    	in.nextLine();
+    	if(projectType.equals(INHOUSE)) {
+    		int confidenciality = in.nextInt();
+    		try {
+    			eMailSystem.createInHouseProject(manager, name, keywords, confidenciality);
+    			System.out.printf(PROJECT_CREATED, name);
+    		}
+    		catch(ManagerUsernameInvalidException e) {
+    			System.out.printf(e.getErrorMessage(), e.getErrorInfo());
+    		}
+    		catch(ProjectNameAlreadyExistsException e) {
+    			System.out.printf(e.getErrorMessage(), e.getErrorInfo());
+    		}
+    		catch(ConfidentialityLevelHigherThanManagerException e) {
+    			System.out.printf(e.getErrorMessage(), e.getErrorInfoName(), e.getErrorInfoClearanceLevel());
+    		}
+    	}
+    	else {
+    		String companyName = in.nextLine().trim();
+    		try {
+    			eMailSystem.createOutsourcedProject(manager, projectType, name, keywords, companyName);
+    			System.out.printf(PROJECT_CREATED, name);
+    		}
+    		catch(UnknownProjectTypeException e) {
+    			System.out.println(e.getErrorMessage());
+    		}
+    		catch(ManagerUsernameInvalidException e) {
+    			System.out.printf(e.getErrorMessage(), e.getErrorInfo());
+    		}
+    		catch(ProjectNameAlreadyExistsException e) {
+    			System.out.printf(e.getErrorMessage(), e.getErrorInfo());
+    		}   		
+    	}
     }
 
     /**
@@ -271,6 +313,7 @@ public class Main {
      * @param eMailSystem - system class
      */
     private static void interpretProjects(VersionControlSystem eMailSystem) {
+    	
     }
 
     /**

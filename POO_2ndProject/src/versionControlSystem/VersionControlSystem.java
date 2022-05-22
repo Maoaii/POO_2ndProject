@@ -78,9 +78,9 @@ public interface VersionControlSystem {
      *                                                          with <code>managerUsername</code>,
      *                                                          <code>clearanceLevel</code>
      */
-    void createInHouseProject(String managerUsername, String projectType, String projectName,
+    void createInHouseProject(String managerUsername, String projectName,
                               String[] keywords, int confidentialityLevel)
-            throws UnknownProjectTypeException, ManagerUsernameInvalidException,
+            throws ManagerUsernameInvalidException,
             ProjectNameAlreadyExistsException, ConfidentialityLevelHigherThanManagerException;
 
 
