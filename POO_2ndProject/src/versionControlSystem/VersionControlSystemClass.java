@@ -68,12 +68,8 @@ public class VersionControlSystemClass implements VersionControlSystem {
     }
 
     @Override
-    public void createInHouseProject(String managerUsername, String projectName, String[] keywords, int confidentialityLevel) throws ManagerUsernameInvalidException, ProjectNameAlreadyExistsException, ConfidentialityLevelHigherThanManagerException {
-
-    }
-
-    @Override
-    public void createOutsourcedProject(String managerUsername, String projectType, String projectName, String[] keywords, String companyName) throws UnknownProjectTypeException, ManagerUsernameInvalidException, ProjectNameAlreadyExistsException {
+    public void createProject(String managerUsername, String projectType, String projectName, String[] keywords, String companyName, int confidentialityLevel)
+            throws UnknownProjectTypeException, ManagerUsernameInvalidException, ProjectNameAlreadyExistsException, ConfidentialityLevelHigherThanManagerException {
 
     }
 

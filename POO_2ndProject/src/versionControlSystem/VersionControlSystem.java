@@ -78,32 +78,8 @@ public interface VersionControlSystem {
      *                                                          with <code>managerUsername</code>,
      *                                                          <code>clearanceLevel</code>
      */
-    void createInHouseProject(String managerUsername, String projectName,
-                              String[] keywords, int confidentialityLevel)
-            throws ManagerUsernameInvalidException,
-            ProjectNameAlreadyExistsException, ConfidentialityLevelHigherThanManagerException;
-
-
-    /**
-     * Creates a new <code>OutsourcedProject</code>
-     *
-     * @param managerUsername - new <code>Project</code>'s <code>Manager</code> username
-     * @param projectType - new <code>Project</code>'s type
-     * @param projectName - new <code>Project</code>'s name
-     * @param keywords - new <code>Project</code>'s keywords
-     * @param companyName - new <code>Project</code>'s company name
-     *
-     * @throws UnknownProjectTypeException - if the <code>projectType</code> isn't
-     *                                       <code>inhouse</code> or <code>outsourced</code>
-     * @throws ManagerUsernameInvalidException - if <code>managerUsername</code> doesn't exist or doesn't
-     *                                           belong to a <code>Manager</code>
-     * @throws ProjectNameAlreadyExistsException - if <code>projectName</code> already exists
-     */
-    void createOutsourcedProject(String managerUsername, String projectType, String projectName,
-                                 String[] keywords, String companyName)
-            throws UnknownProjectTypeException, ManagerUsernameInvalidException,
-            ProjectNameAlreadyExistsException;
-
+    void createProject(String managerUsername, String projectType, String projectName, String[] keywords, String companyName, int confidentialityLevel)
+            throws UnknownProjectTypeException, ManagerUsernameInvalidException, ProjectNameAlreadyExistsException, ConfidentialityLevelHigherThanManagerException;
 
     /**
      * Lists all <code>Project</code>'s registered in the <code>VersionControlSystem</code> by

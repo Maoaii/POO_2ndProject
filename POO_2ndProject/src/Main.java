@@ -209,8 +209,7 @@ public class Main {
         try {
             eMailSystem.registerUser(jobType, username, managerUsername, clearanceLevel);
             System.out.printf(USER_REGISTERED, username, getJobMessage(jobType), clearanceLevel);
-        }
-        catch(UnknownJobPositionException e) {
+        } catch(UnknownJobPositionException e) {
             System.out.println(e.getErrorMessage());
         } catch(UserNameAlreadyExistsException e) {
             System.out.printf(e.getErrorMessage(), e.getErrorInfo());
@@ -264,47 +263,34 @@ public class Main {
      * @param eMailSystem - system class
      */
     private static void interpretCreate(Scanner in, VersionControlSystem eMailSystem) {
-    	String manager = in.next();
+    	String projectManager = in.next();
     	String projectType = in.next();
-    	String name = in.nextLine().trim();
+    	String projectName = in.nextLine().trim();
     	int numKeywords = in.nextInt();
     	String[] keywords = new String[numKeywords];
     	for(int i = 0; i < numKeywords; i++) {
     		keywords[i] = in.next();
-    	}
-    	in.nextLine();
-    	if(projectType.equals(INHOUSE)) {
-    		int confidenciality = in.nextInt();
-    		try {
-    			eMailSystem.createInHouseProject(manager, name, keywords, confidenciality);
-    			System.out.printf(PROJECT_CREATED, name);
-    		}
-    		catch(ManagerUsernameInvalidException e) {
-    			System.out.printf(e.getErrorMessage(), e.getErrorInfo());
-    		}
-    		catch(ProjectNameAlreadyExistsException e) {
-    			System.out.printf(e.getErrorMessage(), e.getErrorInfo());
-    		}
-    		catch(ConfidentialityLevelHigherThanManagerException e) {
-    			System.out.printf(e.getErrorMessage(), e.getErrorInfoName(), e.getErrorInfoClearanceLevel());
-    		}
-    	}
-    	else {
-    		String companyName = in.nextLine().trim();
-    		try {
-    			eMailSystem.createOutsourcedProject(manager, projectType, name, keywords, companyName);
-    			System.out.printf(PROJECT_CREATED, name);
-    		}
-    		catch(UnknownProjectTypeException e) {
-    			System.out.println(e.getErrorMessage());
-    		}
-    		catch(ManagerUsernameInvalidException e) {
-    			System.out.printf(e.getErrorMessage(), e.getErrorInfo());
-    		}
-    		catch(ProjectNameAlreadyExistsException e) {
-    			System.out.printf(e.getErrorMessage(), e.getErrorInfo());
-    		}   		
-    	}
+    	} in.nextLine();
+
+        int confidentialityLevel = 0;
+        String companyName = "";
+    	if(projectType.equals(INHOUSE))
+            confidentialityLevel = in.nextInt();
+        else
+            companyName = in.nextLine().trim();
+
+        try {
+            eMailSystem.createProject(projectManager, projectType, projectName, keywords, companyName, confidentialityLevel);
+            System.out.printf(PROJECT_CREATED, projectName);
+        } catch (UnknownProjectTypeException e) {
+            System.out.print(e.getErrorMessage());
+        } catch(ManagerUsernameInvalidException e) {
+            System.out.printf(e.getErrorMessage(), e.getErrorInfo());
+        } catch(ProjectNameAlreadyExistsException e) {
+            System.out.printf(e.getErrorMessage(), e.getErrorInfo());
+        } catch(ConfidentialityLevelHigherThanManagerException e) {
+            System.out.printf(e.getErrorMessage(), e.getErrorInfoName(), e.getErrorInfoClearanceLevel());
+        }
     }
 
     /**
