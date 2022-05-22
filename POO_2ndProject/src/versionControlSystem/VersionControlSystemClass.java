@@ -70,7 +70,10 @@ public class VersionControlSystemClass implements VersionControlSystem {
     @Override
     public void createProject(String managerUsername, String projectType, String projectName, String[] keywords, String companyName, int confidentialityLevel)
             throws UnknownProjectTypeException, ManagerUsernameInvalidException, ProjectNameAlreadyExistsException, ConfidentialityLevelHigherThanManagerException {
+        boolean isManager = projectType.equals(PROJECTMANAGER);
+        boolean isDeveloper = projectType.equals(DEVELOPER);
 
+        
     }
 
     @Override
