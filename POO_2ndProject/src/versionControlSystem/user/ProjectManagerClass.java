@@ -18,7 +18,7 @@ public class ProjectManagerClass extends AbstractUserClass implements ProjectMan
     }
 
     @Override
-    public void addProject(Project project) {
+    public void addProjectAsManager(Project project) {
         projectsAsManager.add(project);
     }
 

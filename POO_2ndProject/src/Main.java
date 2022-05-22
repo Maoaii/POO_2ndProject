@@ -331,6 +331,29 @@ public class Main {
      * @param eMailSystem - system class
      */
     private static void interpretTeam(Scanner in, VersionControlSystem eMailSystem) {
+        String managerUsername = in.next().trim();
+        String projectName = in.nextLine().trim();
+        int numMembers = in.nextInt();
+
+        String[] memberNames = new String[numMembers];
+        for (int i = 0; i < numMembers; i++) {
+            memberNames[i] = in.next().trim();
+        } in.nextLine();
+
+        try {
+
+            String[] outputMessages = eMailSystem.addTeamMembers(managerUsername, projectName, memberNames);
+            System.out.println(TEAM_HEADER);
+            for (int i = 0; i < numMembers; i++) {
+                System.out.println(outputMessages[i]);
+            }
+        } catch (ManagerUsernameInvalidException e) {
+            System.out.printf(e.getErrorMessage(), e.getErrorInfo());
+        } catch (ProjectNameDoesntExistException e) {
+            System.out.printf(e.getErrorMessage(), e.getErrorInfo());
+        } catch (ProjectNotManagedByManagerException e) {
+            System.out.printf(e.getErrorMessage(), e.getErrorInfoProjectName(), e.getErrorInfoName());
+        }
     }
 
     /**

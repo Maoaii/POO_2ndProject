@@ -102,22 +102,17 @@ public interface VersionControlSystem {
      *
      * @param managerUsername - this team's <code>Manager</code>'s username
      * @param projectName - <code>Project</code>'s name for this team
-     * @param developerUsername - <code>Developer</code>'s username
+     * @param memberNames - <code>Developer</code>s usernames
      *
      * @throws ManagerUsernameInvalidException - if <code>managerUsername</code> doesn't exist or doesn't
      *                                           belong to a <code>Manager</code>
      * @throws ProjectNameDoesntExistException - if <code>projectName</code> doesn't exist
      * @throws ProjectNotManagedByManagerException - if <code>Manager</code> with <code>managerUsername</code>
      *                                               doesn't manage <code>Project</code> with <code>projectName</code>
-     * @throws DeveloperAlreadyMemberException - if <code>Developer</code> with <code>developerUsername</code> is
-     *                                           already a member of this team
-     * @throws InsufficientClearanceLevelException - if <code>Developer</code> doesn't have sufficient clearance level
-     *                                               to work on <code>Project</code> with <code>projectName</code>
      */
-    void addTeamMember(String managerUsername, String projectName, String developerUsername)
+    String[] addTeamMembers(String managerUsername, String projectName, String[] memberNames)
             throws ManagerUsernameInvalidException, ProjectNameDoesntExistException,
-            ProjectNotManagedByManagerException, DeveloperAlreadyMemberException,
-            InsufficientClearanceLevelException;
+            ProjectNotManagedByManagerException;
 
 
     /**

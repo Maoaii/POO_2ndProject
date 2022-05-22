@@ -11,7 +11,7 @@ public interface ProjectManager {
      *
      * @param project - project to add
      */
-    void addProject(Project project);
+    void addProjectAsManager(Project project);
 
     /**
      * Adds a new <code>User</code> under the charge of this <code>ProjectManager</code>

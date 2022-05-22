@@ -1,5 +1,6 @@
 package versionControlSystem.user;
 
+import versionControlSystem.project.Project;
 import versionControlSystem.project.Revision;
 
 import java.util.Comparator;
@@ -24,6 +25,14 @@ public interface User{
     int getClearanceLevel();
 
     /**
+     * Checks if this <code>User</code> is a member of <code>Project</code> with <code>projectName</code>
+     *
+     * @param projectName - <code>projectName</code> to check
+     * @return true if this <code>User</code> is a member
+     */
+    boolean isMember(String projectName);
+
+    /**
      * @return a <code>Revision Iterator</code> that iterates through all <code>Revision</code>s this
      *         <code>User</code> has made as a team member, sorted by:
      *         <code>Date</code>; <code>revisionNumber</code>; <code>projectName</code>;
@@ -34,4 +43,11 @@ public interface User{
      * @return the <code>Date</code> of the last <code>Revision</code> this <code>User</code> made
      */
     Date getDateOfLastRevision();
+
+    /**
+     * Adds a new <code>Project</code> to this <code>User</code>
+     *
+     * @param project - <code>Project</code> to add
+     */
+    void addProject(Project project);
 }
