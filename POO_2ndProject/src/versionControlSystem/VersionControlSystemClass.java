@@ -108,7 +108,7 @@ public class VersionControlSystemClass implements VersionControlSystem {
 
     @Override
     public Iterator<Project> listAllProjects() {
-        return null;
+        return projectsByInsertion.iterator();
     }
 
     @Override
