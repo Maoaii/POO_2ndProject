@@ -333,26 +333,38 @@ public class Main {
     private static void interpretTeam(Scanner in, VersionControlSystem eMailSystem) {
         String managerUsername = in.next().trim();
         String projectName = in.nextLine().trim();
-        int numMembers = in.nextInt();
 
+        int numMembers = in.nextInt();
         String[] memberNames = new String[numMembers];
         for (int i = 0; i < numMembers; i++) {
             memberNames[i] = in.next().trim();
         } in.nextLine();
 
         try {
-
-            String[] outputMessages = eMailSystem.addTeamMembers(managerUsername, projectName, memberNames);
-            System.out.println(TEAM_HEADER);
-            for (int i = 0; i < numMembers; i++) {
-                System.out.println(outputMessages[i]);
-            }
+            eMailSystem.checkManagerProject(managerUsername, projectName);
         } catch (ManagerUsernameInvalidException e) {
             System.out.printf(e.getErrorMessage(), e.getErrorInfo());
+            return;
         } catch (ProjectNameDoesntExistException e) {
             System.out.printf(e.getErrorMessage(), e.getErrorInfo());
+            return;
         } catch (ProjectNotManagedByManagerException e) {
             System.out.printf(e.getErrorMessage(), e.getErrorInfoProjectName(), e.getErrorInfoName());
+            return;
+        }
+
+        System.out.println(TEAM_HEADER);
+        for (int i = 0; i < numMembers; i++) {
+            try {
+                eMailSystem.addTeamMember(projectName, memberNames[i]);
+                System.out.printf(TEAM_MEMBER_ADDED, memberNames[i]);
+            } catch (InsufficientClearanceLevelException e) {
+                System.out.printf(e.getErrorMessage(), e.getErrorInfo());
+            } catch (UserDoesntExistException e) {
+                System.out.printf(e.getErrorMessage(), e.getErrorInfo());
+            } catch (DeveloperAlreadyMemberException e) {
+                System.out.printf(e.getErrorMessage(), e.getErrorInfo());
+            }
         }
     }
 
@@ -363,6 +375,7 @@ public class Main {
      * @param eMailSystem - system class
      */
     private static void interpretArtefacts(Scanner in, VersionControlSystem eMailSystem) {
+
     }
 
     /**

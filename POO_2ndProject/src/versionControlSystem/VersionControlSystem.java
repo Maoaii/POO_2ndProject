@@ -100,9 +100,26 @@ public interface VersionControlSystem {
     /**
      * Adds a team member to an existing <code>InHouse Project</code>
      *
-     * @param managerUsername - this team's <code>Manager</code>'s username
      * @param projectName - <code>Project</code>'s name for this team
-     * @param memberNames - <code>Developer</code>s usernames
+     * @param memberName - <code>Developer</code> username
+     *
+     * @throws UserDoesntExistException - if <code>User</code> doesn't exist
+     * @throws DeveloperAlreadyMemberException - if <code>User</code> is already a member of <code>Project</code>
+     *                                           with <code>projectName</code>
+     * @throws InsufficientClearanceLevelException - if <code>User</code> <code>clearanceLevel</code> is lower
+     *                                               than the <code>Project</code>s <code>confidentialityLevel</code>
+     */
+    void addTeamMember(String projectName, String memberName)
+            throws UserDoesntExistException, DeveloperAlreadyMemberException, InsufficientClearanceLevelException;
+
+    /**
+     * Checks if <code>User</code> with <code>managerUsername</code> exists and is the <code>ProjectManager</code>
+     * of <code>Project</code> and if <code>Project</code> with <code>projectName</code> exists.
+     *
+     * @param managerUsername - username to check if its <code>ProjectManager</code>
+     * @param projectName - project name to check if exists
+     *
+     * @return true
      *
      * @throws ManagerUsernameInvalidException - if <code>managerUsername</code> doesn't exist or doesn't
      *                                           belong to a <code>Manager</code>
@@ -110,7 +127,7 @@ public interface VersionControlSystem {
      * @throws ProjectNotManagedByManagerException - if <code>Manager</code> with <code>managerUsername</code>
      *                                               doesn't manage <code>Project</code> with <code>projectName</code>
      */
-    String[] addTeamMembers(String managerUsername, String projectName, String[] memberNames)
+    void checkManagerProject(String managerUsername, String projectName)
             throws ManagerUsernameInvalidException, ProjectNameDoesntExistException,
             ProjectNotManagedByManagerException;
 
@@ -134,10 +151,8 @@ public interface VersionControlSystem {
      * @throws ArtefactExceedsConfidentialityException - if the given <code>confidentialityLevel</code> is greater than
      *                                                   the given <code>Project</code>s confidentiality level
      */
-    void addArtefact(String developerUsername, String projectName, Date date, String artefactName,
-                     int confidentialityLevel, String description)
-            throws UserNameDoesntExistException, ProjectNameDoesntExistException, DeveloperNotMemberException,
-            ArtefactAlreadyInProjectException, ArtefactExceedsConfidentialityException;
+    void checkDeveloper(String developerUsername, String projectName)
+            throws UserNameDoesntExistException, ProjectNameDoesntExistException, DeveloperNotMemberException;
 
     /**
      * Lists the information regarding a single <code>Project</code>, i.e., the

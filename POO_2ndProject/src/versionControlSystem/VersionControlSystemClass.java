@@ -16,10 +16,7 @@ public class VersionControlSystemClass implements VersionControlSystem {
     private static final String DEVELOPER = "developer";
     private static final String INHOUSEPROJECT = "inhouse";
     private static final String OUTSOURCEDPROJECT = "outsourced";
-    private static final String USER_DOESNT_EXIST = ": does not exist.";
-    private static final String USER_ALREADY_MEMBER = ": already a member.";
-    private static final String USER_INSUF_CLEARANCE = ": insufficient clearance level.";
-    private static final String USER_ADDED = ": added to the team.";
+
 
     // Instance variables
     private Map<String, User> users; // Stores users for easy access
@@ -113,7 +110,7 @@ public class VersionControlSystemClass implements VersionControlSystem {
     }
 
     @Override
-    public String[] addTeamMembers(String managerUsername, String projectName, String[] memberNames)
+    public void checkManagerProject(String managerUsername, String projectName)
             throws ManagerUsernameInvalidException, ProjectNameDoesntExistException, ProjectNotManagedByManagerException {
 
         User manager = users.get(managerUsername);
@@ -126,29 +123,42 @@ public class VersionControlSystemClass implements VersionControlSystem {
             throw new ProjectNameDoesntExistException(projectName);
         if (!project.getProjectManagerUsername().equals(managerUsername))
             throw new ProjectNotManagedByManagerException(project.getProjectManagerUsername(), projectName);
-
-        String[] outputMessages = new String[memberNames.length];
-        for (int i = 0; i < memberNames.length; i++) {
-            User member = users.get(memberNames[i]);
-            if (member == null)
-                outputMessages[i] = memberNames[i] + USER_DOESNT_EXIST;
-            else if (member.isMember(projectName) || member.getUsername().equals(project.getProjectManagerUsername()))
-                outputMessages[i] = memberNames[i] + USER_ALREADY_MEMBER;
-            else if (((InHouseProject) project).getConfidentialityLevel() > member.getClearanceLevel())
-                outputMessages[i] = memberNames[i] + USER_INSUF_CLEARANCE;
-            else {
-                member.addProject(project);
-                ((InHouseProject) project).addMember(member);
-                outputMessages[i] = memberNames[i] + USER_ADDED;
-            }
-        }
-
-        return outputMessages;
     }
 
     @Override
-    public void addArtefact(String developerUsername, String projectName, Date date, String artefactName, int confidentialityLevel, String description) throws UserNameDoesntExistException, ProjectNameDoesntExistException, DeveloperNotMemberException, ArtefactAlreadyInProjectException, ArtefactExceedsConfidentialityException {
+    public void addTeamMember(String projectName, String memberName)
+            throws UserDoesntExistException, DeveloperAlreadyMemberException, InsufficientClearanceLevelException {
 
+        User member = users.get(memberName);
+        if (member == null)
+            throw new UserDoesntExistException(memberName);
+
+        Project project = projects.get(projectName);
+        if (member.isMember(projectName) || member.getUsername().equals(project.getProjectManagerUsername()))
+            throw new DeveloperAlreadyMemberException(memberName);
+        if (((InHouseProject) project).getConfidentialityLevel() > member.getClearanceLevel())
+            throw new InsufficientClearanceLevelException(memberName);
+
+        ((InHouseProject) project).addMember(member);
+        member.addProject(project);
+    }
+
+
+
+
+    @Override
+    public void checkDeveloper(String developerUsername, String projectName)
+            throws UserNameDoesntExistException, ProjectNameDoesntExistException, DeveloperNotMemberException {
+		if(!users.containsKey(developerUsername)){
+            throw new UserNameDoesntExistException(developerUsername);
+        }
+        if(!projects.containsKey(projectName)){
+            throw new ProjectNameDoesntExistException(projectName);
+        }
+        User developer = users.get(developerUsername);
+        if(!developer.isMember(projectName)){
+            throw new DeveloperNotMemberException(developerUsername, projectName);
+        }
     }
 
     @Override
