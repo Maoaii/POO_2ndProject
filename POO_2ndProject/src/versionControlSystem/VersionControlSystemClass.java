@@ -93,13 +93,13 @@ public class VersionControlSystemClass implements VersionControlSystem {
 
         Project project;
         if (isInHouse) {
-            project = new InHouseProjectClass(managerUsername, projectName, keywords, confidentialityLevel);
+            project = new InHouseProjectClass(manager, projectName, keywords, confidentialityLevel);
         }
         else {
-            project = new OutsourcedProjectClass(managerUsername, projectName, keywords, companyName);
+            project = new OutsourcedProjectClass(manager, projectName, keywords, companyName);
         }
 
-        ((ProjectManager) users.get(managerUsername)).addProjectAsManager(project);
+        ((ProjectManager) manager).addProjectAsManager(project);
         projects.put(projectName, project);
         projectsByInsertion.add(project);
     }
@@ -164,9 +164,15 @@ public class VersionControlSystemClass implements VersionControlSystem {
     @Override
     public Iterator<Project> listProjectInfo(String projectName)
             throws ProjectNameDoesntExistException, ProjectIsOutsourcedException {
+        Project project = projects.get(projectName);
+        if (project == null)
+            throw new ProjectNameDoesntExistException(projectName);
+        if (project instanceof OutsourcedProject)
+            throw new ProjectIsOutsourcedException(projectName);
+
         List<Project> projectArray = new ArrayList<>(1); // TODO: tornar isto constante?
 
-        projectArray.add(projects.get(projectName));
+        projectArray.add(project);
 
         return projectArray.iterator();
     }

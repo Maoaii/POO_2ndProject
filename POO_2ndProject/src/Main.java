@@ -99,7 +99,7 @@ public class Main {
     /**
      * 2.9 PROJECT Command
      */
-    private static final String PROJECT_LISTING = "%s [%d] managed by %s [%d]";
+    private static final String PROJECT_LISTING = "%s [%d] managed by %s [%d]\n";
     private static final String PROJECT_MEMBERS_LISTING = "%s [%d]\n";
     private static final String PROJECT_ARTEFACTS_LISTING = "%s [%d]: %s\n";
     private static final String PROJECT_REVISIONS_LISTING = "%s %s %s %s\n";
@@ -419,7 +419,7 @@ public class Main {
                     Revision revision = revisionIterator.next();
 
                     System.out.printf(PROJECT_REVISIONS_LISTING, revision.getRevisionNumber(), revision.getAuthorUsername(),
-                                                                 revision.getArtefactDate(), revision.getArtefactComment());
+                                                                 revision.getRevisionDate().toString(), revision.getRevisionComment());
                 }
             }
         } catch (ProjectNameDoesntExistException e) {

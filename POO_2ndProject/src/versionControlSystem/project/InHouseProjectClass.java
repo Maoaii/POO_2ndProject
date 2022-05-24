@@ -14,8 +14,8 @@ public class InHouseProjectClass extends AbstractProjectClass implements InHouse
     private Set<Artefact> artefactsByRevisionDateName; // Stores artefacts by revision date and name
 
 
-    public InHouseProjectClass(String managerUsername, String projectName, String[] keywords, int confidentialityLevel) {
-        super(managerUsername, projectName, keywords);
+    public InHouseProjectClass(User manager, String projectName, String[] keywords, int confidentialityLevel) {
+        super(manager, projectName, keywords);
         this.confidentialityLevel = confidentialityLevel;
         membersByInsertion = new LinkedList<>();
         artefacts = new HashMap<>();

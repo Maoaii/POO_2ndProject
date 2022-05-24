@@ -6,7 +6,7 @@ import java.util.*;
 
 public class AbstractProjectClass implements Project {
     // Instance variables
-    private String managerUsername;
+    private User manager;
     private String projectName;
     private String[] keywords;
 
@@ -14,8 +14,8 @@ public class AbstractProjectClass implements Project {
     /**
      * Abstract Project constructor
      */
-    public AbstractProjectClass(String managerUsername, String projectName, String[] keywords) {
-        this.managerUsername = managerUsername;
+    public AbstractProjectClass(User manager, String projectName, String[] keywords) {
+        this.manager = manager;
         this.projectName = projectName;
         this.keywords = keywords;
     }
@@ -27,6 +27,11 @@ public class AbstractProjectClass implements Project {
 
     @Override
     public String getProjectManagerUsername() {
-        return managerUsername;
+        return manager.getUsername();
+    }
+
+    @Override
+    public int getProjectManagerClearanceLevel() {
+        return manager.getClearanceLevel();
     }
 }
