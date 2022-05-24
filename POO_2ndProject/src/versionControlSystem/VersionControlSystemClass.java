@@ -24,7 +24,7 @@ public class VersionControlSystemClass implements VersionControlSystem {
     private Map<String, User> users; // Stores users for easy access
     private Set<User> usersByName; // Stores Users ordered by name
     private Map<String, Project> projects; // Stores projects for easy access
-    private List<Project> projectsByInsertion; // Stores Project's by insertion order
+    private List<Project> projectsByInsertion; // Stores projects by insertion order
 
     /**
      * Version Control System constructor

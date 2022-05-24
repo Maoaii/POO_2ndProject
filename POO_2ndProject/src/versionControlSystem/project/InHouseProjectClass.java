@@ -3,7 +3,6 @@ package versionControlSystem.project;
 import versionControlSystem.project.comparators.ArtefactComparatorByRevisionDate;
 import versionControlSystem.user.User;
 
-import java.time.LocalDate;
 import java.util.*;
 
 public class InHouseProjectClass extends AbstractProjectClass implements InHouseProject {
@@ -11,7 +10,7 @@ public class InHouseProjectClass extends AbstractProjectClass implements InHouse
     private int confidentialityLevel;
     private List<User> membersByInsertion; // Stores members by insertion order
     private Map<String, Artefact> artefacts; // Stores artefacts for easy access
-    private Set<Artefact> artefactsByRevisionDateName; // Stores artefacts by revision date and name
+    private List<Artefact> artefactsByInsertion; // Stores artefacts by insertion
 
 
     public InHouseProjectClass(User manager, String projectName, String[] keywords, int confidentialityLevel) {
@@ -19,7 +18,7 @@ public class InHouseProjectClass extends AbstractProjectClass implements InHouse
         this.confidentialityLevel = confidentialityLevel;
         membersByInsertion = new LinkedList<>();
         artefacts = new HashMap<>();
-        artefactsByRevisionDateName = new TreeSet<>(new ArtefactComparatorByRevisionDate());
+        artefactsByInsertion = new LinkedList<>();
     }
     @Override
     public int getConfidentialityLevel() {
@@ -33,7 +32,7 @@ public class InHouseProjectClass extends AbstractProjectClass implements InHouse
 
     @Override
     public int getNumArtefacts() {
-        return artefactsByRevisionDateName.size();
+        return artefactsByInsertion.size();
     }
 
     @Override
@@ -50,14 +49,16 @@ public class InHouseProjectClass extends AbstractProjectClass implements InHouse
     public void addMember(User user) {
         membersByInsertion.add(user);
     }
-    
+
+    @Override
     public boolean hasArtefact(String artefactName) {
     	return artefacts.containsKey(artefactName);
     }
 
     @Override
     public void addArtefact(Artefact artefact) {
-        artefactsByRevisionDateName.add(artefact);
+        artefactsByInsertion.add(artefact);
+        artefacts.put(artefact.getArtefactName(), artefact);
     }
 
     @Override
@@ -72,6 +73,13 @@ public class InHouseProjectClass extends AbstractProjectClass implements InHouse
 
     @Override
     public Iterator<Artefact> getProjectArtefacts() {
-        return artefactsByRevisionDateName.iterator();
+        Set<Artefact> sortedArtefacts = new TreeSet<>(new ArtefactComparatorByRevisionDate());
+        Iterator<Artefact> artefactIterator = artefactsByInsertion.iterator();
+
+        while (artefactIterator.hasNext()) {
+            sortedArtefacts.add(artefactIterator.next());
+        }
+
+        return sortedArtefacts.iterator();
     }
 }
