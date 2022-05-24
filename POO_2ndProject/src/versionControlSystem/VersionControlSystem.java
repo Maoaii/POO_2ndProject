@@ -4,6 +4,7 @@ import versionControlSystem.project.Project;
 import versionControlSystem.exceptions.*;
 import versionControlSystem.user.User;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -186,7 +187,7 @@ public interface VersionControlSystem {
      * @throws ArtefactNotInProjectException - if the <code>Artefact</code> with <code>artefactName</code> is not in
      *                                        in <code>Project</code> with <code>projectName</code>
      */
-    void reviewArtefact(String username, String projectName, String artefactName, Date date, String comment)
+    int reviewArtefact(String username, String projectName, String artefactName, LocalDate date, String comment)
             throws UserNameDoesntExistException, ProjectNameDoesntExistException, DeveloperNotMemberException,
             ArtefactNotInProjectException;
 

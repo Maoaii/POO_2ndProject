@@ -6,6 +6,7 @@ import versionControlSystem.user.Developer;
 import versionControlSystem.user.ProjectManager;
 import versionControlSystem.user.User;
 
+import java.time.LocalDate;
 import java.util.Iterator;
 import java.util.Scanner;
 
@@ -107,7 +108,7 @@ public class Main {
     /**
      * 2.10 REVISION Command
      */
-    private static final String REVISION_ADDED = "%s %d of %s was submitted.\n";
+    private static final String REVISION_ADDED = "Revision %d of %s was submitted.\n";
 
 
     /**
@@ -422,6 +423,24 @@ public class Main {
      * @param eMailSystem - system class
      */
     private static void interpretRevision(Scanner in, VersionControlSystem eMailSystem) {
+        String memberUsername = in.next().trim();
+        String projectName = in.nextLine().trim();
+        String artefactName = in.next().trim();
+        LocalDate revisionDate = LocalDate.parse(in.next());
+        String revisionComment = in.nextLine().trim();
+
+        try {
+            int revisionNumber = eMailSystem.reviewArtefact(memberUsername, projectName, artefactName, revisionDate, revisionComment);
+            System.out.printf(REVISION_ADDED, revisionNumber, artefactName);
+        } catch (UserNameDoesntExistException e) {
+            System.out.printf(e.getErrorMessage(), e.getErrorInfo());
+        } catch (ArtefactNotInProjectException e) {
+            System.out.printf(e.getErrorMessage(), e.getErrorInfo());
+        } catch (DeveloperNotMemberException e) {
+            System.out.printf(e.getErrorMessage(), e.getErrorInfoName(), e.getErrorInfoTeamName());
+        } catch (ProjectNameDoesntExistException e) {
+            System.out.printf(e.getErrorMessage(), e.getErrorMessage());
+        }
     }
 
     /**

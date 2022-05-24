@@ -8,6 +8,7 @@ import versionControlSystem.user.ProjectManagerClass;
 import versionControlSystem.user.User;
 import versionControlSystem.exceptions.*;
 
+import java.time.LocalDate;
 import java.util.*;
 
 public class VersionControlSystemClass implements VersionControlSystem {
@@ -178,8 +179,10 @@ public class VersionControlSystemClass implements VersionControlSystem {
     }
 
     @Override
-    public void reviewArtefact(String username, String projectName, String artefactName, Date date, String comment) throws UserNameDoesntExistException, ProjectNameDoesntExistException, DeveloperNotMemberException, ArtefactNotInProjectException {
-
+    public int reviewArtefact(String username, String projectName, String artefactName, LocalDate date, String comment)
+            throws UserNameDoesntExistException, ProjectNameDoesntExistException,
+                   DeveloperNotMemberException, ArtefactNotInProjectException {
+        return 0;
     }
 
     @Override

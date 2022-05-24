@@ -5,6 +5,11 @@ import java.util.Iterator;
 
 public interface Artefact {
 
+    /**
+     * Reviews this <code>Artefact</code>
+     *
+     * @param revision - <code>Artefact</code>s revision
+     */
     void reviewArtefact(Revision revision);
 
     /**
