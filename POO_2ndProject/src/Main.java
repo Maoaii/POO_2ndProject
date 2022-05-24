@@ -33,7 +33,8 @@ public class Main {
     /**
      * 2.2 HELP Command
      */
-    private static final String HELP_MESSAGE = "register - adds a new user\n" +
+    private static final String HELP_MESSAGE = "Available commands:\n" +
+            "register - adds a new user\n" +
             "users - lists all registered users\n" +
             "create - creates a new project\n" +
             "projects - lists all projects\n" +
@@ -54,8 +55,6 @@ public class Main {
      * 2.3 REGISTER Command
      */
     private static final String USER_REGISTERED = "User %s was registered as %s with clearance level %s.\n";
-    private static final String PROJECTMANAGER_MESSAGE = "project manager";
-    private static final String DEVELOPER_MESSAGE = "software developer";
 
 
     /**
@@ -99,7 +98,7 @@ public class Main {
     /**
      * 2.9 PROJECT Command
      */
-    private static final String PROJECT_LISTING = "%s [%d] managed by %s [%d]\n";
+    private static final String PROJECT_LISTING = "%s [%d] managed by %s [%d]:\n";
     private static final String PROJECT_MEMBERS_LISTING = "%s [%d]\n";
     private static final String PROJECT_ARTEFACTS_LISTING = "%s [%d]: %s\n";
     private static final String PROJECT_REVISIONS_LISTING = "%s %s %s %s\n";
@@ -208,7 +207,7 @@ public class Main {
         int clearanceLevel = in.nextInt(); in.nextLine();
         try {
             eMailSystem.registerUser(jobType, username, managerUsername, clearanceLevel);
-            System.out.printf(USER_REGISTERED, username, getJobMessage(jobType), clearanceLevel);
+            System.out.printf(USER_REGISTERED, username, jobType, clearanceLevel);
         } catch(UnknownJobPositionException e) {
             System.out.println(e.getErrorMessage());
         } catch(UserNameAlreadyExistsException e) {
@@ -216,17 +215,6 @@ public class Main {
         } catch(ManagerUsernameInvalidException e) {
             System.out.printf(e.getErrorMessage(), e.getErrorInfo());
         }
-    }
-
-    /**
-     * @param jobType - job to get message
-     * @return a string with the <code>jobType</code>s message
-     */
-    private static String getJobMessage(String jobType) {
-        if (jobType.equals(PROJECTMANAGER))
-            return PROJECTMANAGER_MESSAGE;
-        else
-            return DEVELOPER_MESSAGE;
     }
 
     /**
@@ -386,11 +374,9 @@ public class Main {
         String projectName = in.nextLine().trim();
 
         // TODO: refactor de cada "print" para métodos privados auxiliares.
-        // TODO: implementar os métodos que dão erros.
         try {
             // Print project info
             Project project = eMailSystem.listProjectInfo(projectName).next();
-            // TODO: em vez de guardar o nome do project manager nos projetos, guardar o User mesmo
             System.out.printf(PROJECT_LISTING, project.getProjectName(), ((InHouseProject) project).getConfidentialityLevel(),
                                                project.getProjectManagerUsername(), project.getProjectManagerClearanceLevel());
 
