@@ -1,5 +1,7 @@
 package versionControlSystem.project;
 
+import versionControlSystem.project.AbstractProjectClass;
+import versionControlSystem.project.OutsourcedProject;
 import versionControlSystem.user.User;
 
 public class OutsourcedProjectClass extends AbstractProjectClass implements OutsourcedProject {

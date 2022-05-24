@@ -4,7 +4,7 @@ import versionControlSystem.user.User;
 
 import java.util.*;
 
-private class AbstractProjectClass implements Project {
+public class AbstractProjectClass implements Project {
     // Instance variables
     private User manager;
     private String projectName;

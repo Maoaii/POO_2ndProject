@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
-class ArtefactClass implements Artefact {
+public class ArtefactClass implements Artefact {
     // Instance variables
     private String artefactName;
     private LocalDate artefactDate;
