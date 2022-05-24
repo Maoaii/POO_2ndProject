@@ -162,8 +162,13 @@ public class VersionControlSystemClass implements VersionControlSystem {
     }
 
     @Override
-    public Project listProjectInfo(String projectName) throws ProjectNameDoesntExistException, ProjectIsOutsourcedException {
-        return null;
+    public Iterator<Project> listProjectInfo(String projectName)
+            throws ProjectNameDoesntExistException, ProjectIsOutsourcedException {
+        List<Project> projectArray = new ArrayList<>(1); // TODO: tornar isto constante?
+
+        projectArray.add(projects.get(projectName));
+
+        return projectArray.iterator();
     }
 
     @Override

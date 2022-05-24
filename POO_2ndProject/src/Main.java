@@ -1,9 +1,7 @@
 import versionControlSystem.VersionControlSystem;
 import versionControlSystem.VersionControlSystemClass;
 import versionControlSystem.exceptions.*;
-import versionControlSystem.project.InHouseProject;
-import versionControlSystem.project.OutsourcedProject;
-import versionControlSystem.project.Project;
+import versionControlSystem.project.*;
 import versionControlSystem.user.Developer;
 import versionControlSystem.user.ProjectManager;
 import versionControlSystem.user.User;
@@ -385,6 +383,50 @@ public class Main {
      * @param eMailSystem - system class
      */
     private static void interpretProject(Scanner in, VersionControlSystem eMailSystem) {
+        String projectName = in.nextLine().trim();
+
+        // TODO: refactor de cada "print" para métodos privados auxiliares.
+        // TODO: implementar os métodos que dão erros.
+        try {
+            // Print project info
+            Project project = eMailSystem.listProjectInfo(projectName).next();
+            // TODO: em vez de guardar o nome do project manager nos projetos, guardar o User mesmo
+            System.out.printf(PROJECT_LISTING, project.getProjectName(), ((InHouseProject) project).getConfidentialityLevel(),
+                                               project.getProjectManagerUsername(), project.getProjectManagerClearanceLevel());
+
+
+            // Print members info
+            Iterator<User> memberIterator = ((InHouseProject) project).getProjectMembers();
+            while (memberIterator.hasNext()) {
+                User member = memberIterator.next();
+
+                System.out.printf(PROJECT_MEMBERS_LISTING, member.getUsername(), member.getClearanceLevel());
+            }
+
+
+            // Print artefacts info
+            Iterator<Artefact> artefactIterator = ((InHouseProject) project).getProjectArtefacts();
+            while (artefactIterator.hasNext()) {
+                Artefact artefact = artefactIterator.next();
+
+                System.out.printf(PROJECT_ARTEFACTS_LISTING, artefact.getArtefactName(), artefact.getArtefactConfidentialityLevel(),
+                                                             artefact.getArtefactDescription());
+
+
+                // Print revisions info
+                Iterator<Revision> revisionIterator = artefact.getArtefactRevisions();
+                while (revisionIterator.hasNext()) {
+                    Revision revision = revisionIterator.next();
+
+                    System.out.printf(PROJECT_REVISIONS_LISTING, revision.getRevisionNumber(), revision.getAuthorUsername(),
+                                                                 revision.getArtefactDate(), revision.getArtefactComment());
+                }
+            }
+        } catch (ProjectNameDoesntExistException e) {
+            System.out.printf(e.getErrorMessage(), e.getErrorInfo());
+        } catch (ProjectIsOutsourcedException e) {
+            System.out.printf(e.getErrorMessage(), e.getErrorInfo());
+        }
     }
 
     /**

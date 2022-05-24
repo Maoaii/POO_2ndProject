@@ -167,7 +167,7 @@ public interface VersionControlSystem {
      * @param projectName - <code>Project</code>'s name
      * @return a copy of <code>Project</code> with <code>projectName</code>
      */
-    Project listProjectInfo(String projectName)
+    Iterator<Project> listProjectInfo(String projectName)
             throws ProjectNameDoesntExistException, ProjectIsOutsourcedException;
 
     /**
