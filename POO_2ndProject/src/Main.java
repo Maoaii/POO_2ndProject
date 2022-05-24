@@ -7,7 +7,9 @@ import versionControlSystem.user.ProjectManager;
 import versionControlSystem.user.User;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -362,7 +364,13 @@ public class Main {
      * @param eMailSystem - system class
      */
     private static void interpretArtefacts(Scanner in, VersionControlSystem eMailSystem) {
-
+    	String developerName = in.next();
+    	String projectName = in.nextLine().trim();
+    	String date = in.nextLine().trim();
+    	int numArtefacts = in.nextInt(); in.nextLine();
+    	String[] artefactName = new String[numArtefacts];
+    	int[] confidentialityLevel = new int[numArtefacts];
+    	String[] artefactDescription = new String[numArtefacts];
     }
 
     /**

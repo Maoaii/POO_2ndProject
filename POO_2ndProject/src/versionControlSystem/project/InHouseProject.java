@@ -39,6 +39,8 @@ public interface InHouseProject {
      * @param user - <code>User</code> to add
      */
     void addMember(User user);
+    
+    boolean hasArtefact(String artefactName);
 
     /**
      * Adds a new <code>Artefact</code> to this <code>InHouseProject</code>

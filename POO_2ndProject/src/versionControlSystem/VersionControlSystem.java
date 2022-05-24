@@ -154,6 +154,9 @@ public interface VersionControlSystem {
      */
     void checkDeveloper(String developerUsername, String projectName)
             throws UserNameDoesntExistException, ProjectNameDoesntExistException, DeveloperNotMemberException;
+    
+    void addArtefact(String projectName, String artefactName, String artefactdate, int confidentiality, String description)
+    		throws ArtefactAlreadyInProjectException, ArtefactExceedsConfidentialityException;
 
     /**
      * Lists the information regarding a single <code>Project</code>, i.e., the

@@ -50,6 +50,10 @@ public class InHouseProjectClass extends AbstractProjectClass implements InHouse
     public void addMember(User user) {
         membersByInsertion.add(user);
     }
+    
+    public boolean hasArtefact(String artefactName) {
+    	return artefacts.containsKey(artefactName);
+    }
 
     @Override
     public void addArtefact(Artefact artefact) {
