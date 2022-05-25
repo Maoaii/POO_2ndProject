@@ -7,9 +7,15 @@ import java.util.*;
 public class ProjectManagerClass extends AbstractUserClass implements ProjectManager {
     //Instance variables
     private List<User> developers;
-    private Map<String, Project> projectsAsManager;
-    private List<Project> projectsAsManagerByInsertion;
+    private Map<String, Project> projectsAsManager; // Projects stored for fast access. projectName -> Project
+    private List<Project> projectsAsManagerByInsertion; // Projects stored by insertion
 
+    /**
+     * Project Manager constructor
+     *
+     * @param username - this <code>ProjectManager</code>s <code>username</code>
+     * @param clearanceLevel - this <code>ProjectManager</code>s <code>clearanceLevel</code>
+     */
     public ProjectManagerClass(String username, int clearanceLevel) {
         super(username, clearanceLevel);
         developers = new LinkedList<>();

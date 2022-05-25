@@ -9,7 +9,7 @@ public class AbstractUserClass implements User {
     // Instance variables
     private String username;
     private int clearanceLevel;
-    private Map<String, Project> projects; // Map used for fast access
+    private Map<String, Project> projects; // Map used for fast access. projectName -> Project
     private List<Project> projectsByInsertion; // Projects ordered by insertion order
 
     public AbstractUserClass(String username, int clearanceLevel) {
@@ -39,11 +39,13 @@ public class AbstractUserClass implements User {
         return projects.containsKey(projectName);
     }
 
+    // TODO: implement method
     @Override
     public Iterator<Revision> getUserRevisions() {
         return null;
     }
 
+    // TODO: implement method
     @Override
     public Date getDateOfLastRevision() {
         return null;

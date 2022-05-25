@@ -13,6 +13,10 @@ public class AbstractProjectClass implements Project {
 
     /**
      * Abstract Project constructor
+     *
+     * @param manager - this <code>Project</code>s <code>ProjectManager</code>
+     * @param projectName - this <code>Project</code>s <code>projectName</code>
+     * @param keywords - this <code>Project</code>s <code>keywords</code>
      */
     public AbstractProjectClass(User manager, String projectName, String[] keywords) {
         this.manager = manager;

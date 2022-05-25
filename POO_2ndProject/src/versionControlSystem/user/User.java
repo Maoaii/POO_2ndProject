@@ -35,12 +35,12 @@ public interface User{
     /**
      * @return a <code>Revision Iterator</code> that iterates through all <code>Revision</code>s this
      *         <code>User</code> has made as a team member, sorted by:
-     *         <code>Date</code>; <code>revisionNumber</code>; <code>projectName</code>;
+     *         <code>date</code>; <code>revisionNumber</code>; <code>projectName</code>;
      */
     Iterator<Revision> getUserRevisions();
 
     /**
-     * @return the <code>Date</code> of the last <code>Revision</code> this <code>User</code> made
+     * @return the <code>date</code> of the last <code>Revision</code> this <code>User</code> made
      */
     Date getDateOfLastRevision();
 

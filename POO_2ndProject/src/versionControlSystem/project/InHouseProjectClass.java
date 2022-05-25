@@ -9,17 +9,26 @@ public class InHouseProjectClass extends AbstractProjectClass implements InHouse
     // Instance variables
     private int confidentialityLevel;
     private List<User> membersByInsertion; // Stores members by insertion order
-    private Map<String, Artefact> artefacts; // Stores artefacts for easy access
+    private Map<String, Artefact> artefacts; // Stores artefacts for easy access. artefactName -> Artefact
     private List<Artefact> artefactsByInsertion; // Stores artefacts by insertion
     private int numRevisions;
 
-
+    /**
+     * InHouse Project constructor
+     *
+     * @param manager - this <code>Project</code>s <code>ProjectManager</code>
+     * @param projectName - this <code>Project</code>s <code>projectName</code>
+     * @param keywords - this <code>Project</code>s <code>keywords</code>
+     * @param confidentialityLevel - this <code>Project</code>s <code>confidentialityLevel</code>
+     */
     public InHouseProjectClass(User manager, String projectName, String[] keywords, int confidentialityLevel) {
         super(manager, projectName, keywords);
+
         this.confidentialityLevel = confidentialityLevel;
         membersByInsertion = new LinkedList<>();
         artefacts = new HashMap<>();
         artefactsByInsertion = new LinkedList<>();
+
         numRevisions = 0;
     }
     @Override
@@ -28,7 +37,7 @@ public class InHouseProjectClass extends AbstractProjectClass implements InHouse
     }
 
     @Override
-    public int getNumMember() {
+    public int getNumMembers() {
         return membersByInsertion.size();
     }
 
@@ -47,6 +56,7 @@ public class InHouseProjectClass extends AbstractProjectClass implements InHouse
         return artefacts.get(artefactName).getNumRevisions();
     }
 
+    // TODO: implement method
     @Override
     public boolean hasKeyword(String keyword) {
         return false;
@@ -81,6 +91,7 @@ public class InHouseProjectClass extends AbstractProjectClass implements InHouse
 
     @Override
     public Iterator<Artefact> getProjectArtefacts() {
+        // Sort the artefacts by last revision's date
         Set<Artefact> sortedArtefacts = new TreeSet<>(new ArtefactComparatorByRevisionDate());
         Iterator<Artefact> artefactIterator = artefactsByInsertion.iterator();
 

@@ -5,22 +5,22 @@ import java.time.LocalDate;
 public interface Revision {
 
     /**
-     * @return this <code>Revision</code>s <code>number</code>
+     * @return this <code>Revision</code>s <code>revisionNumber</code>
      */
     int getRevisionNumber();
 
     /**
-     * @return this <code>Revision</code>s <code>User</code> <code>username</code>
+     * @return this <code>Revision</code>s <code>authorUsername</code>
      */
     String getAuthorUsername();
 
     /**
-     * @return this <code>Revision</code>s <code>date</code>
+     * @return this <code>Revision</code>s <code>revisionDate</code>
      */
     LocalDate getRevisionDate();
 
     /**
-     * @return this <code>Revision</code>s <code>comment</code>
+     * @return this <code>Revision</code>s <code>revisionComment</code>
      */
     String getRevisionComment();
 }

@@ -13,7 +13,7 @@ public interface Artefact {
     void reviewArtefact(Revision revision);
 
     /**
-     * @return this <code>Artefact</code>'s <code>name</code>
+     * @return this <code>Artefact</code>'s <code>artefactName</code>
      */
     String getArtefactName();
 
@@ -22,6 +22,7 @@ public interface Artefact {
      */
     int getArtefactConfidentialityLevel();
 
+    // TODO: hasn't been used yet. Maybe delete
     /**
      * @return this <code>Artefact</code>s <code>description</code>
      */

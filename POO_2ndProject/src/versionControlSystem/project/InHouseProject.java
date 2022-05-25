@@ -2,7 +2,6 @@ package versionControlSystem.project;
 
 import versionControlSystem.user.User;
 
-import java.time.LocalDate;
 import java.util.Iterator;
 
 public interface InHouseProject {
@@ -15,7 +14,7 @@ public interface InHouseProject {
     /**
      * @return this <code>InHouseProject</code>s number of <code>Developer</code>s
      */
-    int getNumMember();
+    int getNumMembers();
 
     /**
      * @return this <code>InHouseProject</code>s number of <code>Artefact</code>s
@@ -44,7 +43,11 @@ public interface InHouseProject {
      * @param user - <code>User</code> to add
      */
     void addMember(User user);
-    
+
+    /**
+     * @param artefactName - <code>artefactName</code> to check
+     * @return true if this <code>InHouseProject</code> has an <code>Artefact</code> with <code>artefactName</code>
+     */
     boolean hasArtefact(String artefactName);
 
     /**

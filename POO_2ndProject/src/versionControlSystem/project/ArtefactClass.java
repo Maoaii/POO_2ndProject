@@ -13,13 +13,20 @@ public class ArtefactClass implements Artefact {
     private LocalDate artefactDate;
     private int confidentialityLevel;
     private String description;
-    private Set<Revision> revisionsByNumber; // Sorted revisions by their number
+    private Set<Revision> revisionsByNumber; // Sorted revisions by their number. Revision numbers start at 1
     private Revision lastRevision; // Last revision done
 
     /**
-     * Artefact constructor
+     * Artefact Constructor
+     *
+     * @param authorUsername - this <code>Artefact</code>s author
+     * @param artefactName - this <code>Artefact</code>s <code>artefactName</code>
+     * @param artefactDate - this <code>Artefact</code>s <code>artefactDate</code>
+     * @param confidentialityLevel - this <code>Artefact</code>s <code>confidentialityLevel</code>
+     * @param description - this <code>Artefact</code>s <code>description</code>
      */
-    public ArtefactClass(String authorUsername, String artefactName, LocalDate artefactDate, int confidentialityLevel, String description) {
+    public ArtefactClass(String authorUsername, String artefactName, LocalDate artefactDate,
+                         int confidentialityLevel, String description) {
         this.revisionsByNumber = new TreeSet<>(new RevisionComparatorByNumber());
         this.artefactName = artefactName;
         this.artefactDate = artefactDate;
@@ -46,6 +53,7 @@ public class ArtefactClass implements Artefact {
         return confidentialityLevel;
     }
 
+    // TODO: hasn't been used yet. Maybe delete later
     @Override
     public String getArtefactDescription() {
         return description;
@@ -53,7 +61,7 @@ public class ArtefactClass implements Artefact {
 
     @Override
     public int getNumRevisions() {
-        return revisionsByNumber.size(); // The first revision (when artefact is added) doesn't count
+        return revisionsByNumber.size();
     }
 
     @Override
@@ -63,6 +71,6 @@ public class ArtefactClass implements Artefact {
 
     @Override
     public Iterator<Revision> getArtefactRevisions() {
-        return revisionsByNumber.iterator(); // We have to skip the first revision (it's the artefact's addition)
+        return revisionsByNumber.iterator();
     }
 }

@@ -9,6 +9,14 @@ public class RevisionClass implements Revision {
     private LocalDate revisionDate;
     private String revisionComment;
 
+    /**
+     * Revision constructor
+     *
+     * @param revisionNumber - this <code>Revision</code>s <code>revisionNumber</code>
+     * @param authorUsername - this <code>Revision</code>s <code>authorUsername</code>
+     * @param revisionDate - this <code>Revision</code>s <code>revisionDate</code>
+     * @param revisionComment - this <code>Revision</code>s <code>revisionComment</code>
+     */
     public RevisionClass(int revisionNumber, String authorUsername, LocalDate revisionDate, String revisionComment) {
         this.revisionNumber = revisionNumber;
         this.authorUsername = authorUsername;

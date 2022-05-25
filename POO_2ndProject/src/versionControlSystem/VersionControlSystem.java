@@ -15,23 +15,6 @@ import java.util.Iterator;
  * @author Lucas Girotto / Pedro Afonso
  */
 public interface VersionControlSystem {
-
-    /**
-     * Registers a new <code>Manager</code> to the <code>VersionControlSystem</code>
-     *
-     * @param jobPosition - new user job position
-     * @param username - new user username
-     * @param clearanceLevel - new user clearance level
-     * @throws UnknownJobPositionException - if the job position isn't
-     *                                      <code>manager</code> or <code>software developer</code>
-     * @throws UserNameAlreadyExistsException - if the <code>username</code> is taken
-     * @throws ManagerUsernameInvalidException - if the <code>managerUsername</code> is either taken
-     *                                           or doens't exist
-
-    void registerManager(String jobPosition, String username, int clearanceLevel)
-    throws UnknownJobPositionException, UserNameAlreadyExistsException, ManagerUsernameInvalidException;
-     */
-
     /**
      * Registers a new <code>User</code> to the <code>VersionControlSystem</code>
      *
@@ -43,6 +26,8 @@ public interface VersionControlSystem {
      * @throws UnknownJobPositionException - if the <code>jobPosition</code> isn't
      *                                       <code>manager</code> or <code>software developer</code>
      * @throws UserNameAlreadyExistsException - if the <code>username</code> is taken
+     * @throws ManagerUsernameInvalidException - if <code>managerUsername</code> doesn't exist or doesn't
+     *                                           belong to a <code>Manager</code>
      */
     void registerUser(String jobPosition, String username, String managerUsername, int clearanceLevel)
             throws UnknownJobPositionException, UserNameAlreadyExistsException, ManagerUsernameInvalidException;
@@ -66,21 +51,24 @@ public interface VersionControlSystem {
      * @param managerUsername - new <code>Project</code>'s <code>Manager</code> username
      * @param projectType - new <code>Project</code>'s type
      * @param projectName - new <code>Project</code>'s name
-     * @param keywords - new <code>Project</code>'s keywords
+     * @param keywords - new <code>Project</code>'s keywords, if <code>InHouseProject</code>
+     * @param companyName - new <code>Project</code>s company name, if <code>OutsourcedProject</code>
      * @param confidentialityLevel - new <code>Project</code>'s confidentiality level
      *
      * @throws UnknownProjectTypeException - if the <code>projectType</code> isn't
      *                                       <code>inhouse</code> or <code>outsourced</code>
      * @throws ManagerUsernameInvalidException - if <code>managerUsername</code> doesn't exist or doesn't
-     *      *                                    belong to a <code>Manager</code>
+     *                                           belong to a <code>Manager</code>
      * @throws ProjectNameAlreadyExistsException - if <code>projectName</code> already exists
      * @throws ConfidentialityLevelHigherThanManagerException - if <code>confidentialityLevel</code>
      *                                                          is bigger than the <code>Manager</code>'s,
      *                                                          with <code>managerUsername</code>,
      *                                                          <code>clearanceLevel</code>
      */
-    void createProject(String managerUsername, String projectType, String projectName, String[] keywords, String companyName, int confidentialityLevel)
-            throws UnknownProjectTypeException, ManagerUsernameInvalidException, ProjectNameAlreadyExistsException, ConfidentialityLevelHigherThanManagerException;
+    void createProject(String managerUsername, String projectType, String projectName,
+                       String[] keywords, String companyName, int confidentialityLevel)
+            throws UnknownProjectTypeException, ManagerUsernameInvalidException,
+                   ProjectNameAlreadyExistsException, ConfidentialityLevelHigherThanManagerException;
 
     /**
      * Lists all <code>Project</code>'s registered in the <code>VersionControlSystem</code> by
@@ -117,8 +105,8 @@ public interface VersionControlSystem {
      * Checks if <code>User</code> with <code>managerUsername</code> exists and is the <code>ProjectManager</code>
      * of <code>Project</code> and if <code>Project</code> with <code>projectName</code> exists.
      *
-     * @param managerUsername - username to check if its <code>ProjectManager</code>
-     * @param projectName - project name to check if exists
+     * @param managerUsername - <code>username</code> to check if its <code>ProjectManager</code>
+     * @param projectName - <code>projectName</code> to check if exists
      *
      * @throws ManagerUsernameInvalidException - if <code>managerUsername</code> doesn't exist or doesn't
      *                                           belong to a <code>Manager</code>
@@ -141,7 +129,7 @@ public interface VersionControlSystem {
      * @throws ProjectNameDoesntExistException - if <code>projectName</code> is not associated to any <code>InHouseProject</code>
      * @throws DeveloperNotMemberException - if <code>User</code> does not belong to <code>Project</code>
      */
-    void checkDeveloper(String developerUsername, String projectName)
+    void checkDeveloperProject(String developerUsername, String projectName)
             throws UserNameDoesntExistException, ProjectNameDoesntExistException, DeveloperNotMemberException;
     
     /**
@@ -150,14 +138,15 @@ public interface VersionControlSystem {
      * @param authorUsername - author of the <code>Artefact</code>
      * @param projectName - <code>Project</code>'s name
      * @param artefactName - <code>Artefact</code>'s name
-     * @param artefactdate - <code>Artefact</code>'s addition date
+     * @param artefactDate - <code>Artefact</code>'s addition date
      * @param confidentiality - <code>Artefact</code>'s confidentiality level
      * @param description - <code>Artefact</code>'s description
      * 
      * @throws ArtefactAlreadyInProjectException - if <code>artefactName</code> already exists in <code>Project</code>
      * @throws ArtefactExceedsConfidentialityException - if <code>confidentiality</code> is greater than the <code>Project</code>'s confidentiality level
      */
-    void addArtefact(String authorUsername, String projectName, String artefactName, LocalDate artefactdate, int confidentiality, String description)
+    void addArtefact(String authorUsername, String projectName, String artefactName,
+                     LocalDate artefactDate, int confidentiality, String description)
     		throws ArtefactAlreadyInProjectException, ArtefactExceedsConfidentialityException;
 
     /**
@@ -171,7 +160,11 @@ public interface VersionControlSystem {
      * revision number "username" "date" "comment"
      *
      * @param projectName - <code>Project</code>'s name
+     *
      * @return a copy of <code>Project</code> with <code>projectName</code>
+     *
+     * @throws ProjectNameDoesntExistException - if <code>projectName</code> is not associated to any <code>InHouseProject</code>
+     * @throws ProjectIsOutsourcedException - if <code>Project</code> with <code>projectName</code> is an <code>OutsourcedProject</code>
      */
     Iterator<Project> listProjectInfo(String projectName)
             throws ProjectNameDoesntExistException, ProjectIsOutsourcedException;
@@ -194,7 +187,7 @@ public interface VersionControlSystem {
      */
     int reviewArtefact(String username, String projectName, String artefactName, LocalDate date, String comment)
             throws UserNameDoesntExistException, ProjectNameDoesntExistException, DeveloperNotMemberException,
-            ArtefactNotInProjectException;
+                   ArtefactNotInProjectException;
 
 
     /**
@@ -209,7 +202,7 @@ public interface VersionControlSystem {
      *
      * @param managerUsername - <code>Manager</code>'s username to list <code>Developer</code>'s from
      *
-     * @return a <code>User Iterator</code> that iterates through a <code>Manager</code>'s <code>Developer</code>s
+     * @return an <code>User Iterator</code> that iterates through a <code>Manager</code>'s <code>Developer</code>s
      */
     Iterator<User> listDevelopersInfo(String managerUsername);
 

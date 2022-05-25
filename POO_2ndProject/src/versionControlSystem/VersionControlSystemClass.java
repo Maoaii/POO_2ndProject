@@ -20,9 +20,9 @@ public class VersionControlSystemClass implements VersionControlSystem {
 
 
     // Instance variables
-    private Map<String, User> users; // Stores users for easy access
+    private Map<String, User> users; // Stores users for easy access. username -> User
     private Set<User> usersByName; // Stores Users ordered by name
-    private Map<String, Project> projects; // Stores projects for easy access
+    private Map<String, Project> projects; // Stores projects for easy access. projectName -> Project
     private List<Project> projectsByInsertion; // Stores projects by insertion order
 
     /**
@@ -30,7 +30,7 @@ public class VersionControlSystemClass implements VersionControlSystem {
      */
     public VersionControlSystemClass() {
         users = new HashMap<>();
-        usersByName = new TreeSet<>(new ComparatorByName());
+        usersByName = new TreeSet<>(new ComparatorByName()); // TODO: ask teacher if we should use the classe's comparator here
         projects = new HashMap<>();
         projectsByInsertion = new LinkedList<>();
     }
@@ -74,8 +74,11 @@ public class VersionControlSystemClass implements VersionControlSystem {
     }
 
     @Override
-    public void createProject(String managerUsername, String projectType, String projectName, String[] keywords, String companyName, int confidentialityLevel)
-            throws UnknownProjectTypeException, ManagerUsernameInvalidException, ProjectNameAlreadyExistsException, ConfidentialityLevelHigherThanManagerException {
+    public void createProject(String managerUsername, String projectType, String projectName,
+                              String[] keywords, String companyName, int confidentialityLevel)
+            throws UnknownProjectTypeException, ManagerUsernameInvalidException,
+                   ProjectNameAlreadyExistsException, ConfidentialityLevelHigherThanManagerException {
+
         boolean isInHouse = projectType.equals(INHOUSEPROJECT);
         boolean isOutsourced = projectType.equals(OUTSOURCEDPROJECT);
 
@@ -146,11 +149,11 @@ public class VersionControlSystemClass implements VersionControlSystem {
 
 
 
-
     @Override
-    public void checkDeveloper(String developerUsername, String projectName)
+    public void checkDeveloperProject(String developerUsername, String projectName)
             throws UserNameDoesntExistException, ProjectNameDoesntExistException, DeveloperNotMemberException {
-		if(!users.containsKey(developerUsername)){
+        User developer = users.get(developerUsername);
+		if(developer == null){
             throw new UserNameDoesntExistException(developerUsername);
         }
 
@@ -158,14 +161,16 @@ public class VersionControlSystemClass implements VersionControlSystem {
         if(project == null || project instanceof OutsourcedProject){
             throw new ProjectNameDoesntExistException(projectName);
         }
-        User developer = users.get(developerUsername);
+
+
         if(!developer.isMember(projectName) && !project.getProjectManagerUsername().equals(developerUsername)) {
             throw new DeveloperNotMemberException(developerUsername, projectName);
         }
     }
     
     @Override
-    public void addArtefact(String authorUsername ,String projectName, String artefactName, LocalDate artefactDate, int confidentialityLevel, String description)
+    public void addArtefact(String authorUsername ,String projectName, String artefactName,
+                            LocalDate artefactDate, int confidentialityLevel, String description)
     		throws ArtefactAlreadyInProjectException, ArtefactExceedsConfidentialityException{
     	Project project = projects.get(projectName);
     	if(((InHouseProject) project).hasArtefact(artefactName)) {
@@ -174,9 +179,12 @@ public class VersionControlSystemClass implements VersionControlSystem {
     	if(((InHouseProject) project).getConfidentialityLevel() < confidentialityLevel) {
     		throw new ArtefactExceedsConfidentialityException(artefactName);
     	}
-    	((InHouseProject) project).addArtefact(new ArtefactClass(authorUsername, artefactName, artefactDate, confidentialityLevel, description));
+
+    	((InHouseProject) project).addArtefact(new ArtefactClass(authorUsername, artefactName, artefactDate,
+                                                                 confidentialityLevel, description));
     }
 
+    // TODO: ask teacher if we can return an iterator of 1 User
     @Override
     public Iterator<Project> listProjectInfo(String projectName)
             throws ProjectNameDoesntExistException, ProjectIsOutsourcedException {
@@ -186,7 +194,7 @@ public class VersionControlSystemClass implements VersionControlSystem {
         if (project instanceof OutsourcedProject)
             throw new ProjectIsOutsourcedException(projectName);
 
-        List<Project> projectArray = new ArrayList<>(1); // TODO: tornar isto constante?
+        List<Project> projectArray = new ArrayList<>(1);
 
         projectArray.add(project);
 
@@ -209,7 +217,8 @@ public class VersionControlSystemClass implements VersionControlSystem {
         if (!user.isMember(projectName))
             throw new DeveloperNotMemberException(username, projectName);
 
-        Revision revision = new RevisionClass(((InHouseProject) project).getNumArtefactRevisions(artefactName) + 1, username, date, comment);
+        Revision revision = new RevisionClass(((InHouseProject) project).getNumArtefactRevisions(artefactName) + 1,
+                                              username, date, comment);
         ((InHouseProject) project).reviewArtefact(artefactName, revision);
 
 

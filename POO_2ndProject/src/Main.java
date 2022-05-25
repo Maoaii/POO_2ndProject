@@ -19,13 +19,12 @@ public class Main {
     }
 
     //Keywords
-    private static final String PROJECTMANAGER = "manager";
     private static final String DEVELOPER = "developer";
     private static final String INHOUSE = "inhouse";
     private static final String DATE_FORMAT = "dd-MM-yyyy";
 
-    // Output messages
 
+    // Output messages
     /**
      * 2.1 EXIT Command
      */
@@ -202,11 +201,14 @@ public class Main {
     private static void interpretRegister(Scanner in, VersionControlSystem eMailSystem) {
         String jobType = in.next().trim();
         String username = in.next().trim();
-        String managerUsername = "";
+
+        String managerUsername = null;
         if(jobType.equals(DEVELOPER)) {
             managerUsername = in.next().trim();
         }
+
         int clearanceLevel = in.nextInt(); in.nextLine();
+
         try {
             eMailSystem.registerUser(jobType, username, managerUsername, clearanceLevel);
             System.out.printf(USER_REGISTERED, username, jobType, clearanceLevel);
@@ -256,6 +258,7 @@ public class Main {
     	String projectManager = in.next();
     	String projectType = in.next();
     	String projectName = in.nextLine().trim();
+
     	int numKeywords = in.nextInt();
     	String[] keywords = new String[numKeywords];
     	for(int i = 0; i < numKeywords; i++) {
@@ -263,7 +266,7 @@ public class Main {
     	} in.nextLine();
 
         int confidentialityLevel = 0;
-        String companyName = "";
+        String companyName = null;
     	if(projectType.equals(INHOUSE))
             confidentialityLevel = in.nextInt();
         else
@@ -302,7 +305,7 @@ public class Main {
                 if (project instanceof InHouseProject)
                     System.out.printf(PROJECTS_LISTING_INHOUSE,
                             project.getProjectName(), project.getProjectManagerUsername(),
-                            ((InHouseProject) project).getConfidentialityLevel(), ((InHouseProject) project).getNumMember(),
+                            ((InHouseProject) project).getConfidentialityLevel(), ((InHouseProject) project).getNumMembers(),
                             ((InHouseProject) project).getNumArtefacts(), ((InHouseProject) project).getNumRevisions());
                 else
                     System.out.printf(PROJECTS_LISTING_OUTSOURCED,
@@ -323,6 +326,7 @@ public class Main {
         String projectName = in.nextLine().trim();
 
         int numMembers = in.nextInt();
+
         String[] memberNames = new String[numMembers];
         for (int i = 0; i < numMembers; i++) {
             memberNames[i] = in.next().trim();
@@ -356,6 +360,7 @@ public class Main {
         }
     }
 
+    // TODO: Refactor maybe? Ask teacher
     /**
      * Adds new <code>Artefact</code>s to an existing <code>Project</code>
      *
@@ -365,7 +370,8 @@ public class Main {
     private static void interpretArtefacts(Scanner in, VersionControlSystem eMailSystem) {
     	String developerName = in.next().trim();
     	String projectName = in.nextLine().trim();
-    	LocalDate artefactDate = LocalDate.parse(in.nextLine().trim(), DateTimeFormatter.ofPattern(DATE_FORMAT));
+    	LocalDate artefactDate = LocalDate.parse(in.nextLine().trim(),
+                                                 DateTimeFormatter.ofPattern(DATE_FORMAT));
 
     	int numArtefacts = in.nextInt(); in.nextLine();
 
@@ -380,17 +386,14 @@ public class Main {
     	}
 
     	try {
-    		eMailSystem.checkDeveloper(developerName, projectName);
-    	}
-    	catch (UserNameDoesntExistException e) {
+    		eMailSystem.checkDeveloperProject(developerName, projectName);
+    	} catch (UserNameDoesntExistException e) {
     		System.out.printf(e.getErrorMessage(), e.getErrorInfo());
     		return;
-    	}
-    	catch (ProjectNameDoesntExistException e) {
+    	} catch (ProjectNameDoesntExistException e) {
     		System.out.printf(e.getErrorMessage(), e.getErrorInfo());
     		return;
-    	}
-    	catch (DeveloperNotMemberException e) {
+    	} catch (DeveloperNotMemberException e) {
     		System.out.printf(e.getErrorMessage(), e.getErrorInfoName(), e.getErrorInfoTeamName());
     		return;
     	}
@@ -398,18 +401,18 @@ public class Main {
     	System.out.println(ARTEFACT_HEADER);
     	for(int i = 0; i < numArtefacts; i++) {
     		try {
-    			eMailSystem.addArtefact(developerName, projectName, artefactName[i], artefactDate, confidentialityLevel[i], artefactDescription[i]);
+    			eMailSystem.addArtefact(developerName, projectName, artefactName[i],
+                                        artefactDate, confidentialityLevel[i], artefactDescription[i]);
     			System.out.printf(ARTEFACT_ADDED, artefactName[i]);
-    		}
-    		catch (ArtefactAlreadyInProjectException e) {
+    		} catch (ArtefactAlreadyInProjectException e) {
     			System.out.printf(e.getErrorMessage(), e.getErrorInfo());
-    		}
-    		catch (ArtefactExceedsConfidentialityException e) {
+    		} catch (ArtefactExceedsConfidentialityException e) {
     			System.out.printf(e.getErrorMessage(), e.getErrorInfo());
     		}
     	}
     }
 
+    // TODO: Refactor maybe? Ask teacher
     /**
      * Shows the detailed information of an existing <code>In-House Project</code>
      *
@@ -419,7 +422,7 @@ public class Main {
     private static void interpretProject(Scanner in, VersionControlSystem eMailSystem) {
         String projectName = in.nextLine().trim();
 
-        // TODO: refactor de cada "print" para métodos privados auxiliares.
+
         try {
             // Print project info
             Project project = eMailSystem.listProjectInfo(projectName).next();
@@ -475,7 +478,8 @@ public class Main {
         String revisionComment = in.nextLine().trim();
 
         try {
-            int revisionNumber = eMailSystem.reviewArtefact(memberUsername, projectName, artefactName, revisionDate, revisionComment);
+            int revisionNumber = eMailSystem.reviewArtefact(memberUsername, projectName,
+                                                            artefactName, revisionDate, revisionComment);
             System.out.printf(REVISION_ADDED, revisionNumber, artefactName);
         } catch (UserNameDoesntExistException e) {
             System.out.printf(e.getErrorMessage(), e.getErrorInfo());
