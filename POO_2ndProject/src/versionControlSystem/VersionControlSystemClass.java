@@ -197,6 +197,7 @@ public class VersionControlSystemClass implements VersionControlSystem {
     public int reviewArtefact(String username, String projectName, String artefactName, LocalDate date, String comment)
             throws UserNameDoesntExistException, ProjectNameDoesntExistException,
                    DeveloperNotMemberException, ArtefactNotInProjectException {
+        
         return 0;
     }
 

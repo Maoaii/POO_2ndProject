@@ -19,10 +19,10 @@ public class Main {
     }
 
     //Keywords
-
     private static final String PROJECTMANAGER = "manager";
     private static final String DEVELOPER = "developer";
     private static final String INHOUSE = "inhouse";
+    private static final String DATE_FORMAT = "dd-MM-yyyy";
 
     // Output messages
 
@@ -365,16 +365,20 @@ public class Main {
     private static void interpretArtefacts(Scanner in, VersionControlSystem eMailSystem) {
     	String developerName = in.next().trim();
     	String projectName = in.nextLine().trim();
-    	LocalDate artefactDate = LocalDate.parse(in.nextLine().trim(), DateTimeFormatter.ofPattern("dd-MM-yyyy")); // TODO: make this a constant aswell
+    	LocalDate artefactDate = LocalDate.parse(in.nextLine().trim(), DateTimeFormatter.ofPattern(DATE_FORMAT));
+
     	int numArtefacts = in.nextInt(); in.nextLine();
+
     	String[] artefactName = new String[numArtefacts];
     	int[] confidentialityLevel = new int[numArtefacts];
     	String[] artefactDescription = new String[numArtefacts];
+
     	for(int i = 0; i < numArtefacts; i++) {
     		artefactName[i] = in.next().trim();
     		confidentialityLevel[i] = in.nextInt();
     		artefactDescription[i] = in.nextLine().trim();
     	}
+
     	try {
     		eMailSystem.checkDeveloper(developerName, projectName);
     	}
@@ -390,6 +394,7 @@ public class Main {
     		System.out.printf(e.getErrorMessage(), e.getErrorInfoName(), e.getErrorInfoTeamName());
     		return;
     	}
+
     	System.out.println(ARTEFACT_HEADER);
     	for(int i = 0; i < numArtefacts; i++) {
     		try {
@@ -466,7 +471,7 @@ public class Main {
         String memberUsername = in.next().trim();
         String projectName = in.nextLine().trim();
         String artefactName = in.next().trim();
-        LocalDate revisionDate = LocalDate.parse(in.next());
+        LocalDate revisionDate = LocalDate.parse(in.next(), DateTimeFormatter.ofPattern(DATE_FORMAT));
         String revisionComment = in.nextLine().trim();
 
         try {
