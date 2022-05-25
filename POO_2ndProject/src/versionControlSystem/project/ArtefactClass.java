@@ -19,14 +19,14 @@ public class ArtefactClass implements Artefact {
     /**
      * Artefact constructor
      */
-    public ArtefactClass(String artefactName, LocalDate artefactDate, int confidentialityLevel, String description) {
+    public ArtefactClass(String authorUsername, String artefactName, LocalDate artefactDate, int confidentialityLevel, String description) {
         this.revisionsByNumber = new TreeSet<>(new RevisionComparatorByNumber());
         this.artefactName = artefactName;
         this.artefactDate = artefactDate;
         this.confidentialityLevel = confidentialityLevel;
         this.description = description;
 
-        this.lastRevision = new RevisionClass(revisionsByNumber.size(), "", artefactDate, description);
+        this.lastRevision = new RevisionClass(revisionsByNumber.size() + 1, authorUsername, artefactDate, description);
         revisionsByNumber.add(lastRevision);
     }
 
@@ -53,7 +53,7 @@ public class ArtefactClass implements Artefact {
 
     @Override
     public int getNumRevisions() {
-        return revisionsByNumber.size() - 1; // The first revision (when artefact is added) doesn't count
+        return revisionsByNumber.size(); // The first revision (when artefact is added) doesn't count
     }
 
     @Override

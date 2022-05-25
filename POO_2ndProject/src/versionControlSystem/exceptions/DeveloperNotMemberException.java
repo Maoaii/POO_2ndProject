@@ -7,16 +7,16 @@ public class DeveloperNotMemberException extends Exception {
 
     // Instance variables
     private String username;
-    private String teamName;
+    private String projectName;
 
     /**
      * Exception constructor
      *
      * @param username - <code>username</code> that caused the exception
      */
-    public DeveloperNotMemberException(String username, String teamName) {
+    public DeveloperNotMemberException(String username, String projectName) {
         this.username = username;
-        this.teamName = teamName;
+        this.projectName = projectName;
     }
 
     /**
@@ -30,7 +30,7 @@ public class DeveloperNotMemberException extends Exception {
      * @return the <code>teamName</code> that caused the exception
      */
     public String getErrorInfoTeamName() {
-        return teamName;
+        return projectName;
     }
 
     /**

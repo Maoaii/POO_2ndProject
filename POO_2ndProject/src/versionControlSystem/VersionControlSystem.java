@@ -146,7 +146,8 @@ public interface VersionControlSystem {
     
     /**
      * Adds an <code>Artefact</code> to an <code>InHouseProject</code>
-     * 
+     *
+     * @param authorUsername - author of the <code>Artefact</code>
      * @param projectName - <code>Project</code>'s name
      * @param artefactName - <code>Artefact</code>'s name
      * @param artefactdate - <code>Artefact</code>'s addition date
@@ -156,7 +157,7 @@ public interface VersionControlSystem {
      * @throws ArtefactAlreadyInProjectException - if <code>artefactName</code> already exists in <code>Project</code>
      * @throws ArtefactExceedsConfidentialityException - if <code>confidentiality</code> is greater than the <code>Project</code>'s confidentiality level
      */
-    void addArtefact(String projectName, String artefactName, LocalDate artefactdate, int confidentiality, String description)
+    void addArtefact(String authorUsername, String projectName, String artefactName, LocalDate artefactdate, int confidentiality, String description)
     		throws ArtefactAlreadyInProjectException, ArtefactExceedsConfidentialityException;
 
     /**

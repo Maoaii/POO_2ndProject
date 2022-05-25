@@ -11,6 +11,7 @@ public class InHouseProjectClass extends AbstractProjectClass implements InHouse
     private List<User> membersByInsertion; // Stores members by insertion order
     private Map<String, Artefact> artefacts; // Stores artefacts for easy access
     private List<Artefact> artefactsByInsertion; // Stores artefacts by insertion
+    private int numRevisions;
 
 
     public InHouseProjectClass(User manager, String projectName, String[] keywords, int confidentialityLevel) {
@@ -19,6 +20,7 @@ public class InHouseProjectClass extends AbstractProjectClass implements InHouse
         membersByInsertion = new LinkedList<>();
         artefacts = new HashMap<>();
         artefactsByInsertion = new LinkedList<>();
+        numRevisions = 0;
     }
     @Override
     public int getConfidentialityLevel() {
@@ -37,7 +39,12 @@ public class InHouseProjectClass extends AbstractProjectClass implements InHouse
 
     @Override
     public int getNumRevisions() {
-        return 0;
+        return numRevisions;
+    }
+
+    @Override
+    public int getNumArtefactRevisions(String artefactName) {
+        return artefacts.get(artefactName).getNumRevisions();
     }
 
     @Override
@@ -64,6 +71,7 @@ public class InHouseProjectClass extends AbstractProjectClass implements InHouse
     @Override
     public void reviewArtefact(String artefactName, Revision revision) {
         artefacts.get(artefactName).reviewArtefact(revision);
+        numRevisions++;
     }
 
     @Override

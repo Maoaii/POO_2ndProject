@@ -165,7 +165,7 @@ public class VersionControlSystemClass implements VersionControlSystem {
     }
     
     @Override
-    public void addArtefact(String projectName, String artefactName, LocalDate artefactDate, int confidentialityLevel, String description)
+    public void addArtefact(String authorUsername ,String projectName, String artefactName, LocalDate artefactDate, int confidentialityLevel, String description)
     		throws ArtefactAlreadyInProjectException, ArtefactExceedsConfidentialityException{
     	Project project = projects.get(projectName);
     	if(((InHouseProject) project).hasArtefact(artefactName)) {
@@ -174,7 +174,7 @@ public class VersionControlSystemClass implements VersionControlSystem {
     	if(((InHouseProject) project).getConfidentialityLevel() < confidentialityLevel) {
     		throw new ArtefactExceedsConfidentialityException(artefactName);
     	}
-    	((InHouseProject) project).addArtefact(new ArtefactClass(artefactName, artefactDate, confidentialityLevel, description));
+    	((InHouseProject) project).addArtefact(new ArtefactClass(authorUsername, artefactName, artefactDate, confidentialityLevel, description));
     }
 
     @Override
@@ -196,9 +196,24 @@ public class VersionControlSystemClass implements VersionControlSystem {
     @Override
     public int reviewArtefact(String username, String projectName, String artefactName, LocalDate date, String comment)
             throws UserNameDoesntExistException, ProjectNameDoesntExistException,
-                   DeveloperNotMemberException, ArtefactNotInProjectException {
-        
-        return 0;
+                   ArtefactNotInProjectException, DeveloperNotMemberException {
+        User user = users.get(username);
+        if (user == null)
+            throw new UserNameDoesntExistException(username);
+
+        Project project = projects.get(projectName);
+        if (project == null || project instanceof OutsourcedProject)
+            throw new ProjectNameDoesntExistException(projectName);
+        if (!((InHouseProject) project).hasArtefact(artefactName))
+            throw new ArtefactNotInProjectException(artefactName);
+        if (!user.isMember(projectName))
+            throw new DeveloperNotMemberException(username, projectName);
+
+        Revision revision = new RevisionClass(((InHouseProject) project).getNumArtefactRevisions(artefactName) + 1, username, date, comment);
+        ((InHouseProject) project).reviewArtefact(artefactName, revision);
+
+
+        return revision.getRevisionNumber();
     }
 
     @Override

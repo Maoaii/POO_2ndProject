@@ -102,14 +102,14 @@ public class Main {
      */
     private static final String PROJECT_LISTING = "%s [%d] managed by %s [%d]:\n";
     private static final String PROJECT_MEMBERS_LISTING = "%s [%d]\n";
-    private static final String PROJECT_ARTEFACTS_LISTING = "%s [%d]: %s\n";
-    private static final String PROJECT_REVISIONS_LISTING = "%s %s %s %s\n";
+    private static final String PROJECT_ARTEFACTS_LISTING = "%s [%d]\n";
+    private static final String PROJECT_REVISIONS_LISTING = "revision %d %s %s %s\n";
 
 
     /**
      * 2.10 REVISION Command
      */
-    private static final String REVISION_ADDED = "Revision %d of %s was submitted.\n";
+    private static final String REVISION_ADDED = "Revision %d of artefact %s was submitted.\n";
 
 
     /**
@@ -398,7 +398,7 @@ public class Main {
     	System.out.println(ARTEFACT_HEADER);
     	for(int i = 0; i < numArtefacts; i++) {
     		try {
-    			eMailSystem.addArtefact(projectName, artefactName[i], artefactDate, confidentialityLevel[i], artefactDescription[i]);
+    			eMailSystem.addArtefact(developerName, projectName, artefactName[i], artefactDate, confidentialityLevel[i], artefactDescription[i]);
     			System.out.printf(ARTEFACT_ADDED, artefactName[i]);
     		}
     		catch (ArtefactAlreadyInProjectException e) {
@@ -441,8 +441,7 @@ public class Main {
             while (artefactIterator.hasNext()) {
                 Artefact artefact = artefactIterator.next();
 
-                System.out.printf(PROJECT_ARTEFACTS_LISTING, artefact.getArtefactName(), artefact.getArtefactConfidentialityLevel(),
-                                                             artefact.getArtefactDescription());
+                System.out.printf(PROJECT_ARTEFACTS_LISTING, artefact.getArtefactName(), artefact.getArtefactConfidentialityLevel());
 
 
                 // Print revisions info
@@ -451,7 +450,8 @@ public class Main {
                     Revision revision = revisionIterator.next();
 
                     System.out.printf(PROJECT_REVISIONS_LISTING, revision.getRevisionNumber(), revision.getAuthorUsername(),
-                                                                 revision.getRevisionDate().toString(), revision.getRevisionComment());
+                                                                 revision.getRevisionDate().format(DateTimeFormatter.ofPattern(DATE_FORMAT)),
+                                                                 revision.getRevisionComment());
                 }
             }
         } catch (ProjectNameDoesntExistException e) {
@@ -484,7 +484,7 @@ public class Main {
         } catch (DeveloperNotMemberException e) {
             System.out.printf(e.getErrorMessage(), e.getErrorInfoName(), e.getErrorInfoTeamName());
         } catch (ProjectNameDoesntExistException e) {
-            System.out.printf(e.getErrorMessage(), e.getErrorMessage());
+            System.out.printf(e.getErrorMessage(), e.getErrorInfo());
         }
     }
 

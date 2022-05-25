@@ -28,6 +28,11 @@ public interface InHouseProject {
     int getNumRevisions();
 
     /**
+     * @return the number of <code>Revision</code>s the <code>Artefact</code> with <code>artefactName</code> has
+     */
+    int getNumArtefactRevisions(String artefactName);
+
+    /**
      * @param keyword - keyword to check
      * @return true if this <code>InHouseProject</code> has <code>keyword</code> as a <code>keyword</code>
      */
