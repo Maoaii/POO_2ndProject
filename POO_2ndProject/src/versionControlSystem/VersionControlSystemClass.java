@@ -153,11 +153,13 @@ public class VersionControlSystemClass implements VersionControlSystem {
 		if(!users.containsKey(developerUsername)){
             throw new UserNameDoesntExistException(developerUsername);
         }
-        if(!projects.containsKey(projectName) || projects.get(projectName) instanceof OutsourcedProject){
+
+        Project project = projects.get(projectName);
+        if(project == null || project instanceof OutsourcedProject){
             throw new ProjectNameDoesntExistException(projectName);
         }
         User developer = users.get(developerUsername);
-        if(!developer.isMember(projectName)){
+        if(!developer.isMember(projectName) && !project.getProjectManagerUsername().equals(developerUsername)) {
             throw new DeveloperNotMemberException(developerUsername, projectName);
         }
     }

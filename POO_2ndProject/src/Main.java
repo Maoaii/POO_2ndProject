@@ -7,6 +7,7 @@ import versionControlSystem.user.ProjectManager;
 import versionControlSystem.user.User;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 import java.util.Scanner;
 
@@ -362,15 +363,15 @@ public class Main {
      * @param eMailSystem - system class
      */
     private static void interpretArtefacts(Scanner in, VersionControlSystem eMailSystem) {
-    	String developerName = in.next();
+    	String developerName = in.next().trim();
     	String projectName = in.nextLine().trim();
-    	LocalDate artefactDate = LocalDate.parse(in.nextLine().trim());
+    	LocalDate artefactDate = LocalDate.parse(in.nextLine().trim(), DateTimeFormatter.ofPattern("dd-MM-yyyy")); // TODO: make this a constant aswell
     	int numArtefacts = in.nextInt(); in.nextLine();
     	String[] artefactName = new String[numArtefacts];
     	int[] confidentialityLevel = new int[numArtefacts];
     	String[] artefactDescription = new String[numArtefacts];
     	for(int i = 0; i < numArtefacts; i++) {
-    		artefactName[i] = in.next();
+    		artefactName[i] = in.next().trim();
     		confidentialityLevel[i] = in.nextInt();
     		artefactDescription[i] = in.nextLine().trim();
     	}

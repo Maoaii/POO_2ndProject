@@ -2,24 +2,25 @@ package versionControlSystem.user;
 
 import versionControlSystem.project.Project;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class ProjectManagerClass extends AbstractUserClass implements ProjectManager {
     //Instance variables
     private List<User> developers;
-    private List<Project> projectsAsManager;
+    private Map<String, Project> projectsAsManager;
+    private List<Project> projectsAsManagerByInsertion;
 
     public ProjectManagerClass(String username, int clearanceLevel) {
         super(username, clearanceLevel);
         developers = new LinkedList<>();
-        projectsAsManager = new LinkedList<>();
+        projectsAsManager = new HashMap<>();
+        projectsAsManagerByInsertion = new LinkedList<>();
     }
 
     @Override
     public void addProjectAsManager(Project project) {
-        projectsAsManager.add(project);
+        projectsAsManager.put(project.getProjectName(), project);
+        projectsAsManagerByInsertion.add(project);
     }
 
     @Override
@@ -34,7 +35,7 @@ public class ProjectManagerClass extends AbstractUserClass implements ProjectMan
 
     @Override
     public int getNumProjectsAsManagers() {
-        return projectsAsManager.size();
+        return projectsAsManagerByInsertion.size();
     }
 
     @Override
