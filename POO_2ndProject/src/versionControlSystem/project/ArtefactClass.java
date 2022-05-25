@@ -14,7 +14,7 @@ public class ArtefactClass implements Artefact {
     private int confidentialityLevel;
     private String description;
     private Set<Revision> revisionsByNumber; // Sorted revisions by their number
-    private Revision lastRevision; // Last revision did
+    private Revision lastRevision; // Last revision done
 
     /**
      * Artefact constructor
@@ -63,6 +63,6 @@ public class ArtefactClass implements Artefact {
 
     @Override
     public Iterator<Revision> getArtefactRevisions() {
-        return revisionsByNumber.iterator(); // We have to skip the first revision (it's the artefact add)
+        return revisionsByNumber.iterator(); // We have to skip the first revision (it's the artefact's addition)
     }
 }

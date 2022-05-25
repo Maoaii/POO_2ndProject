@@ -120,8 +120,6 @@ public interface VersionControlSystem {
      * @param managerUsername - username to check if its <code>ProjectManager</code>
      * @param projectName - project name to check if exists
      *
-     * @return true
-     *
      * @throws ManagerUsernameInvalidException - if <code>managerUsername</code> doesn't exist or doesn't
      *                                           belong to a <code>Manager</code>
      * @throws ProjectNameDoesntExistException - if <code>projectName</code> doesn't exist
@@ -134,28 +132,31 @@ public interface VersionControlSystem {
 
 
     /**
-     * Adds a new <code>Artefact</code> to a <code>InHouse Project</code>
-     *
-     * @param developerUsername - author of <code>Artefact</code>
-     * @param projectName - project the <code>Artefact</code> belongs to
-     * @param date - date of <code>Artefact</code> addition
-     * @param artefactName - <code>Artefact</code>'s name
-     * @param confidentialityLevel - <code>Artefact</code>'s confidentiality level
-     * @param description - <code>Artefact</code>'s description
-     *
-     * @throws UserNameDoesntExistException - if <code>developerUsername</code> doesn't exist
-     * @throws ProjectNameDoesntExistException - if <code>projectName</code> doesn't exist
-     * @throws DeveloperNotMemberException - if <code>Developer</code> with <code>developerUsername</code>
-     *                                       isn't a member of <code>Project</code> with <code>projectName</code>
-     * @throws ArtefactAlreadyInProjectException - if the given <code>Artefact</code> is already registered in <code>Project</code>
-     *                                             with <code>projectName</code>
-     * @throws ArtefactExceedsConfidentialityException - if the given <code>confidentialityLevel</code> is greater than
-     *                                                   the given <code>Project</code>s confidentiality level
+     * Checks if both <code>Developer</code> and <code>Project</code> exist and if they are associated
+     * 
+     * @param developerUsername - <code>Developer</code>'s supposed username
+     * @param projectName - <code>Project</code>'s supposed name
+     * 
+     * @throws UserNameDoesntExistException - if <code>developerUsername</code> is not associated to any <code>User</code>
+     * @throws ProjectNameDoesntExistException - if <code>projectName</code> is not associated to any <code>InHouseProject</code>
+     * @throws DeveloperNotMemberException - if <code>User</code> does not belong to <code>Project</code>
      */
     void checkDeveloper(String developerUsername, String projectName)
             throws UserNameDoesntExistException, ProjectNameDoesntExistException, DeveloperNotMemberException;
     
-    void addArtefact(String projectName, String artefactName, String artefactdate, int confidentiality, String description)
+    /**
+     * Adds an <code>Artefact</code> to an <code>InHouseProject</code>
+     * 
+     * @param projectName - <code>Project</code>'s name
+     * @param artefactName - <code>Artefact</code>'s name
+     * @param artefactdate - <code>Artefact</code>'s addition date
+     * @param confidentiality - <code>Artefact</code>'s confidentiality level
+     * @param description - <code>Artefact</code>'s description
+     * 
+     * @throws ArtefactAlreadyInProjectException - if <code>artefactName</code> already exists in <code>Project</code>
+     * @throws ArtefactExceedsConfidentialityException - if <code>confidentiality</code> is greater than the <code>Project</code>'s confidentiality level
+     */
+    void addArtefact(String projectName, String artefactName, LocalDate artefactdate, int confidentiality, String description)
     		throws ArtefactAlreadyInProjectException, ArtefactExceedsConfidentialityException;
 
     /**

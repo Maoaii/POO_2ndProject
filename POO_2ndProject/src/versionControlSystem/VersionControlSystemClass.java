@@ -9,7 +9,6 @@ import versionControlSystem.user.User;
 import versionControlSystem.exceptions.*;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class VersionControlSystemClass implements VersionControlSystem {
@@ -163,7 +162,8 @@ public class VersionControlSystemClass implements VersionControlSystem {
         }
     }
     
-    public void addArtefact(String projectName, String artefactName, String artefactDate, int confidentialityLevel, String description)
+    @Override
+    public void addArtefact(String projectName, String artefactName, LocalDate artefactDate, int confidentialityLevel, String description)
     		throws ArtefactAlreadyInProjectException, ArtefactExceedsConfidentialityException{
     	Project project = projects.get(projectName);
     	if(((InHouseProject) project).hasArtefact(artefactName)) {
@@ -172,9 +172,7 @@ public class VersionControlSystemClass implements VersionControlSystem {
     	if(((InHouseProject) project).getConfidentialityLevel() < confidentialityLevel) {
     		throw new ArtefactExceedsConfidentialityException(artefactName);
     	}
-    	DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-mm-yyyy");
-    	LocalDate date = LocalDate.parse(artefactDate, format);
-    	((InHouseProject) project).addArtefact(new ArtefactClass(artefactName, date, confidentialityLevel, description));
+    	((InHouseProject) project).addArtefact(new ArtefactClass(artefactName, artefactDate, confidentialityLevel, description));
     }
 
     @Override

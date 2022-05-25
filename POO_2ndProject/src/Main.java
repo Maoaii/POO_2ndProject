@@ -364,11 +364,44 @@ public class Main {
     private static void interpretArtefacts(Scanner in, VersionControlSystem eMailSystem) {
     	String developerName = in.next();
     	String projectName = in.nextLine().trim();
-    	String date = in.nextLine().trim();
+    	LocalDate artefactDate = LocalDate.parse(in.nextLine().trim());
     	int numArtefacts = in.nextInt(); in.nextLine();
     	String[] artefactName = new String[numArtefacts];
     	int[] confidentialityLevel = new int[numArtefacts];
     	String[] artefactDescription = new String[numArtefacts];
+    	for(int i = 0; i < numArtefacts; i++) {
+    		artefactName[i] = in.next();
+    		confidentialityLevel[i] = in.nextInt();
+    		artefactDescription[i] = in.nextLine().trim();
+    	}
+    	try {
+    		eMailSystem.checkDeveloper(developerName, projectName);
+    	}
+    	catch (UserNameDoesntExistException e) {
+    		System.out.printf(e.getErrorMessage(), e.getErrorInfo());
+    		return;
+    	}
+    	catch (ProjectNameDoesntExistException e) {
+    		System.out.printf(e.getErrorMessage(), e.getErrorInfo());
+    		return;
+    	}
+    	catch (DeveloperNotMemberException e) {
+    		System.out.printf(e.getErrorMessage(), e.getErrorInfoName(), e.getErrorInfoTeamName());
+    		return;
+    	}
+    	System.out.println(ARTEFACT_HEADER);
+    	for(int i = 0; i < numArtefacts; i++) {
+    		try {
+    			eMailSystem.addArtefact(projectName, artefactName[i], artefactDate, confidentialityLevel[i], artefactDescription[i]);
+    			System.out.printf(ARTEFACT_ADDED, artefactName[i]);
+    		}
+    		catch (ArtefactAlreadyInProjectException e) {
+    			System.out.printf(e.getErrorMessage(), e.getErrorInfo());
+    		}
+    		catch (ArtefactExceedsConfidentialityException e) {
+    			System.out.printf(e.getErrorMessage(), e.getErrorInfo());
+    		}
+    	}
     }
 
     /**
