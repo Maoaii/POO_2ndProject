@@ -1,6 +1,7 @@
 package versionControlSystem;
 
 import versionControlSystem.comparators.ComparatorByName;
+import versionControlSystem.comparators.ProjectComparator;
 import versionControlSystem.project.*;
 import versionControlSystem.user.DeveloperClass;
 import versionControlSystem.user.ProjectManager;
@@ -24,6 +25,7 @@ public class VersionControlSystemClass implements VersionControlSystem {
     private Set<User> usersByName; // Stores Users ordered by name
     private Map<String, Project> projects; // Stores projects for easy access. projectName -> Project
     private List<Project> projectsByInsertion; // Stores projects by insertion order
+    private Set<Project> sortedProjects; 
 
     /**
      * Version Control System constructor
@@ -33,6 +35,7 @@ public class VersionControlSystemClass implements VersionControlSystem {
         usersByName = new TreeSet<>(new ComparatorByName()); // TODO: ask teacher if we should use the classe's comparator here
         projects = new HashMap<>();
         projectsByInsertion = new LinkedList<>();
+        sortedProjects = new TreeSet<Project>(new ProjectComparator());
     }
 
 
@@ -106,6 +109,7 @@ public class VersionControlSystemClass implements VersionControlSystem {
         ((ProjectManager) manager).addProjectAsManager(project);
         projects.put(projectName, project);
         projectsByInsertion.add(project);
+        sortedProjects.add(project);
     }
 
     @Override

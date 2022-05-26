@@ -1,6 +1,7 @@
 package versionControlSystem.project;
 
 import versionControlSystem.project.comparators.ArtefactComparatorByRevisionDate;
+import versionControlSystem.project.comparators.RevisionComparatorByDate;
 import versionControlSystem.user.User;
 
 import java.util.*;
@@ -11,7 +12,7 @@ public class InHouseProjectClass extends AbstractProjectClass implements InHouse
     private List<User> membersByInsertion; // Stores members by insertion order
     private Map<String, Artefact> artefacts; // Stores artefacts for easy access. artefactName -> Artefact
     private List<Artefact> artefactsByInsertion; // Stores artefacts by insertion
-    private int numRevisions;
+    private Set<Revision> revisions; //Stores revisions sorted by date
 
     /**
      * InHouse Project constructor
@@ -28,8 +29,7 @@ public class InHouseProjectClass extends AbstractProjectClass implements InHouse
         membersByInsertion = new LinkedList<>();
         artefacts = new HashMap<>();
         artefactsByInsertion = new LinkedList<>();
-
-        numRevisions = 0;
+        revisions = new TreeSet<Revision>(new RevisionComparatorByDate());
     }
     @Override
     public int getConfidentialityLevel() {
@@ -48,7 +48,12 @@ public class InHouseProjectClass extends AbstractProjectClass implements InHouse
 
     @Override
     public int getNumRevisions() {
-        return numRevisions;
+        return revisions.size();
+    }
+    
+    @Override
+    public Revision getLastRevision() {
+    	return ((TreeSet<Revision>) revisions).last();
     }
 
     @Override
@@ -81,7 +86,7 @@ public class InHouseProjectClass extends AbstractProjectClass implements InHouse
     @Override
     public void reviewArtefact(String artefactName, Revision revision) {
         artefacts.get(artefactName).reviewArtefact(revision);
-        numRevisions++;
+        revisions.add(revision);
     }
 
     @Override

@@ -25,6 +25,11 @@ public interface InHouseProject {
      * @return this <code>InHouseProject</code>s number of <code>Revision</code>s
      */
     int getNumRevisions();
+    
+    /**
+     * @return this <code>InHouseProject</code>s last <code>Revision</code>'s
+     */
+    Revision getLastRevision();
 
     /**
      * @return the number of <code>Revision</code>s the <code>Artefact</code> with <code>artefactName</code> has
