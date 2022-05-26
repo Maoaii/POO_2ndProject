@@ -61,12 +61,6 @@ public class InHouseProjectClass extends AbstractProjectClass implements InHouse
         return artefacts.get(artefactName).getNumRevisions();
     }
 
-    // TODO: implement method
-    @Override
-    public boolean hasKeyword(String keyword) {
-        return false;
-    }
-
     @Override
     public void addMember(User user) {
         membersByInsertion.add(user);

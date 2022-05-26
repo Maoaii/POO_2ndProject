@@ -37,12 +37,6 @@ public interface InHouseProject {
     int getNumArtefactRevisions(String artefactName);
 
     /**
-     * @param keyword - keyword to check
-     * @return true if this <code>InHouseProject</code> has <code>keyword</code> as a <code>keyword</code>
-     */
-    boolean hasKeyword(String keyword);
-
-    /**
      * Adds a new <code>User</code> to this <code>InHouseProject</code>
      *
      * @param user - <code>User</code> to add

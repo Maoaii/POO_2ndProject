@@ -16,4 +16,10 @@ public interface Project {
      * @return the <code>clearanceLevel</code> of this <code>Project</code>s <code>ProjectManager</code>
      */
     int getProjectManagerClearanceLevel();
+    
+    /**
+     * @param the keyword to be tested
+     * @return true if the project contains this keyword
+     */
+    boolean hasKeyword(String keyword);
 }

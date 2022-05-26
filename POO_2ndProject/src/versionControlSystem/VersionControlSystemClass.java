@@ -236,7 +236,15 @@ public class VersionControlSystemClass implements VersionControlSystem {
 
     @Override
     public Iterator<Project> listProjectsByKeyword(String keyword) {
-        return null;
+    	List<Project> projectswKeyword = new ArrayList<Project>();
+    	Iterator<Project> it = sortedProjects.iterator();
+    	while(it.hasNext()) {
+    		Project project = it.next();
+    		if(project.hasKeyword(keyword)) {
+    			projectswKeyword.add(project);
+    		}
+    	}
+        return projectswKeyword.iterator();
     }
 
     @Override

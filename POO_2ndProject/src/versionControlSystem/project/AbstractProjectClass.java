@@ -38,4 +38,14 @@ public class AbstractProjectClass implements Project {
     public int getProjectManagerClearanceLevel() {
         return manager.getClearanceLevel();
     }
+
+	@Override
+	public boolean hasKeyword(String keyword) {
+		for(int i = 0; i < keywords.length; i++) {
+			if(keyword.equals(keywords[i])) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
