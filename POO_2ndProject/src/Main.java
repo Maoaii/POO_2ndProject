@@ -115,7 +115,7 @@ public class Main {
      * 2.11 MANAGES Command
      */
     private static final String MANAGES_HEADER = "Manager %s:\n";
-    private static final String MANAGES_REVISIONS_LISTING = "%s, %s, %d, %s, %s\n";
+    private static final String MANAGES_REVISIONS_LISTING = "%s, %s, revision %d, %s, %s\n";
 
 
     /**
@@ -499,10 +499,36 @@ public class Main {
      * @param eMailSystem - system class
      */
     private static void interpretManages(Scanner in, VersionControlSystem eMailSystem) {
+        String managerUsername = in.nextLine().trim();
+
+        try {
+            Iterator<User> developersIterator = eMailSystem.listDevelopersInfo(managerUsername);
+
+            System.out.printf(MANAGES_HEADER, managerUsername);
+
+            while (developersIterator.hasNext()) {
+                User developer = developersIterator.next();
+
+                System.out.println(developer.getUsername());
+
+                Iterator<Revision> developerRevisionsIt = developer.getUserRevisions();
+                while (developerRevisionsIt.hasNext()) {
+                    Revision revision = developerRevisionsIt.next();
+
+                    System.out.printf(MANAGES_REVISIONS_LISTING, revision.getProjectName(),
+                                                                 revision.getArtefactName(),
+                                                                 revision.getRevisionNumber(),
+                                                                 revision.getRevisionDate().format(DateTimeFormatter.ofPattern(DATE_FORMAT)),
+                                                                 revision.getRevisionComment());
+                }
+            }
+        } catch (ManagerUsernameInvalidException e) {
+            System.out.printf(e.getErrorMessage(), e.getErrorInfo());
+        }
     }
 
     /**
-     * Filters <code>Project</code>s by a given <code>Keyword</code>
+     * Filters all <code>Project</code>s by a given <code>Keyword</code>
      *
      * @param in - input reader
      * @param eMailSystem - system class

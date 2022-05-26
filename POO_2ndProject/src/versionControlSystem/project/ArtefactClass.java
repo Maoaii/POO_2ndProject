@@ -9,6 +9,7 @@ import java.util.TreeSet;
 
 public class ArtefactClass implements Artefact {
     // Instance variables
+    private String projectName;
     private String artefactName;
     private LocalDate artefactDate;
     private int confidentialityLevel;
@@ -19,21 +20,23 @@ public class ArtefactClass implements Artefact {
     /**
      * Artefact Constructor
      *
+     * @param projectName - this <code>Artefact</code>s <code>Project</code> <code>projectName</code>
      * @param authorUsername - this <code>Artefact</code>s author
      * @param artefactName - this <code>Artefact</code>s <code>artefactName</code>
      * @param artefactDate - this <code>Artefact</code>s <code>artefactDate</code>
      * @param confidentialityLevel - this <code>Artefact</code>s <code>confidentialityLevel</code>
      * @param description - this <code>Artefact</code>s <code>description</code>
      */
-    public ArtefactClass(String authorUsername, String artefactName, LocalDate artefactDate,
+    public ArtefactClass(String projectName, String authorUsername, String artefactName, LocalDate artefactDate,
                          int confidentialityLevel, String description) {
+        this.projectName = projectName;
         this.revisionsByNumber = new TreeSet<>(new RevisionComparatorByNumber());
         this.artefactName = artefactName;
         this.artefactDate = artefactDate;
         this.confidentialityLevel = confidentialityLevel;
         this.description = description;
 
-        this.lastRevision = new RevisionClass(revisionsByNumber.size() + 1, authorUsername, artefactDate, description);
+        this.lastRevision = new RevisionClass(projectName, artefactName, revisionsByNumber.size() + 1, authorUsername, artefactDate, description);
         revisionsByNumber.add(lastRevision);
     }
 

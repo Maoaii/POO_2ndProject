@@ -6,7 +6,7 @@ import java.util.*;
 
 public class ProjectManagerClass extends AbstractUserClass implements ProjectManager {
     //Instance variables
-    private List<User> developers;
+    private Set<User> developers; // Users ordered alphabetically
     private Map<String, Project> projectsAsManager; // Projects stored for fast access. projectName -> Project
     private List<Project> projectsAsManagerByInsertion; // Projects stored by insertion
 
@@ -18,7 +18,7 @@ public class ProjectManagerClass extends AbstractUserClass implements ProjectMan
      */
     public ProjectManagerClass(String username, int clearanceLevel) {
         super(username, clearanceLevel);
-        developers = new LinkedList<>();
+        developers = new TreeSet<>();
         projectsAsManager = new HashMap<>();
         projectsAsManagerByInsertion = new LinkedList<>();
     }

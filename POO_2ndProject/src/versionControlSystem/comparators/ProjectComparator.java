@@ -3,6 +3,7 @@ package versionControlSystem.comparators;
 import java.util.Comparator;
 
 import versionControlSystem.project.InHouseProject;
+import versionControlSystem.project.OutsourcedProject;
 import versionControlSystem.project.Project;
 
 public class ProjectComparator implements Comparator<Project> {
@@ -35,5 +36,4 @@ public class ProjectComparator implements Comparator<Project> {
 			}
 		}
 	}
-
 }

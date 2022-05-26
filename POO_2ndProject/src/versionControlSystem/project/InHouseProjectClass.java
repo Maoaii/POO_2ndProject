@@ -12,7 +12,7 @@ public class InHouseProjectClass extends AbstractProjectClass implements InHouse
     private List<User> membersByInsertion; // Stores members by insertion order
     private Map<String, Artefact> artefacts; // Stores artefacts for easy access. artefactName -> Artefact
     private List<Artefact> artefactsByInsertion; // Stores artefacts by insertion
-    private Set<Revision> revisions; //Stores revisions sorted by date
+    private List<Revision> revisions; //Stores revisions
 
     /**
      * InHouse Project constructor
@@ -29,7 +29,7 @@ public class InHouseProjectClass extends AbstractProjectClass implements InHouse
         membersByInsertion = new LinkedList<>();
         artefacts = new HashMap<>();
         artefactsByInsertion = new LinkedList<>();
-        revisions = new TreeSet<Revision>(new RevisionComparatorByDate());
+        revisions = new ArrayList<>();
     }
     @Override
     public int getConfidentialityLevel() {
@@ -53,7 +53,7 @@ public class InHouseProjectClass extends AbstractProjectClass implements InHouse
     
     @Override
     public Revision getLastRevision() {
-    	return ((TreeSet<Revision>) revisions).last();
+    	return revisions.get(revisions.size());
     }
 
     @Override

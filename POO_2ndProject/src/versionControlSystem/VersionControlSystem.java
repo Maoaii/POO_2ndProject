@@ -203,8 +203,11 @@ public interface VersionControlSystem {
      * @param managerUsername - <code>Manager</code>'s username to list <code>Developer</code>'s from
      *
      * @return an <code>User Iterator</code> that iterates through a <code>Manager</code>'s <code>Developer</code>s
+     *
+     * @throws ManagerUsernameInvalidException - if <code>managerUsername</code> doesn't exist or doesn't
+     *                                           belong to a <code>Manager</code>
      */
-    Iterator<User> listDevelopersInfo(String managerUsername);
+    Iterator<User> listDevelopersInfo(String managerUsername) throws ManagerUsernameInvalidException;
 
 
     /**

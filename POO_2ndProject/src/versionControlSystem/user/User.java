@@ -7,7 +7,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 
-public interface User{
+public interface User extends Comparable<User> {
 
     /**
      * @return this <code>User</code>s <code>username</code>
@@ -50,4 +50,13 @@ public interface User{
      * @param project - <code>Project</code> to add
      */
     void addProject(Project project);
+
+    /**
+     * Adds a new <code>Revision</code> to this <code>User</code>
+     *
+     * @param revision - <code>Revision</code> to add
+     */
+    void addRevision(Revision revision);
+
+    int compareTo(User other);
 }

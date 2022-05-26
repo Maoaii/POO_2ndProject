@@ -36,10 +36,10 @@ public class Tests {
     @Test public void test4() { test("04_in.txt","04_out.txt"); }
     @Test public void test5() { test("05_in.txt","05_out.txt"); }
     @Test public void test6() { test("06_in.txt","06_out.txt"); }
-//    @Test public void test7() { test("07_in.txt","07_out.txt"); }
-//    @Test public void test8() { test("08_in.txt","08_out.txt"); }
-//    @Test public void test9() { test("09_in.txt","09_out.txt"); }
-//    @Test public void test10() { test("10_in.txt","10_out.txt"); }
+    @Test public void test7() { test("07_in.txt","07_out.txt"); }
+    @Test public void test8() { test("08_in.txt","08_out.txt"); }
+    @Test public void test9() { test("09_in.txt","09_out.txt"); }
+    @Test public void test10() { test("10_in.txt","10_out.txt"); }
 //    @Test public void test11() { test("11_in.txt","11_out.txt"); }
 
 

@@ -1,7 +1,5 @@
 package versionControlSystem;
 
-import versionControlSystem.comparators.ComparatorByName;
-import versionControlSystem.comparators.ProjectComparator;
 import versionControlSystem.project.*;
 import versionControlSystem.user.DeveloperClass;
 import versionControlSystem.user.ProjectManager;
@@ -25,17 +23,17 @@ public class VersionControlSystemClass implements VersionControlSystem {
     private Set<User> usersByName; // Stores Users ordered by name
     private Map<String, Project> projects; // Stores projects for easy access. projectName -> Project
     private List<Project> projectsByInsertion; // Stores projects by insertion order
-    private Set<Project> sortedProjects; 
+    // private Set<Project> sortedProjects;
 
     /**
      * Version Control System constructor
      */
     public VersionControlSystemClass() {
         users = new HashMap<>();
-        usersByName = new TreeSet<>(new ComparatorByName()); // TODO: ask teacher if we should use the classe's comparator here
+        usersByName = new TreeSet<>();
         projects = new HashMap<>();
         projectsByInsertion = new LinkedList<>();
-        sortedProjects = new TreeSet<Project>(new ProjectComparator());
+        // sortedProjects = new TreeSet<>(new ProjectComparator());
     }
 
 
@@ -109,7 +107,7 @@ public class VersionControlSystemClass implements VersionControlSystem {
         ((ProjectManager) manager).addProjectAsManager(project);
         projects.put(projectName, project);
         projectsByInsertion.add(project);
-        sortedProjects.add(project);
+        // sortedProjects.add(project);
     }
 
     @Override
@@ -184,8 +182,11 @@ public class VersionControlSystemClass implements VersionControlSystem {
     		throw new ArtefactExceedsConfidentialityException(artefactName);
     	}
 
-    	((InHouseProject) project).addArtefact(new ArtefactClass(authorUsername, artefactName, artefactDate,
+    	((InHouseProject) project).addArtefact(new ArtefactClass(projectName, authorUsername, artefactName, artefactDate,
                                                                  confidentialityLevel, description));
+        // Add this artefact as the user first revision
+        users.get(authorUsername).addRevision(new RevisionClass(projectName, artefactName, 1,
+                                                                authorUsername, artefactDate, description));
     }
 
     // TODO: ask teacher if we can return an iterator of 1 User
@@ -221,30 +222,42 @@ public class VersionControlSystemClass implements VersionControlSystem {
         if (!user.isMember(projectName))
             throw new DeveloperNotMemberException(username, projectName);
 
-        Revision revision = new RevisionClass(((InHouseProject) project).getNumArtefactRevisions(artefactName) + 1,
+        Revision revision = new RevisionClass(projectName, artefactName,
+                                             ((InHouseProject) project).getNumArtefactRevisions(artefactName) + 1,
                                               username, date, comment);
         ((InHouseProject) project).reviewArtefact(artefactName, revision);
-
+        user.addRevision(revision);
 
         return revision.getRevisionNumber();
     }
 
     @Override
-    public Iterator<User> listDevelopersInfo(String managerUsername) {
-        return null;
+    public Iterator<User> listDevelopersInfo(String managerUsername) throws ManagerUsernameInvalidException {
+        User manager = users.get(managerUsername);
+        if (manager == null || !(manager instanceof ProjectManager))
+            throw new ManagerUsernameInvalidException(managerUsername);
+
+        return ((ProjectManager) manager).getDevelopers();
     }
 
     @Override
     public Iterator<Project> listProjectsByKeyword(String keyword) {
-    	List<Project> projectswKeyword = new ArrayList<Project>();
+
+        /*
+    	List<Project> projectsWithKeyword = new ArrayList<>();
     	Iterator<Project> it = sortedProjects.iterator();
+
     	while(it.hasNext()) {
     		Project project = it.next();
     		if(project.hasKeyword(keyword)) {
-    			projectswKeyword.add(project);
+                projectsWithKeyword.add(project);
     		}
     	}
-        return projectswKeyword.iterator();
+
+        return projectsWithKeyword.iterator();
+        */
+
+        return null;
     }
 
     @Override
