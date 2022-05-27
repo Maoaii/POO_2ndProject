@@ -1,5 +1,6 @@
 import versionControlSystem.VersionControlSystem;
 import versionControlSystem.VersionControlSystemClass;
+import versionControlSystem.Workaholics;
 import versionControlSystem.exceptions.*;
 import versionControlSystem.project.*;
 import versionControlSystem.user.Developer;
@@ -138,7 +139,7 @@ public class Main {
     /**
      * 2.14 WORKAHOLICS Command
      */
-    private static final String WORKAHOLICS_LISTING = "%%s: %d updates, %d projects, last update on %s.\n";
+    private static final String WORKAHOLICS_LISTING = "%s: %d updates, %d projects, last update on %s\n";
     private static final String NO_WORKAHOLICS = "There are no workaholics.";
 
 
@@ -551,6 +552,21 @@ public class Main {
      * @param eMailSystem - system class
      */
     private static void interpretWorkaholics(VersionControlSystem eMailSystem) {
+        Workaholics workaholics = eMailSystem.getWorkaholics();
+
+        Iterator<User> workaholicsIterator = workaholics.getWorkaholics();
+
+        if (!workaholicsIterator.hasNext())
+            System.out.println(NO_WORKAHOLICS);
+        else {
+            while (workaholicsIterator.hasNext()) {
+                User workaholic = workaholicsIterator.next();
+                System.out.printf(WORKAHOLICS_LISTING, workaholic.getUsername(), workaholic.getNumRevisions(),
+                                                       workaholic.getNumProjectsAsMember(),
+                                                       workaholic.getDateOfLastRevision().format(DateTimeFormatter.ofPattern(DATE_FORMAT)));
+            }
+        }
+
     }
 
     /**

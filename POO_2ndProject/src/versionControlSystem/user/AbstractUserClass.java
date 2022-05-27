@@ -2,8 +2,10 @@ package versionControlSystem.user;
 
 import versionControlSystem.project.Project;
 import versionControlSystem.project.Revision;
+import versionControlSystem.project.RevisionClass;
 import versionControlSystem.user.comparators.RevisionComparatorByDateNumberProjectName;
 
+import java.time.LocalDate;
 import java.util.*;
 
 public class AbstractUserClass implements User {
@@ -47,10 +49,9 @@ public class AbstractUserClass implements User {
         return orderedRevisions.iterator();
     }
 
-    // TODO: implement method
     @Override
-    public Date getDateOfLastRevision() {
-        return null;
+    public LocalDate getDateOfLastRevision() {
+        return orderedRevisions.iterator().next().getRevisionDate();
     }
 
     @Override
@@ -62,6 +63,11 @@ public class AbstractUserClass implements User {
     @Override
     public void addRevision(Revision revision) {
         orderedRevisions.add(revision);
+    }
+
+    @Override
+    public int getNumRevisions() {
+        return orderedRevisions.size();
     }
 
     @Override

@@ -254,7 +254,7 @@ public interface VersionControlSystem {
      *
      * @return a <code>Workaholics Class</code> with the top three workaholics
      */
-    Workaholics listWorkaholics();
+    Workaholics getWorkaholics();
 
     /**
      * Presents the two <code>User</code>s that have the most <code>Project</code>s in common.

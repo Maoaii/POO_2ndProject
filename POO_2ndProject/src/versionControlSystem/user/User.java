@@ -3,6 +3,7 @@ package versionControlSystem.user;
 import versionControlSystem.project.Project;
 import versionControlSystem.project.Revision;
 
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
@@ -42,7 +43,7 @@ public interface User extends Comparable<User> {
     /**
      * @return the <code>date</code> of the last <code>Revision</code> this <code>User</code> made
      */
-    Date getDateOfLastRevision();
+    LocalDate getDateOfLastRevision();
 
     /**
      * Adds a new <code>Project</code> to this <code>User</code>
@@ -57,6 +58,11 @@ public interface User extends Comparable<User> {
      * @param revision - <code>Revision</code> to add
      */
     void addRevision(Revision revision);
+
+    /**
+     * @return the number of <code>Revision</code>s this <code>User</code> made
+     */
+    int getNumRevisions();
 
     int compareTo(User other);
 }

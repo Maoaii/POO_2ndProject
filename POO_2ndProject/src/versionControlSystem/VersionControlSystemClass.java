@@ -1,5 +1,6 @@
 package versionControlSystem;
 
+import versionControlSystem.comparators.WorkaholicComparator;
 import versionControlSystem.project.*;
 import versionControlSystem.user.DeveloperClass;
 import versionControlSystem.user.ProjectManager;
@@ -265,9 +266,27 @@ public class VersionControlSystemClass implements VersionControlSystem {
         return null;
     }
 
+    // TODO: vale mesmo a pena ter uma entidade para os workaholics?
     @Override
-    public Workaholics listWorkaholics(){
-        return null;
+    public Workaholics getWorkaholics(){
+        Set<User> usersByWorkaholicness = new TreeSet<>(new WorkaholicComparator());
+        Workaholics workaholics = new WorkaholicsClass();
+
+        Iterator<User> userIterator = listAllUsers();
+        while(userIterator.hasNext()) {
+            User user = userIterator.next();
+            if (user.getNumRevisions() > 0)
+                usersByWorkaholicness.add(user);
+        }
+
+        int workaholicCounter = 0;
+        Iterator<User> workaholicsIterator = usersByWorkaholicness.iterator();
+        while (workaholicCounter < 3 && workaholicsIterator.hasNext()) {
+            workaholics.addWorkaholic(workaholicsIterator.next());
+            workaholicCounter++;
+        }
+
+        return workaholics;
     }
 
     @Override
