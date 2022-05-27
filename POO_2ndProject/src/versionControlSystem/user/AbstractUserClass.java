@@ -16,6 +16,12 @@ public class AbstractUserClass implements User {
     private List<Project> projectsByInsertion; // Projects ordered by insertion order
     private Set<Revision> orderedRevisions; // Revisions ordered by date, number and projectName
 
+    /**
+     * Abstract User constructor
+     *
+     * @param username - <code>User</code>s <code>username</code>
+     * @param clearanceLevel - <code>User</code>s <code>clearanceLevel</code>
+     */
     public AbstractUserClass(String username, int clearanceLevel) {
         this.username = username;
         this.clearanceLevel = clearanceLevel;
