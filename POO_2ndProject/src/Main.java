@@ -125,7 +125,6 @@ public class Main {
     private static final String KEYWORD_HEADER = "All projects with keyword %s:\n";
     private static final String KEYWORD_INHOUSE_LISTING = "in-house %s is managed by %s [%d, %d, %d, %d, %d]\n";
     private static final String KEYWORD_OUTSOURCED_LISTING = "outsourced %s is managed by %s and developed by %s\n";
-    private static final String NO_PROJECTS_WITH_KEYWORD = "No projects with keyword %s.\n";
 
 
     /**
@@ -535,6 +534,28 @@ public class Main {
      * @param eMailSystem - system class
      */
     private static void interpretKeyword(Scanner in, VersionControlSystem eMailSystem) {
+    	String keyword = in.nextLine().trim();
+    	Iterator<Project> it;
+    	try {
+    		it = eMailSystem.listProjectsByKeyword(keyword);
+    	}
+    	catch(NoProjectsWithKeywordException e) {
+    		System.out.printf(e.getErrorMessage(), e.getErrorInfo());
+    		return;
+    	}
+    	System.out.printf(KEYWORD_HEADER, keyword);
+    	while(it.hasNext()) {
+    		Project project = it.next();
+    		if(project instanceof InHouseProject) {
+    			System.out.printf(PROJECTS_LISTING_INHOUSE, project.getProjectName(), project.getProjectManagerUsername(), 
+    					((InHouseProject) project).getConfidentialityLevel(), ((InHouseProject) project).getNumMembers(), ((InHouseProject) project).getNumArtefacts(),
+    					((InHouseProject) project).getNumRevisions(), 
+    					((InHouseProject) project).getLastRevision().getRevisionDate().format(DateTimeFormatter.ofPattern(DATE_FORMAT)));
+    		}
+    		else {
+    			System.out.printf(PROJECTS_LISTING_OUTSOURCED, project.getProjectName(), project.getProjectManagerUsername(), ((OutsourcedProject) project).getCompanyName());
+    		}
+    	}
     }
 
     /**

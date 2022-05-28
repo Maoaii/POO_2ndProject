@@ -224,8 +224,10 @@ public interface VersionControlSystem {
      *
      * @return a filtered <code>Project Iterator</code> that iterates through all <code>Project</code>s that
      *         have <code>keyword</code>
+     *         
+     * @throws NoProjectsWithKeywordException - if there are no projects with this keyword
      */
-    Iterator<Project> listProjectsByKeyword(String keyword);
+    Iterator<Project> listProjectsByKeyword(String keyword) throws NoProjectsWithKeywordException;
 
     /**
      * Presents all <code>InHouse Project</code>s that have a <code>confidentialityLevel</code>

@@ -1,5 +1,6 @@
 package versionControlSystem;
 
+import versionControlSystem.comparators.ProjectComparator;
 import versionControlSystem.comparators.WorkaholicComparator;
 import versionControlSystem.project.*;
 import versionControlSystem.user.DeveloperClass;
@@ -24,7 +25,6 @@ public class VersionControlSystemClass implements VersionControlSystem {
     private Set<User> usersByName; // Stores Users ordered by name
     private Map<String, Project> projects; // Stores projects for easy access. projectName -> Project
     private List<Project> projectsByInsertion; // Stores projects by insertion order
-    // private Set<Project> sortedProjects;
 
     /**
      * Version Control System constructor
@@ -34,7 +34,6 @@ public class VersionControlSystemClass implements VersionControlSystem {
         usersByName = new TreeSet<>();
         projects = new HashMap<>();
         projectsByInsertion = new LinkedList<>();
-        // sortedProjects = new TreeSet<>(new ProjectComparator());
     }
 
 
@@ -108,7 +107,6 @@ public class VersionControlSystemClass implements VersionControlSystem {
         ((ProjectManager) manager).addProjectAsManager(project);
         projects.put(projectName, project);
         projectsByInsertion.add(project);
-        // sortedProjects.add(project);
     }
 
     @Override
@@ -242,11 +240,9 @@ public class VersionControlSystemClass implements VersionControlSystem {
     }
 
     @Override
-    public Iterator<Project> listProjectsByKeyword(String keyword) {
-
-        /*
-    	List<Project> projectsWithKeyword = new ArrayList<>();
-    	Iterator<Project> it = sortedProjects.iterator();
+    public Iterator<Project> listProjectsByKeyword(String keyword) throws NoProjectsWithKeywordException{
+    	Set<Project> projectsWithKeyword = new TreeSet<Project>(new ProjectComparator());
+    	Iterator<Project> it = projectsByInsertion.iterator();
 
     	while(it.hasNext()) {
     		Project project = it.next();
@@ -254,11 +250,12 @@ public class VersionControlSystemClass implements VersionControlSystem {
                 projectsWithKeyword.add(project);
     		}
     	}
+    	
+    	if(projectsWithKeyword.size() == 0) {
+    		throw new NoProjectsWithKeywordException(keyword);
+    	}
 
         return projectsWithKeyword.iterator();
-        */
-
-        return null;
     }
 
     @Override

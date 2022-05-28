@@ -12,11 +12,13 @@ public class ProjectComparator implements Comparator<Project> {
 	public int compare(Project o1, Project o2) {
 		if(o1 instanceof InHouseProject) {
 			if(o2 instanceof InHouseProject) {
-				// comparing the dates
-				if(((InHouseProject) o1).getLastRevision().getRevisionDate().compareTo(((InHouseProject) o1).getLastRevision().getRevisionDate()) != 0) {
-					return ((InHouseProject) o1).getLastRevision().getRevisionDate().compareTo(((InHouseProject) o1).getLastRevision().getRevisionDate());
-				}
-				else if(((InHouseProject) o1).getNumRevisions() != ((InHouseProject) o2).getNumRevisions()) {
+				if(((InHouseProject) o1).getNumRevisions() != 0 && ((InHouseProject) o2).getNumRevisions() != 0) {
+					// comparing the dates
+					if(((InHouseProject) o1).getLastRevision().getRevisionDate().compareTo(((InHouseProject) o2).getLastRevision().getRevisionDate()) != 0) {
+						return ((InHouseProject) o1).getLastRevision().getRevisionDate().compareTo(((InHouseProject) o2).getLastRevision().getRevisionDate());
+					}
+			    }
+				if(((InHouseProject) o1).getNumRevisions() != ((InHouseProject) o2).getNumRevisions()) {
 					return ((InHouseProject) o2).getNumRevisions() - ((InHouseProject) o1).getNumRevisions();
 				}
 				else {
