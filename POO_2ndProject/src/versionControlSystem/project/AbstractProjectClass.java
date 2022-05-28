@@ -39,7 +39,12 @@ public class AbstractProjectClass implements Project {
         return manager.getClearanceLevel();
     }
 
-	@Override
+    @Override
+    public String[] getKeywords() {
+        return keywords;
+    }
+
+    @Override
 	public boolean hasKeyword(String keyword) {
 		for(int i = 0; i < keywords.length; i++) {
 			if(keyword.equals(keywords[i])) {
@@ -48,4 +53,9 @@ public class AbstractProjectClass implements Project {
 		}
 		return false;
 	}
+
+    @Override
+    public int compareTo(Project o) {
+        return this.getProjectName().compareTo(o.getProjectName());
+    }
 }

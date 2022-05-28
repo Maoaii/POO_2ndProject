@@ -263,7 +263,20 @@ public class VersionControlSystemClass implements VersionControlSystem {
 
     @Override
     public Iterator<Project> listProjectsByConfidentiality(int lowerLimit, int upperLimit) {
-        return null;
+
+        Iterator<Project> projectIterator = listAllProjects();
+        Set<Project> projectsWithinLimit = new TreeSet<>();
+
+        while (projectIterator.hasNext()) {
+            Project project = projectIterator.next();
+
+            if (project instanceof InHouseProject)
+                if (((InHouseProject) project).getConfidentialityLevel() >= lowerLimit &&
+                    ((InHouseProject) project).getConfidentialityLevel() <= upperLimit)
+                    projectsWithinLimit.add(project);
+        }
+
+        return projectsWithinLimit.iterator();
     }
 
     // TODO: vale mesmo a pena ter uma entidade para os workaholics? Devemos retornar o iterador?

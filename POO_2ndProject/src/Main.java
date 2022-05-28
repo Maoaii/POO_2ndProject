@@ -131,8 +131,8 @@ public class Main {
     /**
      * 2.13 CONFIDENTIALITY Command
      */
-    private static final String CONFIDENTIALITY_HEADER = "All projects within level %d and %d:\n";
-    private static final String CONFIDENTIALITY_LISTING = "%s [%d] is managed by %s and has keywords ";
+    private static final String CONFIDENTIALITY_HEADER = "All projects within levels %d and %d:\n";
+    private static final String CONFIDENTIALITY_LISTING = "%s is managed by %s and has keywords ";
     private static final String NO_PROJECTS_WITHIN_LEVELS = "No projects within levels %d and %d.\n";
 
 
@@ -566,7 +566,37 @@ public class Main {
      * @param eMailSystem - system class
      */
     private static void interpretConfidentiality(Scanner in, VersionControlSystem eMailSystem) {
-        
+        int limit1 = in.nextInt();
+        int limit2 = in.nextInt();
+        if (limit1 > limit2) {
+            int tmp = limit2;
+            limit2 = limit1;
+            limit1 = tmp;
+        }
+
+        Iterator<Project> projectIterator = eMailSystem.listProjectsByConfidentiality(limit1, limit2);
+
+        if (!projectIterator.hasNext())
+            System.out.printf(NO_PROJECTS_WITHIN_LEVELS, limit1, limit2);
+        else {
+            System.out.printf(CONFIDENTIALITY_HEADER, limit1, limit2);
+            while(projectIterator.hasNext()) {
+                Project project = projectIterator.next();
+
+                System.out.printf(CONFIDENTIALITY_LISTING, project.getProjectName(),
+                                                           project.getProjectManagerUsername());
+                String[] keywords = project.getKeywords();
+
+                for (int i = 0; i < keywords.length; i++) {
+                    System.out.print(keywords[i]);
+                    if (i != keywords.length - 1)
+                        System.out.print(", ");
+                    else
+                        System.out.print(".");
+                }
+                System.out.println();
+            }
+        }
     }
 
     /**

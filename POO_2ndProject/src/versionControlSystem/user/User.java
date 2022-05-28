@@ -78,15 +78,4 @@ public interface User extends Comparable<User> {
      * @return the number of <code>Revision</code>s this <code>User</code> made
      */
     int getNumRevisions();
-
-    /**
-     * Compares this <code>User</code>s <code>username</code> with <code>other</code> <code>User</code> <code>username</code>
-     *
-     * @param other - the object to be compared.
-     *
-     * @return an int > 0 if <code>this</code> is sorted before <code>other</code>;
-     *         an int < 0 if <code>this</code> is sorted after <code>other</code>;
-     *         an int = 0 if <code>this</code> and <code>other</code> are the same;
-     */
-    int compareTo(User other);
 }

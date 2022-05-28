@@ -1,6 +1,6 @@
 package versionControlSystem.project;
 
-public interface Project {
+public interface Project extends Comparable<Project> {
 
     /**
      * @return the <code>projectName</code> of this <code>Project</code>
@@ -16,9 +16,14 @@ public interface Project {
      * @return the <code>clearanceLevel</code> of this <code>Project</code>s <code>ProjectManager</code>
      */
     int getProjectManagerClearanceLevel();
+
+    /**
+     * @return this <code>Project</code>s <code>keywords</code>
+     */
+    String[] getKeywords();
     
     /**
-     * @param the keyword to be tested
+     * @param keyword - the keyword to be tested
      * @return true if the project contains this keyword
      */
     boolean hasKeyword(String keyword);
