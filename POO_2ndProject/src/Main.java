@@ -1,3 +1,4 @@
+import versionControlSystem.Commonality;
 import versionControlSystem.VersionControlSystem;
 import versionControlSystem.VersionControlSystemClass;
 import versionControlSystem.Workaholics;
@@ -565,6 +566,7 @@ public class Main {
      * @param eMailSystem - system class
      */
     private static void interpretConfidentiality(Scanner in, VersionControlSystem eMailSystem) {
+        
     }
 
     /**
@@ -582,9 +584,14 @@ public class Main {
         else {
             while (workaholicsIterator.hasNext()) {
                 User workaholic = workaholicsIterator.next();
-                System.out.printf(WORKAHOLICS_LISTING, workaholic.getUsername(), workaholic.getNumRevisions(),
-                                                       workaholic.getNumProjectsAsMember(),
-                                                       workaholic.getDateOfLastRevision().format(DateTimeFormatter.ofPattern(DATE_FORMAT)));
+                if (workaholic instanceof ProjectManager)
+                    System.out.printf(WORKAHOLICS_LISTING, workaholic.getUsername(), workaholic.getNumRevisions(),
+                                                           workaholic.getNumProjectsAsMember() + ((ProjectManager) workaholic).getNumProjectsAsManagers(),
+                                                           workaholic.getDateOfLastRevision().format(DateTimeFormatter.ofPattern(DATE_FORMAT)));
+                else
+                    System.out.printf(WORKAHOLICS_LISTING, workaholic.getUsername(), workaholic.getNumRevisions(),
+                                                           workaholic.getNumProjectsAsMember(),
+                                                           workaholic.getDateOfLastRevision().format(DateTimeFormatter.ofPattern(DATE_FORMAT)));
             }
         }
 
@@ -596,6 +603,18 @@ public class Main {
      * @param eMailSystem - system class
      */
     private static void interpretCommon(VersionControlSystem eMailSystem) {
+        Commonality commonUsers = eMailSystem.listTopCommonUsers();
+
+        Iterator<User> commonUsersIterator = commonUsers.getCommonUsers();
+
+        if (!commonUsersIterator.hasNext())
+            System.out.println(NO_USERS_COMMON_PROJECTS);
+        else {
+            User user1 = commonUsersIterator.next();
+            User user2 = commonUsersIterator.next();
+
+            System.out.printf(COMMON_LISTING, user1.getUsername(), user2.getUsername(), commonUsers.getNumCommonProjects());
+        }
     }
 
     /**

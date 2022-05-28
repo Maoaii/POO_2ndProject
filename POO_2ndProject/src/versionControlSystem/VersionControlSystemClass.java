@@ -239,6 +239,7 @@ public class VersionControlSystemClass implements VersionControlSystem {
         return ((ProjectManager) manager).getDevelopers();
     }
 
+
     @Override
     public Iterator<Project> listProjectsByKeyword(String keyword) throws NoProjectsWithKeywordException{
     	Set<Project> projectsWithKeyword = new TreeSet<Project>(new ProjectComparator());
@@ -250,7 +251,9 @@ public class VersionControlSystemClass implements VersionControlSystem {
                 projectsWithKeyword.add(project);
     		}
     	}
-    	
+    	// Na minha opinião, não haver projetos com este filtro não é uma exceção, portanto acho que
+        // poderiamos simplesmente retornar o iterator e, na main, se "!iterador.hasNext()", fazemos print da mensagem
+        // de "erro"
     	if(projectsWithKeyword.size() == 0) {
     		throw new NoProjectsWithKeywordException(keyword);
     	}
@@ -263,7 +266,7 @@ public class VersionControlSystemClass implements VersionControlSystem {
         return null;
     }
 
-    // TODO: vale mesmo a pena ter uma entidade para os workaholics?
+    // TODO: vale mesmo a pena ter uma entidade para os workaholics? Devemos retornar o iterador?
     @Override
     public Workaholics getWorkaholics(){
         Set<User> usersByWorkaholicness = new TreeSet<>(new WorkaholicComparator());
@@ -278,7 +281,7 @@ public class VersionControlSystemClass implements VersionControlSystem {
 
         int workaholicCounter = 0;
         Iterator<User> workaholicsIterator = usersByWorkaholicness.iterator();
-        while (workaholicCounter < 3 && workaholicsIterator.hasNext()) {
+        while (workaholicCounter < 3 && workaholicsIterator.hasNext()) { // TODO: make "3" a constant? Or find a better way (maybe a method that return 3 in WorkaholicClass)
             workaholics.addWorkaholic(workaholicsIterator.next());
             workaholicCounter++;
         }
@@ -286,8 +289,15 @@ public class VersionControlSystemClass implements VersionControlSystem {
         return workaholics;
     }
 
+    // TODO: should this return the common users iterator?
     @Override
-    public Commonality listTopCommonUsers(){
+    public Commonality listTopCommonUsers() {
+        Iterator<User> userIterator = listAllUsers();
+
+
+
+
+
         return null;
     }
 }
