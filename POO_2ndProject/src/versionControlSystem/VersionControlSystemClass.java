@@ -292,12 +292,31 @@ public class VersionControlSystemClass implements VersionControlSystem {
     // TODO: should this return the common users iterator?
     @Override
     public Commonality listTopCommonUsers() {
-        Iterator<User> userIterator = listAllUsers();
+        Iterator<User> user1Iterator = listAllUsers();
+        Iterator<User> user2Iterator = listAllUsers();
+        Commonality commonality = new CommonalityClass();
 
+        User commonUser1 = null;
+        User commonUser2 = null;
+        int totalCommonProjects = 0;
+        while (user1Iterator.hasNext()) {
+            User user1 = user1Iterator.next();
 
+            while (user2Iterator.hasNext()) {
+                User user2 = user2Iterator.next();
 
+                int commonProjects = user1.getCommonProjects(user2);
+                if (commonProjects > totalCommonProjects) {
+                    totalCommonProjects = commonProjects;
+                    commonUser1 = user1;
+                    commonUser2 = user2;
+                }
 
+            }
+        }
+        if (commonUser1 != null && commonUser2 != null)
+            commonality.addCommonUsers(commonUser1, commonUser2, totalCommonProjects);
 
-        return null;
+        return commonality;
     }
 }

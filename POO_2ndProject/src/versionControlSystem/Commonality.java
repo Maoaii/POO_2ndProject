@@ -12,7 +12,7 @@ public interface Commonality {
      * @param user1 - first <code>User</code> to add
      * @param user2 - second <code>User</code> to add
      */
-    void addCommonUsers(User user1, User user2);
+    void addCommonUsers(User user1, User user2, int numCommonProjects);
 
     /**
      * @return an <code>User Iterator</code> that iterates through the two common <code>User</code>s

@@ -18,9 +18,10 @@ public class CommonalityClass implements Commonality {
     }
 
     @Override
-    public void addCommonUsers(User user1, User user2) {
+    public void addCommonUsers(User user1, User user2, int numCommonProjects) {
         commonUsers.add(user1);
         commonUsers.add(user2);
+        this.numCommonProjects = numCommonProjects;
     }
 
     @Override

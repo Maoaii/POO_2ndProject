@@ -67,6 +67,20 @@ public class AbstractUserClass implements User {
     }
 
     @Override
+    public Iterator<Project> getProjects() {
+        return projectsByInsertion.iterator();
+    }
+
+    // TODO: implement this method
+    @Override
+    public int getCommonProjects(User other) {
+        int sumCommonProjects = 0;
+
+
+        return sumCommonProjects;
+    }
+
+    @Override
     public void addRevision(Revision revision) {
         orderedRevisions.add(revision);
     }

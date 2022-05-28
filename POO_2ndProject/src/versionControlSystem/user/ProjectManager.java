@@ -36,4 +36,10 @@ public interface ProjectManager {
      *         <code>ProjectManager</code> manages, by alphabetic order.
      */
     Iterator<User> getDevelopers();
+
+    /**
+     * @return a <code>Project Iterator</code> that iterates through this <code>ProjectManager</code>s
+     *         <code>Project</code>s as a <code>ProjectManager</code>
+     */
+    Iterator<Project> getProjectsAsManager();
 }

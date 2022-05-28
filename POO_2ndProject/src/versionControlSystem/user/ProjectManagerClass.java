@@ -48,4 +48,9 @@ public class ProjectManagerClass extends AbstractUserClass implements ProjectMan
     public Iterator<User> getDevelopers() {
         return developers.iterator();
     }
+
+    @Override
+    public Iterator<Project> getProjectsAsManager() {
+        return projectsAsManagerByInsertion.iterator();
+    }
 }
