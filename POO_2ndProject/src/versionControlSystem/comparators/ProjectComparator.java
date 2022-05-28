@@ -3,7 +3,6 @@ package versionControlSystem.comparators;
 import java.util.Comparator;
 
 import versionControlSystem.project.InHouseProject;
-import versionControlSystem.project.OutsourcedProject;
 import versionControlSystem.project.Project;
 
 public class ProjectComparator implements Comparator<Project> {
@@ -12,12 +11,10 @@ public class ProjectComparator implements Comparator<Project> {
 	public int compare(Project o1, Project o2) {
 		if(o1 instanceof InHouseProject) {
 			if(o2 instanceof InHouseProject) {
-				if(((InHouseProject) o1).getNumRevisions() != 0 && ((InHouseProject) o2).getNumRevisions() != 0) {
-					// comparing the dates
-					if(((InHouseProject) o1).getLastRevision().getRevisionDate().compareTo(((InHouseProject) o2).getLastRevision().getRevisionDate()) != 0) {
-						return ((InHouseProject) o1).getLastRevision().getRevisionDate().compareTo(((InHouseProject) o2).getLastRevision().getRevisionDate());
-					}
-			    }
+				// comparing the dates
+				if(((InHouseProject) o1).getLastUpdateDate().compareTo(((InHouseProject) o2).getLastUpdateDate()) != 0) {
+					return ((InHouseProject) o2).getLastUpdateDate().compareTo(((InHouseProject) o1).getLastUpdateDate());
+				}
 				if(((InHouseProject) o1).getNumRevisions() != ((InHouseProject) o2).getNumRevisions()) {
 					return ((InHouseProject) o2).getNumRevisions() - ((InHouseProject) o1).getNumRevisions();
 				}
@@ -39,3 +36,5 @@ public class ProjectComparator implements Comparator<Project> {
 		}
 	}
 }
+
+

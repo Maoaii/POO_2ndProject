@@ -124,7 +124,7 @@ public class Main {
      * 2.12 KEYWORD Command
      */
     private static final String KEYWORD_HEADER = "All projects with keyword %s:\n";
-    private static final String KEYWORD_INHOUSE_LISTING = "in-house %s is managed by %s [%d, %d, %d, %d, %d]\n";
+    private static final String KEYWORD_INHOUSE_LISTING = "in-house %s is managed by %s [%d, %d, %d, %d, %s]\n";
     private static final String KEYWORD_OUTSOURCED_LISTING = "outsourced %s is managed by %s and developed by %s\n";
 
 
@@ -548,13 +548,13 @@ public class Main {
     	while(it.hasNext()) {
     		Project project = it.next();
     		if(project instanceof InHouseProject) {
-    			System.out.printf(PROJECTS_LISTING_INHOUSE, project.getProjectName(), project.getProjectManagerUsername(), 
+    			System.out.printf(KEYWORD_INHOUSE_LISTING, project.getProjectName(), project.getProjectManagerUsername(), 
     					((InHouseProject) project).getConfidentialityLevel(), ((InHouseProject) project).getNumMembers(), ((InHouseProject) project).getNumArtefacts(),
     					((InHouseProject) project).getNumRevisions(), 
-    					((InHouseProject) project).getLastRevision().getRevisionDate().format(DateTimeFormatter.ofPattern(DATE_FORMAT)));
+    					((InHouseProject) project).getLastUpdateDate().format(DateTimeFormatter.ofPattern(DATE_FORMAT)));
     		}
     		else {
-    			System.out.printf(PROJECTS_LISTING_OUTSOURCED, project.getProjectName(), project.getProjectManagerUsername(), ((OutsourcedProject) project).getCompanyName());
+    			System.out.printf(KEYWORD_OUTSOURCED_LISTING, project.getProjectName(), project.getProjectManagerUsername(), ((OutsourcedProject) project).getCompanyName());
     		}
     	}
     }

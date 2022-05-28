@@ -1,9 +1,9 @@
 package versionControlSystem.project;
 
 import versionControlSystem.project.comparators.ArtefactComparatorByRevisionDate;
-import versionControlSystem.project.comparators.RevisionComparatorByDate;
 import versionControlSystem.user.User;
 
+import java.time.LocalDate;
 import java.util.*;
 
 public class InHouseProjectClass extends AbstractProjectClass implements InHouseProject {
@@ -52,9 +52,17 @@ public class InHouseProjectClass extends AbstractProjectClass implements InHouse
     }
     
     @Override
-    public Revision getLastRevision() {
-    	return revisions.get(revisions.size());
+    public LocalDate getLastUpdateDate() {
+    	LocalDate date = artefactsByInsertion.get(0).getLastRevisionDate();
+    	for(int i = 0; i < artefactsByInsertion.size(); i++) {
+    		if(date.compareTo(artefactsByInsertion.get(i).getLastRevisionDate()) < 0) {
+    			date = artefactsByInsertion.get(i).getLastRevisionDate();
+    		}
+    	}
+    	return date;
     }
+    
+    
 
     @Override
     public int getNumArtefactRevisions(String artefactName) {

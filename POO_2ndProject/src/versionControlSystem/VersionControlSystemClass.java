@@ -294,7 +294,7 @@ public class VersionControlSystemClass implements VersionControlSystem {
     public Commonality listTopCommonUsers() {
         Iterator<User> user1Iterator = listAllUsers();
         Iterator<User> user2Iterator = listAllUsers();
-        Commonality commonality = new CommonalityClass();
+        //Commonality commonality = new CommonalityClass();
 
         User commonUser1 = null;
         User commonUser2 = null;
@@ -314,9 +314,10 @@ public class VersionControlSystemClass implements VersionControlSystem {
 
             }
         }
-        if (commonUser1 != null && commonUser2 != null)
-            commonality.addCommonUsers(commonUser1, commonUser2, totalCommonProjects);
+        //if (commonUser1 != null && commonUser2 != null)
+            //commonality.addCommonUsers(commonUser1, commonUser2, totalCommonProjects);
 
-        return commonality;
+        //return commonality;
+		return null;
     }
 }

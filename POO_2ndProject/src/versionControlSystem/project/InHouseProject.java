@@ -2,6 +2,7 @@ package versionControlSystem.project;
 
 import versionControlSystem.user.User;
 
+import java.time.LocalDate;
 import java.util.Iterator;
 
 public interface InHouseProject {
@@ -26,10 +27,11 @@ public interface InHouseProject {
      */
     int getNumRevisions();
     
+    
     /**
-     * @return this <code>InHouseProject</code>s last <code>Revision</code>'s
+     * @return the most recent date within the <code>InHouseProject</code>, whether it is a new <code>Artefact</code> or a <code>Revision</code>
      */
-    Revision getLastRevision();
+    LocalDate getLastUpdateDate();
 
     /**
      * @return the number of <code>Revision</code>s the <code>Artefact</code> with <code>artefactName</code> has
