@@ -241,7 +241,7 @@ public class Main {
                 if (user instanceof ProjectManager)
                     System.out.printf(USERS_LISTING_MANAGER,
                             user.getUsername(), ((ProjectManager) user).getNumDevelopers(),
-                            ((ProjectManager) user).getNumProjectsAsManagers(), user.getNumProjectsAsMember());
+                            ((ProjectManager) user).getNumProjectsAsManagers(), user.getNumProjectsAsMember() + ((ProjectManager) user).getNumProjectsAsManagers());
                 else
                     System.out.printf(USERS_LISTING_DEVELOPER,
                             user.getUsername(), ((Developer) user).getManager(), user.getNumProjectsAsMember());
