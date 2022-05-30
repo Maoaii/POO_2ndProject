@@ -1,5 +1,9 @@
 package versionControlSystem.user;
 
+import versionControlSystem.project.Project;
+
+import java.util.Iterator;
+
 public class DeveloperClass extends AbstractUserClass implements Developer {
     // Instance variables
     private String managerUsername;
@@ -20,4 +24,6 @@ public class DeveloperClass extends AbstractUserClass implements Developer {
     public String getManager() {
         return managerUsername;
     }
+
+
 }

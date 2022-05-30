@@ -146,7 +146,7 @@ public class Main {
     /**
      * 2.15 COMMON Command
      */
-    private static final String COMMON_LISTING = "%s and %s have %d projects in common.\n";
+    private static final String COMMON_LISTING = "%s %s have %d projects in common.\n";
     private static final String NO_USERS_COMMON_PROJECTS = "Cannot determine employees with common projects.";
 
 

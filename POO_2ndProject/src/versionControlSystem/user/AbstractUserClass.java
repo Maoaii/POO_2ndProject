@@ -71,15 +71,6 @@ public class AbstractUserClass implements User {
         return projectsByInsertion.iterator();
     }
 
-    // TODO: implement this method
-    @Override
-    public int getCommonProjects(User other) {
-        int sumCommonProjects = 0;
-
-
-        return sumCommonProjects;
-    }
-
     @Override
     public void addRevision(Revision revision) {
         orderedRevisions.add(revision);
@@ -88,6 +79,28 @@ public class AbstractUserClass implements User {
     @Override
     public int getNumRevisions() {
         return orderedRevisions.size();
+    }
+
+    @Override
+    public int getCommonProjectsAsDeveloper(User other) {
+        Iterator<Project> thisProjectIterator = this.getProjects();
+
+        int sumProject = 0;
+
+        while (thisProjectIterator.hasNext()) {
+            Project project1 = thisProjectIterator.next();
+
+            Iterator<Project> otherProjectIterator = other.getProjects();
+            while (otherProjectIterator.hasNext()) {
+                Project project2 = otherProjectIterator.next();
+
+                if (project1.equals(project2))
+                    sumProject++;
+            }
+        }
+
+
+        return sumProject;
     }
 
     @Override

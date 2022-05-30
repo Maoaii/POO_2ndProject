@@ -58,16 +58,6 @@ public interface User extends Comparable<User> {
     Iterator<Project> getProjects();
 
     /**
-     * Sums up the common <code>Project</code>s from <code>this</code> <code>User</code> and the
-     * <code>other</code> <code>Project</code>s
-     *
-     * @param other - <code>User</code>s to iterate <code>Project</code>s over
-     *
-     * @return the sum of common <code>Project</code>s
-     */
-    int getCommonProjects(User other);
-
-    /**
      * Adds a new <code>Revision</code> to this <code>User</code>
      *
      * @param revision - <code>Revision</code> to add
@@ -78,4 +68,14 @@ public interface User extends Comparable<User> {
      * @return the number of <code>Revision</code>s this <code>User</code> made
      */
     int getNumRevisions();
+
+    /**
+     * Sums up the common <code>Project</code>s from <code>this</code> <code>User</code> and the
+     * <code>other</code> <code>Project</code>s
+     *
+     * @param other - <code>User</code>s to iterate <code>Project</code>s over
+     *
+     * @return the sum of common <code>Project</code>s
+     */
+    int getCommonProjectsAsDeveloper(User other);
 }

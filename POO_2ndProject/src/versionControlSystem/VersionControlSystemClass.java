@@ -3,10 +3,7 @@ package versionControlSystem;
 import versionControlSystem.comparators.ProjectComparator;
 import versionControlSystem.comparators.WorkaholicComparator;
 import versionControlSystem.project.*;
-import versionControlSystem.user.DeveloperClass;
-import versionControlSystem.user.ProjectManager;
-import versionControlSystem.user.ProjectManagerClass;
-import versionControlSystem.user.User;
+import versionControlSystem.user.*;
 import versionControlSystem.exceptions.*;
 
 import java.time.LocalDate;
@@ -305,32 +302,60 @@ public class VersionControlSystemClass implements VersionControlSystem {
     // TODO: should this return the common users iterator?
     @Override
     public Commonality listTopCommonUsers() {
-        Iterator<User> user1Iterator = listAllUsers();
-        Iterator<User> user2Iterator = listAllUsers();
-        //Commonality commonality = new CommonalityClass();
+        Commonality commonality = new CommonalityClass();
+        User user1 = null;
+        User user2 = null;
+        int sumMostProjects = 0;
 
-        User commonUser1 = null;
-        User commonUser2 = null;
-        int totalCommonProjects = 0;
-        while (user1Iterator.hasNext()) {
-            User user1 = user1Iterator.next();
+        Iterator<User> firstUserIterator = listAllUsers();
+        while (firstUserIterator.hasNext()) {
 
-            while (user2Iterator.hasNext()) {
-                User user2 = user2Iterator.next();
+            User firstUser = firstUserIterator.next();
 
-                int commonProjects = user1.getCommonProjects(user2);
-                if (commonProjects > totalCommonProjects) {
-                    totalCommonProjects = commonProjects;
-                    commonUser1 = user1;
-                    commonUser2 = user2;
+            Iterator<User> secondUserIterator = listAllUsers();
+            while (secondUserIterator.hasNext()) {
+                int sumProject = 0;
+                User secondUser = secondUserIterator.next();
+
+                if (!firstUser.equals(secondUser)) {
+
+                    // Check first person projects as manager
+                    if (firstUser instanceof ProjectManager) {
+                        sumProject += ((ProjectManager) firstUser).getCommonProjectsAsManager(secondUser);
+                    }
+                    // Check first person projects as developer
+                    else if (firstUser instanceof Developer && secondUser instanceof ProjectManager){
+                        sumProject += ((ProjectManager) secondUser).getCommonProjectsAsManager(firstUser);
+                    }
+
+                    // Check projects as developer
+                    sumProject += firstUser.getCommonProjectsAsDeveloper(secondUser);
+
                 }
 
+                if (sumProject > 0) {
+                    if (sumProject > sumMostProjects) {
+                        sumMostProjects = sumProject;
+                        user1 = firstUser;
+                        user2 = secondUser;
+                    }
+                    else if (sumProject == sumMostProjects) {
+                        if (user1.compareTo(firstUser) > 0) {
+                            user1 = firstUser;
+                            user2 = secondUser;
+                        }
+                        else if (user2.compareTo(secondUser) > 0){
+                            user1 = firstUser;
+                            user2 = secondUser;
+                        }
+                    }
+                }
             }
         }
-        //if (commonUser1 != null && commonUser2 != null)
-            //commonality.addCommonUsers(commonUser1, commonUser2, totalCommonProjects);
 
-        //return commonality;
-		return null;
+        if (user1 != null && user2 != null)
+            commonality.addCommonUsers(user1, user2, sumMostProjects);
+
+        return commonality;
     }
 }
