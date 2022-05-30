@@ -1,12 +1,12 @@
 package versionControlSystem.exceptions;
 
 public class NoProjectsWithKeywordException extends Exception {
-	// Constants
+    // Constants
     private static final String ERROR_MESSAGE = "No projects with keyword %s.\n";
 
 
     // Instance variables
-    private String keyword;
+    private final String keyword;
 
     /**
      * Exception constructor

@@ -6,13 +6,13 @@ import java.util.*;
 
 public class ProjectManagerClass extends AbstractUserClass implements ProjectManager {
     //Instance variables
-    private Set<User> developers; // Users ordered alphabetically
-    private List<Project> projectsAsManagerByInsertion; // Projects stored by insertion
+    private final Set<User> developers; // Users ordered alphabetically
+    private final List<Project> projectsAsManagerByInsertion; // Projects stored by insertion
 
     /**
      * Project Manager constructor
      *
-     * @param username - this <code>ProjectManager</code>s <code>username</code>
+     * @param username       - this <code>ProjectManager</code>s <code>username</code>
      * @param clearanceLevel - this <code>ProjectManager</code>s <code>clearanceLevel</code>
      */
     public ProjectManagerClass(String username, int clearanceLevel) {

@@ -5,8 +5,8 @@ public class ConfidentialityLevelHigherThanManagerException extends Exception {
     private static final String ERROR_MESSAGE = "Project manager %s has clearance level %s.\n";
 
     // Instance variables
-    private String username;
-    private int clearanceLevel;
+    private final String username;
+    private final int clearanceLevel;
 
     /**
      * Exception constructor

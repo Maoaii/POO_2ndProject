@@ -9,23 +9,23 @@ import java.util.TreeSet;
 
 public class ArtefactClass implements Artefact {
     // Instance variables
-    private String projectName;
-    private String artefactName;
-    private LocalDate artefactDate;
-    private int confidentialityLevel;
-    private String description;
-    private Set<Revision> revisionsByNumber; // Sorted revisions by their number. Revision numbers start at 1
+    private final String projectName;
+    private final String artefactName;
+    private final LocalDate artefactDate;
+    private final int confidentialityLevel;
+    private final String description;
+    private final Set<Revision> revisionsByNumber; // Sorted revisions by their number. Revision numbers start at 1
     private Revision lastRevision; // Last revision done
 
     /**
      * Artefact Constructor
      *
-     * @param projectName - this <code>Artefact</code>s <code>Project</code> <code>projectName</code>
-     * @param authorUsername - this <code>Artefact</code>s author
-     * @param artefactName - this <code>Artefact</code>s <code>artefactName</code>
-     * @param artefactDate - this <code>Artefact</code>s <code>artefactDate</code>
+     * @param projectName          - this <code>Artefact</code>s <code>Project</code> <code>projectName</code>
+     * @param authorUsername       - this <code>Artefact</code>s author
+     * @param artefactName         - this <code>Artefact</code>s <code>artefactName</code>
+     * @param artefactDate         - this <code>Artefact</code>s <code>artefactDate</code>
      * @param confidentialityLevel - this <code>Artefact</code>s <code>confidentialityLevel</code>
-     * @param description - this <code>Artefact</code>s <code>description</code>
+     * @param description          - this <code>Artefact</code>s <code>description</code>
      */
     public ArtefactClass(String projectName, String authorUsername, String artefactName, LocalDate artefactDate,
                          int confidentialityLevel, String description) {

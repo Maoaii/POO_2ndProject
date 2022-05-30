@@ -2,21 +2,19 @@ package versionControlSystem.project;
 
 import versionControlSystem.user.User;
 
-import java.util.*;
-
 public class AbstractProjectClass implements Project {
     // Instance variables
-    private User manager;
-    private String projectName;
-    private String[] keywords;
+    private final User manager;
+    private final String projectName;
+    private final String[] keywords;
 
 
     /**
      * Abstract Project constructor
      *
-     * @param manager - this <code>Project</code>s <code>ProjectManager</code>
+     * @param manager     - this <code>Project</code>s <code>ProjectManager</code>
      * @param projectName - this <code>Project</code>s <code>projectName</code>
-     * @param keywords - this <code>Project</code>s <code>keywords</code>
+     * @param keywords    - this <code>Project</code>s <code>keywords</code>
      */
     public AbstractProjectClass(User manager, String projectName, String[] keywords) {
         this.manager = manager;
@@ -45,14 +43,14 @@ public class AbstractProjectClass implements Project {
     }
 
     @Override
-	public boolean hasKeyword(String keyword) {
-		for(int i = 0; i < keywords.length; i++) {
-			if(keyword.equals(keywords[i])) {
-				return true;
-			}
-		}
-		return false;
-	}
+    public boolean hasKeyword(String keyword) {
+        for (int i = 0; i < keywords.length; i++) {
+            if (keyword.equals(keywords[i])) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     @Override
     public int compareTo(Project o) {

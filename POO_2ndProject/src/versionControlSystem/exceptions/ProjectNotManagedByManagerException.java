@@ -6,13 +6,13 @@ public class ProjectNotManagedByManagerException extends Exception {
 
 
     // Instance variables
-    private String username;
-    private String projectName;
+    private final String username;
+    private final String projectName;
 
     /**
      * Exception constructor
      *
-     * @param username - <code>username</code> that caused the exception
+     * @param username    - <code>username</code> that caused the exception
      * @param projectName - <code>projectName</code> that caused the exception
      */
     public ProjectNotManagedByManagerException(String username, String projectName) {

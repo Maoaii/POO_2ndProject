@@ -6,7 +6,7 @@ public class DeveloperLowerClearanceLevelException extends Exception {
 
 
     // Instance variables
-    private String username;
+    private final String username;
 
     /**
      * Exception constructor

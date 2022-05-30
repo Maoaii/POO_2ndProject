@@ -6,7 +6,7 @@ public class UserNameDoesntExistException extends Exception {
 
 
     // Instance variables
-    private String username;
+    private final String username;
 
     /**
      * Exception constructor

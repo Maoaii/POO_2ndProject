@@ -6,8 +6,8 @@ public class DeveloperNotMemberException extends Exception {
 
 
     // Instance variables
-    private String username;
-    private String projectName;
+    private final String username;
+    private final String projectName;
 
     /**
      * Exception constructor

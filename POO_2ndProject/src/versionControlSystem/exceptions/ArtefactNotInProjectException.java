@@ -6,7 +6,7 @@ public class ArtefactNotInProjectException extends Exception {
 
 
     // Instance variables
-    private String artefactName;
+    private final String artefactName;
 
     /**
      * Exception constructor

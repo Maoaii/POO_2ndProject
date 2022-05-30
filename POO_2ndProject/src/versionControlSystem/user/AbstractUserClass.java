@@ -2,7 +2,6 @@ package versionControlSystem.user;
 
 import versionControlSystem.project.Project;
 import versionControlSystem.project.Revision;
-import versionControlSystem.project.RevisionClass;
 import versionControlSystem.user.comparators.RevisionComparatorByDateNumberProjectName;
 
 import java.time.LocalDate;
@@ -10,16 +9,16 @@ import java.util.*;
 
 public class AbstractUserClass implements User {
     // Instance variables
-    private String username;
-    private int clearanceLevel;
-    private Map<String, Project> projects; // Map used for fast access. projectName -> Project
-    private List<Project> projectsByInsertion; // Projects ordered by insertion order
-    private Set<Revision> orderedRevisions; // Revisions ordered by date, number and projectName
+    private final String username;
+    private final int clearanceLevel;
+    private final Map<String, Project> projects; // Map used for fast access. projectName -> Project
+    private final List<Project> projectsByInsertion; // Projects ordered by insertion order
+    private final Set<Revision> orderedRevisions; // Revisions ordered by date, number and projectName
 
     /**
      * Abstract User constructor
      *
-     * @param username - <code>User</code>s <code>username</code>
+     * @param username       - <code>User</code>s <code>username</code>
      * @param clearanceLevel - <code>User</code>s <code>clearanceLevel</code>
      */
     public AbstractUserClass(String username, int clearanceLevel) {

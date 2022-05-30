@@ -8,18 +8,18 @@ import java.util.*;
 
 public class InHouseProjectClass extends AbstractProjectClass implements InHouseProject {
     // Instance variables
-    private int confidentialityLevel;
-    private List<User> membersByInsertion; // Stores members by insertion order
-    private Map<String, Artefact> artefacts; // Stores artefacts for easy access. artefactName -> Artefact
-    private List<Artefact> artefactsByInsertion; // Stores artefacts by insertion
-    private List<Revision> revisions; //Stores revisions
+    private final int confidentialityLevel;
+    private final List<User> membersByInsertion; // Stores members by insertion order
+    private final Map<String, Artefact> artefacts; // Stores artefacts for easy access. artefactName -> Artefact
+    private final List<Artefact> artefactsByInsertion; // Stores artefacts by insertion
+    private final List<Revision> revisions; //Stores revisions
 
     /**
      * InHouse Project constructor
      *
-     * @param manager - this <code>Project</code>s <code>ProjectManager</code>
-     * @param projectName - this <code>Project</code>s <code>projectName</code>
-     * @param keywords - this <code>Project</code>s <code>keywords</code>
+     * @param manager              - this <code>Project</code>s <code>ProjectManager</code>
+     * @param projectName          - this <code>Project</code>s <code>projectName</code>
+     * @param keywords             - this <code>Project</code>s <code>keywords</code>
      * @param confidentialityLevel - this <code>Project</code>s <code>confidentialityLevel</code>
      */
     public InHouseProjectClass(User manager, String projectName, String[] keywords, int confidentialityLevel) {
@@ -31,6 +31,7 @@ public class InHouseProjectClass extends AbstractProjectClass implements InHouse
         artefactsByInsertion = new LinkedList<>();
         revisions = new ArrayList<>();
     }
+
     @Override
     public int getConfidentialityLevel() {
         return confidentialityLevel;
@@ -50,19 +51,18 @@ public class InHouseProjectClass extends AbstractProjectClass implements InHouse
     public int getNumRevisions() {
         return revisions.size();
     }
-    
+
     @Override
     public LocalDate getLastUpdateDate() {
-    	LocalDate date = artefactsByInsertion.get(0).getLastRevisionDate();
-    	for(int i = 0; i < artefactsByInsertion.size(); i++) {
-    		if(date.compareTo(artefactsByInsertion.get(i).getLastRevisionDate()) < 0) {
-    			date = artefactsByInsertion.get(i).getLastRevisionDate();
-    		}
-    	}
-    	return date;
+        LocalDate date = artefactsByInsertion.get(0).getLastRevisionDate();
+        for (int i = 0; i < artefactsByInsertion.size(); i++) {
+            if (date.compareTo(artefactsByInsertion.get(i).getLastRevisionDate()) < 0) {
+                date = artefactsByInsertion.get(i).getLastRevisionDate();
+            }
+        }
+        return date;
     }
-    
-    
+
 
     @Override
     public int getNumArtefactRevisions(String artefactName) {
@@ -76,7 +76,7 @@ public class InHouseProjectClass extends AbstractProjectClass implements InHouse
 
     @Override
     public boolean hasArtefact(String artefactName) {
-    	return artefacts.containsKey(artefactName);
+        return artefacts.containsKey(artefactName);
     }
 
     @Override

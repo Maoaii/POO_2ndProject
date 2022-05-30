@@ -6,7 +6,7 @@ public class ProjectNameDoesntExistException extends Exception {
 
 
     // Instance variables
-    private String projectName;
+    private final String projectName;
 
     /**
      * Exception constructor

@@ -6,7 +6,7 @@ public class ArtefactAlreadyInProjectException extends Exception {
 
 
     // Instance variables
-    private String artefactName;
+    private final String artefactName;
 
     /**
      * Exception constructor

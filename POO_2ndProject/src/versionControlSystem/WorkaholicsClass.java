@@ -11,7 +11,7 @@ public class WorkaholicsClass implements Workaholics {
     private static final int MAX_WORKAHOLICS = 3;
 
     // Instance variables
-    private List<User> workaholics;
+    private final List<User> workaholics;
 
     /**
      * Workaholics constructor

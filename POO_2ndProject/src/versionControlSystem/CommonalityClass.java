@@ -2,14 +2,13 @@ package versionControlSystem;
 
 import versionControlSystem.user.User;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class CommonalityClass implements Commonality {
-    // Constants
-    private static final int MAX_COMMON_USERS = 2;
-
     // Instance variables
-    private Set<User> commonUsers;
+    private final Set<User> commonUsers;
     private int numCommonProjects;
 
     public CommonalityClass() {

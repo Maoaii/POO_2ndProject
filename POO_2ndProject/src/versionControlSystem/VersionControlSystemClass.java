@@ -2,9 +2,12 @@ package versionControlSystem;
 
 import versionControlSystem.comparators.ProjectComparator;
 import versionControlSystem.comparators.WorkaholicComparator;
-import versionControlSystem.project.*;
-import versionControlSystem.user.*;
 import versionControlSystem.exceptions.*;
+import versionControlSystem.project.*;
+import versionControlSystem.user.DeveloperClass;
+import versionControlSystem.user.ProjectManager;
+import versionControlSystem.user.ProjectManagerClass;
+import versionControlSystem.user.User;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -18,10 +21,10 @@ public class VersionControlSystemClass implements VersionControlSystem {
 
 
     // Instance variables
-    private Map<String, User> users; // Stores users for easy access. username -> User
-    private Set<User> usersByName; // Stores Users ordered by name
-    private Map<String, Project> projects; // Stores projects for easy access. projectName -> Project
-    private List<Project> projectsByInsertion; // Stores projects by insertion order
+    private final Map<String, User> users; // Stores users for easy access. username -> User
+    private final Set<User> usersByName; // Stores Users ordered by name
+    private final Map<String, Project> projects; // Stores projects for easy access. projectName -> Project
+    private final List<Project> projectsByInsertion; // Stores projects by insertion order
 
     /**
      * Version Control System constructor
@@ -49,12 +52,11 @@ public class VersionControlSystemClass implements VersionControlSystem {
         User user;
         if (isManager) {
             user = new ProjectManagerClass(username, clearanceLevel);
-        }
-        else {
+        } else {
             User manager = users.get(managerUsername);
 
             // If manager doesn't exist or the managerUsername doesn't belong to a manager
-            if (manager == null || !(manager instanceof ProjectManager))
+            if (!(manager instanceof ProjectManager))
                 throw new ManagerUsernameInvalidException(managerUsername);
 
             user = new DeveloperClass(managerUsername, username, clearanceLevel);
@@ -75,7 +77,7 @@ public class VersionControlSystemClass implements VersionControlSystem {
     public void createProject(String managerUsername, String projectType, String projectName,
                               String[] keywords, String companyName, int confidentialityLevel)
             throws UnknownProjectTypeException, ManagerUsernameInvalidException,
-                   ProjectNameAlreadyExistsException, ConfidentialityLevelHigherThanManagerException {
+            ProjectNameAlreadyExistsException, ConfidentialityLevelHigherThanManagerException {
 
         boolean isInHouse = projectType.equals(INHOUSEPROJECT);
         boolean isOutsourced = projectType.equals(OUTSOURCEDPROJECT);
@@ -85,7 +87,7 @@ public class VersionControlSystemClass implements VersionControlSystem {
 
         User manager = users.get(managerUsername);
         // If manager doesn't exist or the managerUsername doesn't belong to a manager
-        if (manager == null || !(manager instanceof ProjectManager))
+        if (!(manager instanceof ProjectManager))
             throw new ManagerUsernameInvalidException(managerUsername);
         if (projects.containsKey(projectName))
             throw new ProjectNameAlreadyExistsException(projectName);
@@ -96,8 +98,7 @@ public class VersionControlSystemClass implements VersionControlSystem {
         Project project;
         if (isInHouse) {
             project = new InHouseProjectClass(manager, projectName, keywords, confidentialityLevel);
-        }
-        else {
+        } else {
             project = new OutsourcedProjectClass(manager, projectName, keywords, companyName);
         }
 
@@ -118,7 +119,7 @@ public class VersionControlSystemClass implements VersionControlSystem {
 
         User manager = users.get(managerUsername);
         // If manager doesn't exist or the managerUsername doesn't belong to a manager
-        if (manager == null || !(manager instanceof ProjectManager))
+        if (!(manager instanceof ProjectManager))
             throw new ManagerUsernameInvalidException(managerUsername);
 
         Project project = projects.get(projectName);
@@ -147,43 +148,42 @@ public class VersionControlSystemClass implements VersionControlSystem {
     }
 
 
-
     @Override
     public void checkDeveloperProject(String developerUsername, String projectName)
             throws UserNameDoesntExistException, ProjectNameDoesntExistException, DeveloperNotMemberException {
         User developer = users.get(developerUsername);
-		if(developer == null){
+        if (developer == null) {
             throw new UserNameDoesntExistException(developerUsername);
         }
 
         Project project = projects.get(projectName);
-        if(project == null || project instanceof OutsourcedProject){
+        if (project == null || project instanceof OutsourcedProject) {
             throw new ProjectNameDoesntExistException(projectName);
         }
 
 
-        if(!developer.isMember(projectName) && !project.getProjectManagerUsername().equals(developerUsername)) {
+        if (!developer.isMember(projectName) && !project.getProjectManagerUsername().equals(developerUsername)) {
             throw new DeveloperNotMemberException(developerUsername, projectName);
         }
     }
-    
-    @Override
-    public void addArtefact(String authorUsername ,String projectName, String artefactName,
-                            LocalDate artefactDate, int confidentialityLevel, String description)
-    		throws ArtefactAlreadyInProjectException, ArtefactExceedsConfidentialityException{
-    	Project project = projects.get(projectName);
-    	if(((InHouseProject) project).hasArtefact(artefactName)) {
-    		throw new ArtefactAlreadyInProjectException(artefactName);
-    	}
-    	if(((InHouseProject) project).getConfidentialityLevel() < confidentialityLevel) {
-    		throw new ArtefactExceedsConfidentialityException(artefactName);
-    	}
 
-    	((InHouseProject) project).addArtefact(new ArtefactClass(projectName, authorUsername, artefactName, artefactDate,
-                                                                 confidentialityLevel, description));
+    @Override
+    public void addArtefact(String authorUsername, String projectName, String artefactName,
+                            LocalDate artefactDate, int confidentialityLevel, String description)
+            throws ArtefactAlreadyInProjectException, ArtefactExceedsConfidentialityException {
+        Project project = projects.get(projectName);
+        if (((InHouseProject) project).hasArtefact(artefactName)) {
+            throw new ArtefactAlreadyInProjectException(artefactName);
+        }
+        if (((InHouseProject) project).getConfidentialityLevel() < confidentialityLevel) {
+            throw new ArtefactExceedsConfidentialityException(artefactName);
+        }
+
+        ((InHouseProject) project).addArtefact(new ArtefactClass(projectName, authorUsername, artefactName, artefactDate,
+                confidentialityLevel, description));
         // Add this artefact as the user first revision
         users.get(authorUsername).addRevision(new RevisionClass(projectName, artefactName, 1,
-                                                                authorUsername, artefactDate, description));
+                authorUsername, artefactDate, description));
     }
 
     // TODO: ask teacher if we can return an iterator of 1 User
@@ -206,7 +206,7 @@ public class VersionControlSystemClass implements VersionControlSystem {
     @Override
     public int reviewArtefact(String username, String projectName, String artefactName, LocalDate date, String comment)
             throws UserNameDoesntExistException, ProjectNameDoesntExistException,
-                   ArtefactNotInProjectException, DeveloperNotMemberException {
+            ArtefactNotInProjectException, DeveloperNotMemberException {
         User user = users.get(username);
         if (user == null)
             throw new UserNameDoesntExistException(username);
@@ -220,8 +220,8 @@ public class VersionControlSystemClass implements VersionControlSystem {
             throw new DeveloperNotMemberException(username, projectName);
 
         Revision revision = new RevisionClass(projectName, artefactName,
-                                             ((InHouseProject) project).getNumArtefactRevisions(artefactName) + 1,
-                                              username, date, comment);
+                ((InHouseProject) project).getNumArtefactRevisions(artefactName) + 1,
+                username, date, comment);
         ((InHouseProject) project).reviewArtefact(artefactName, revision);
         user.addRevision(revision);
 
@@ -231,7 +231,7 @@ public class VersionControlSystemClass implements VersionControlSystem {
     @Override
     public Iterator<User> listDevelopersInfo(String managerUsername) throws ManagerUsernameInvalidException {
         User manager = users.get(managerUsername);
-        if (manager == null || !(manager instanceof ProjectManager))
+        if (!(manager instanceof ProjectManager))
             throw new ManagerUsernameInvalidException(managerUsername);
 
         return ((ProjectManager) manager).getDevelopers();
@@ -239,22 +239,22 @@ public class VersionControlSystemClass implements VersionControlSystem {
 
 
     @Override
-    public Iterator<Project> listProjectsByKeyword(String keyword) throws NoProjectsWithKeywordException{
-    	Set<Project> projectsWithKeyword = new TreeSet<Project>(new ProjectComparator());
-    	Iterator<Project> it = projectsByInsertion.iterator();
+    public Iterator<Project> listProjectsByKeyword(String keyword) throws NoProjectsWithKeywordException {
+        Set<Project> projectsWithKeyword = new TreeSet<Project>(new ProjectComparator());
+        Iterator<Project> it = projectsByInsertion.iterator();
 
-    	while(it.hasNext()) {
-    		Project project = it.next();
-    		if(project.hasKeyword(keyword)) {
+        while (it.hasNext()) {
+            Project project = it.next();
+            if (project.hasKeyword(keyword)) {
                 projectsWithKeyword.add(project);
-    		}
-    	}
-    	// Na minha opinião, não haver projetos com este filtro não é uma exceção, portanto acho que
+            }
+        }
+        // Na minha opinião, não haver projetos com este filtro não é uma exceção, portanto acho que
         // poderiamos simplesmente retornar o iterator e, na main, se "!iterador.hasNext()", fazemos print da mensagem
         // de "erro"
-    	if(projectsWithKeyword.size() == 0) {
-    		throw new NoProjectsWithKeywordException(keyword);
-    	}
+        if (projectsWithKeyword.size() == 0) {
+            throw new NoProjectsWithKeywordException(keyword);
+        }
 
         return projectsWithKeyword.iterator();
     }
@@ -270,7 +270,7 @@ public class VersionControlSystemClass implements VersionControlSystem {
 
             if (project instanceof InHouseProject)
                 if (((InHouseProject) project).getConfidentialityLevel() >= lowerLimit &&
-                    ((InHouseProject) project).getConfidentialityLevel() <= upperLimit)
+                        ((InHouseProject) project).getConfidentialityLevel() <= upperLimit)
                     projectsWithinLimit.add(project);
         }
 
@@ -279,12 +279,12 @@ public class VersionControlSystemClass implements VersionControlSystem {
 
     // TODO: vale mesmo a pena ter uma entidade para os workaholics? Devemos retornar o iterador?
     @Override
-    public Workaholics getWorkaholics(){
+    public Workaholics getWorkaholics() {
         Set<User> usersByWorkaholicness = new TreeSet<>(new WorkaholicComparator());
         Workaholics workaholics = new WorkaholicsClass();
 
         Iterator<User> userIterator = listAllUsers();
-        while(userIterator.hasNext()) {
+        while (userIterator.hasNext()) {
             User user = userIterator.next();
             if (user.getNumRevisions() > 0)
                 usersByWorkaholicness.add(user);
@@ -327,13 +327,11 @@ public class VersionControlSystemClass implements VersionControlSystem {
                         sumMostProjects = sumProject;
                         user1 = firstUser;
                         user2 = secondUser;
-                    }
-                    else if (sumProject == sumMostProjects) {
+                    } else if (sumProject == sumMostProjects) {
                         if (user1.compareTo(firstUser) > 0) {
                             user1 = firstUser;
                             user2 = secondUser;
-                        }
-                        else if (user2.compareTo(secondUser) > 0){
+                        } else if (user2.compareTo(secondUser) > 0) {
                             user1 = firstUser;
                             user2 = secondUser;
                         }
