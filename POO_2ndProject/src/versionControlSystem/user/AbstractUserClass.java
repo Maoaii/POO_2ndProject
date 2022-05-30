@@ -82,7 +82,7 @@ public class AbstractUserClass implements User {
     }
 
     @Override
-    public int getCommonProjectsAsDeveloper(User other) {
+    public int getCommonProjects(User other) {
         Iterator<Project> thisProjectIterator = this.getProjects();
 
         int sumProject = 0;

@@ -77,5 +77,5 @@ public interface User extends Comparable<User> {
      *
      * @return the sum of common <code>Project</code>s
      */
-    int getCommonProjectsAsDeveloper(User other);
+    int getCommonProjects(User other);
 }

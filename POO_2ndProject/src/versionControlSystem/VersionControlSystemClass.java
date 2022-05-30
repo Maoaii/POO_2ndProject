@@ -102,6 +102,7 @@ public class VersionControlSystemClass implements VersionControlSystem {
         }
 
         ((ProjectManager) manager).addProjectAsManager(project);
+        manager.addProject(project);
         projects.put(projectName, project);
         projectsByInsertion.add(project);
     }
@@ -318,19 +319,7 @@ public class VersionControlSystemClass implements VersionControlSystem {
                 User secondUser = secondUserIterator.next();
 
                 if (!firstUser.equals(secondUser)) {
-
-                    // Check first person projects as manager
-                    if (firstUser instanceof ProjectManager) {
-                        sumProject += ((ProjectManager) firstUser).getCommonProjectsAsManager(secondUser);
-                    }
-                    // Check first person projects as developer
-                    else if (firstUser instanceof Developer && secondUser instanceof ProjectManager){
-                        sumProject += ((ProjectManager) secondUser).getCommonProjectsAsManager(firstUser);
-                    }
-
-                    // Check projects as developer
-                    sumProject += firstUser.getCommonProjectsAsDeveloper(secondUser);
-
+                    sumProject += firstUser.getCommonProjects(secondUser);
                 }
 
                 if (sumProject > 0) {

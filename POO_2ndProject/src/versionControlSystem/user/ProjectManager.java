@@ -36,19 +36,4 @@ public interface ProjectManager {
      *         <code>ProjectManager</code> manages, by alphabetic order.
      */
     Iterator<User> getDevelopers();
-
-    /**
-     * Checks the amount of <code>Project</code>s <code>this User</code> has in common with <code>user</code>
-     *
-     * @param user - other <code>User</code> to compare <code>Project</code>s with
-     *
-     * @return an int representing the amount of common <code>Project</code>s
-     */
-    int getCommonProjectsAsManager(User user);
-
-    /**
-     * @return a <code>Project Iterator</code> that iterates through this <code>ProjectManager</code>s
-     *         <code>Project</code>s as a <code>ProjectManager</code>
-     */
-    Iterator<Project> getProjectsAsManager();
 }

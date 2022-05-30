@@ -241,7 +241,7 @@ public class Main {
                 if (user instanceof ProjectManager)
                     System.out.printf(USERS_LISTING_MANAGER,
                             user.getUsername(), ((ProjectManager) user).getNumDevelopers(),
-                            ((ProjectManager) user).getNumProjectsAsManagers(), user.getNumProjectsAsMember() + ((ProjectManager) user).getNumProjectsAsManagers());
+                            ((ProjectManager) user).getNumProjectsAsManagers(), user.getNumProjectsAsMember());
                 else
                     System.out.printf(USERS_LISTING_DEVELOPER,
                             user.getUsername(), ((Developer) user).getManager(), user.getNumProjectsAsMember());
@@ -614,14 +614,9 @@ public class Main {
         else {
             while (workaholicsIterator.hasNext()) {
                 User workaholic = workaholicsIterator.next();
-                if (workaholic instanceof ProjectManager)
-                    System.out.printf(WORKAHOLICS_LISTING, workaholic.getUsername(), workaholic.getNumRevisions(),
-                                                           workaholic.getNumProjectsAsMember() + ((ProjectManager) workaholic).getNumProjectsAsManagers(),
-                                                           workaholic.getDateOfLastRevision().format(DateTimeFormatter.ofPattern(DATE_FORMAT)));
-                else
-                    System.out.printf(WORKAHOLICS_LISTING, workaholic.getUsername(), workaholic.getNumRevisions(),
-                                                           workaholic.getNumProjectsAsMember(),
-                                                           workaholic.getDateOfLastRevision().format(DateTimeFormatter.ofPattern(DATE_FORMAT)));
+                System.out.printf(WORKAHOLICS_LISTING, workaholic.getUsername(), workaholic.getNumRevisions(),
+                                                       workaholic.getNumProjectsAsMember(),
+                                                       workaholic.getDateOfLastRevision().format(DateTimeFormatter.ofPattern(DATE_FORMAT)));
             }
         }
 
