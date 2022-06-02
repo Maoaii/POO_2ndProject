@@ -52,12 +52,6 @@ public class ArtefactClass implements Artefact {
         return confidentialityLevel;
     }
 
-    // TODO: hasn't been used yet. Maybe delete later
-    @Override
-    public String getArtefactDescription() {
-        return description;
-    }
-
     @Override
     public int getNumRevisions() {
         return revisionsByNumber.size();

@@ -1,28 +1,32 @@
 package versionControlSystem;
 
+import versionControlSystem.comparators.WorkaholicComparator;
 import versionControlSystem.user.User;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class WorkaholicsClass implements Workaholics {
     // Constants
     private static final int MAX_WORKAHOLICS = 3;
 
     // Instance variables
-    private final List<User> workaholics;
+    private Set<User> workaholics;
 
     /**
      * Workaholics constructor
      */
     public WorkaholicsClass() {
-        this.workaholics = new ArrayList<>(MAX_WORKAHOLICS);
+        this.workaholics = new TreeSet<>(new WorkaholicComparator());
     }
 
     @Override
     public void addWorkaholic(User workaholic) {
         workaholics.add(workaholic);
+        if (workaholics.size() > MAX_WORKAHOLICS) {
+            workaholics.remove(((TreeSet) workaholics).last());
+        }
     }
 
     @Override

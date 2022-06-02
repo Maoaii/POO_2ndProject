@@ -22,12 +22,6 @@ public interface Artefact {
      */
     int getArtefactConfidentialityLevel();
 
-    // TODO: hasn't been used yet. Maybe delete
-    /**
-     * @return this <code>Artefact</code>s <code>description</code>
-     */
-    String getArtefactDescription();
-
     /**
      * @return the number of <code>Revision</code>s this <code>Artefact</code> has
      */
@@ -40,7 +34,7 @@ public interface Artefact {
 
     /**
      * @return a <code>Revision Iterator</code> that iterates through all of this
-     *         <code>Artefact</code>s <code>Revision</code>s, sorted by descending order of <code>Date</code>.
+     * <code>Artefact</code>s <code>Revision</code>s, sorted by descending order of <code>Date</code>.
      */
     Iterator<Revision> getArtefactRevisions();
 }

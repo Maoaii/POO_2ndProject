@@ -1,7 +1,8 @@
 package versionControlSystem;
 
 import versionControlSystem.comparators.ProjectComparator;
-import versionControlSystem.comparators.WorkaholicComparator;
+import versionControlSystem.enumerates.JobPositions;
+import versionControlSystem.enumerates.ProjectTypes;
 import versionControlSystem.exceptions.*;
 import versionControlSystem.project.*;
 import versionControlSystem.user.DeveloperClass;
@@ -13,13 +14,6 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class VersionControlSystemClass implements VersionControlSystem {
-    // Constants
-    private static final String PROJECTMANAGER = "manager";
-    private static final String DEVELOPER = "developer";
-    private static final String INHOUSEPROJECT = "inhouse";
-    private static final String OUTSOURCEDPROJECT = "outsourced";
-
-
     // Instance variables
     private final Map<String, User> users; // Stores users for easy access. username -> User
     private final Set<User> usersByName; // Stores Users ordered by name
@@ -36,21 +30,22 @@ public class VersionControlSystemClass implements VersionControlSystem {
         projectsByInsertion = new LinkedList<>();
     }
 
-
     @Override
     public void registerUser(String jobPosition, String username, String managerUsername, int clearanceLevel)
             throws UnknownJobPositionException, UserNameAlreadyExistsException, ManagerUsernameInvalidException {
-        boolean isManager = jobPosition.equals(PROJECTMANAGER);
-        boolean isDeveloper = jobPosition.equals(DEVELOPER);
-
-        if (!isManager && !isDeveloper)
+        JobPositions isValidJobPosition;
+        try {
+            isValidJobPosition = JobPositions.valueOf(jobPosition.toUpperCase());
+        } catch (IllegalArgumentException e) {
             throw new UnknownJobPositionException();
+        }
+
         if (users.containsKey(username))
             throw new UserNameAlreadyExistsException(username);
 
 
         User user;
-        if (isManager) {
+        if (isValidJobPosition.equals(JobPositions.MANAGER)) {
             user = new ProjectManagerClass(username, clearanceLevel);
         } else {
             User manager = users.get(managerUsername);
@@ -79,11 +74,12 @@ public class VersionControlSystemClass implements VersionControlSystem {
             throws UnknownProjectTypeException, ManagerUsernameInvalidException,
             ProjectNameAlreadyExistsException, ConfidentialityLevelHigherThanManagerException {
 
-        boolean isInHouse = projectType.equals(INHOUSEPROJECT);
-        boolean isOutsourced = projectType.equals(OUTSOURCEDPROJECT);
-
-        if (!isInHouse && !isOutsourced)
+        ProjectTypes isValidProjectType;
+        try {
+            isValidProjectType = ProjectTypes.valueOf(projectType.toUpperCase());
+        } catch (IllegalArgumentException e) {
             throw new UnknownProjectTypeException();
+        }
 
         User manager = users.get(managerUsername);
         // If manager doesn't exist or the managerUsername doesn't belong to a manager
@@ -96,7 +92,7 @@ public class VersionControlSystemClass implements VersionControlSystem {
 
 
         Project project;
-        if (isInHouse) {
+        if (isValidProjectType.equals(ProjectTypes.INHOUSE)) {
             project = new InHouseProjectClass(manager, projectName, keywords, confidentialityLevel);
         } else {
             project = new OutsourcedProjectClass(manager, projectName, keywords, companyName);
@@ -123,7 +119,7 @@ public class VersionControlSystemClass implements VersionControlSystem {
             throw new ManagerUsernameInvalidException(managerUsername);
 
         Project project = projects.get(projectName);
-        if (project == null || project instanceof OutsourcedProject)
+        if (!(project instanceof InHouseProject))
             throw new ProjectNameDoesntExistException(projectName);
         if (!project.getProjectManagerUsername().equals(managerUsername))
             throw new ProjectNotManagedByManagerException(project.getProjectManagerUsername(), projectName);
@@ -157,10 +153,9 @@ public class VersionControlSystemClass implements VersionControlSystem {
         }
 
         Project project = projects.get(projectName);
-        if (project == null || project instanceof OutsourcedProject) {
+        if (!(project instanceof InHouseProject)) {
             throw new ProjectNameDoesntExistException(projectName);
         }
-
 
         if (!developer.isMember(projectName) && !project.getProjectManagerUsername().equals(developerUsername)) {
             throw new DeveloperNotMemberException(developerUsername, projectName);
@@ -171,6 +166,7 @@ public class VersionControlSystemClass implements VersionControlSystem {
     public void addArtefact(String authorUsername, String projectName, String artefactName,
                             LocalDate artefactDate, int confidentialityLevel, String description)
             throws ArtefactAlreadyInProjectException, ArtefactExceedsConfidentialityException {
+
         Project project = projects.get(projectName);
         if (((InHouseProject) project).hasArtefact(artefactName)) {
             throw new ArtefactAlreadyInProjectException(artefactName);
@@ -186,10 +182,10 @@ public class VersionControlSystemClass implements VersionControlSystem {
                 authorUsername, artefactDate, description));
     }
 
-    // TODO: ask teacher if we can return an iterator of 1 User
     @Override
     public Iterator<Project> listProjectInfo(String projectName)
             throws ProjectNameDoesntExistException, ProjectIsOutsourcedException {
+
         Project project = projects.get(projectName);
         if (project == null)
             throw new ProjectNameDoesntExistException(projectName);
@@ -207,12 +203,13 @@ public class VersionControlSystemClass implements VersionControlSystem {
     public int reviewArtefact(String username, String projectName, String artefactName, LocalDate date, String comment)
             throws UserNameDoesntExistException, ProjectNameDoesntExistException,
             ArtefactNotInProjectException, DeveloperNotMemberException {
+
         User user = users.get(username);
         if (user == null)
             throw new UserNameDoesntExistException(username);
 
         Project project = projects.get(projectName);
-        if (project == null || project instanceof OutsourcedProject)
+        if (!(project instanceof InHouseProject))
             throw new ProjectNameDoesntExistException(projectName);
         if (!((InHouseProject) project).hasArtefact(artefactName))
             throw new ArtefactNotInProjectException(artefactName);
@@ -240,7 +237,7 @@ public class VersionControlSystemClass implements VersionControlSystem {
 
     @Override
     public Iterator<Project> listProjectsByKeyword(String keyword) throws NoProjectsWithKeywordException {
-        Set<Project> projectsWithKeyword = new TreeSet<Project>(new ProjectComparator());
+        Set<Project> projectsWithKeyword = new TreeSet<>(new ProjectComparator());
         Iterator<Project> it = projectsByInsertion.iterator();
 
         while (it.hasNext()) {
@@ -249,9 +246,7 @@ public class VersionControlSystemClass implements VersionControlSystem {
                 projectsWithKeyword.add(project);
             }
         }
-        // Na minha opinião, não haver projetos com este filtro não é uma exceção, portanto acho que
-        // poderiamos simplesmente retornar o iterator e, na main, se "!iterador.hasNext()", fazemos print da mensagem
-        // de "erro"
+
         if (projectsWithKeyword.size() == 0) {
             throw new NoProjectsWithKeywordException(keyword);
         }
@@ -277,30 +272,21 @@ public class VersionControlSystemClass implements VersionControlSystem {
         return projectsWithinLimit.iterator();
     }
 
-    // TODO: vale mesmo a pena ter uma entidade para os workaholics? Devemos retornar o iterador?
     @Override
-    public Workaholics getWorkaholics() {
-        Set<User> usersByWorkaholicness = new TreeSet<>(new WorkaholicComparator());
+    public Iterator<User> getWorkaholics() {
         Workaholics workaholics = new WorkaholicsClass();
 
         Iterator<User> userIterator = listAllUsers();
         while (userIterator.hasNext()) {
-            User user = userIterator.next();
-            if (user.getNumRevisions() > 0)
-                usersByWorkaholicness.add(user);
+            User workaholic = userIterator.next();
+            if (workaholic.getNumRevisions() > 0) {
+                workaholics.addWorkaholic(workaholic);
+            }
         }
 
-        int workaholicCounter = 0;
-        Iterator<User> workaholicsIterator = usersByWorkaholicness.iterator();
-        while (workaholicCounter < 3 && workaholicsIterator.hasNext()) { // TODO: make "3" a constant? Or find a better way (maybe a method that return 3 in WorkaholicClass)
-            workaholics.addWorkaholic(workaholicsIterator.next());
-            workaholicCounter++;
-        }
-
-        return workaholics;
+        return workaholics.getWorkaholics();
     }
 
-    // TODO: should this return the common users iterator?
     @Override
     public Commonality listTopCommonUsers() {
         Commonality commonality = new CommonalityClass();
