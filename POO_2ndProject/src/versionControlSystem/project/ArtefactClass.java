@@ -9,9 +9,7 @@ import java.util.TreeSet;
 
 public class ArtefactClass implements Artefact {
     // Instance variables
-    private final String projectName;
     private final String artefactName;
-    private final LocalDate artefactDate;
     private final int confidentialityLevel;
     private final String description;
     private final Set<Revision> revisionsByNumber; // Sorted revisions by their number. Revision numbers start at 1
@@ -29,10 +27,8 @@ public class ArtefactClass implements Artefact {
      */
     public ArtefactClass(String projectName, String authorUsername, String artefactName, LocalDate artefactDate,
                          int confidentialityLevel, String description) {
-        this.projectName = projectName;
         this.revisionsByNumber = new TreeSet<>(new RevisionComparatorByNumber());
         this.artefactName = artefactName;
-        this.artefactDate = artefactDate;
         this.confidentialityLevel = confidentialityLevel;
         this.description = description;
 
