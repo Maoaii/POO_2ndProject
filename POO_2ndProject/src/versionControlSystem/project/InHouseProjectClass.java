@@ -9,10 +9,10 @@ import java.util.*;
 public class InHouseProjectClass extends AbstractProjectClass implements InHouseProject {
     // Instance variables
     private final int confidentialityLevel;
+    private int numRevisions;
     private final List<User> membersByInsertion; // Stores members by insertion order
     private final Map<String, Artefact> artefacts; // Stores artefacts for easy access. artefactName -> Artefact
     private final List<Artefact> artefactsByInsertion; // Stores artefacts by insertion
-    private final List<Revision> revisions; //Stores revisions
 
     /**
      * InHouse Project constructor
@@ -29,7 +29,7 @@ public class InHouseProjectClass extends AbstractProjectClass implements InHouse
         membersByInsertion = new LinkedList<>();
         artefacts = new HashMap<>();
         artefactsByInsertion = new LinkedList<>();
-        revisions = new ArrayList<>();
+        numRevisions = 0;
     }
 
     @Override
@@ -49,7 +49,7 @@ public class InHouseProjectClass extends AbstractProjectClass implements InHouse
 
     @Override
     public int getNumRevisions() {
-        return revisions.size();
+        return numRevisions;
     }
 
     @Override
@@ -88,7 +88,7 @@ public class InHouseProjectClass extends AbstractProjectClass implements InHouse
     @Override
     public void reviewArtefact(String artefactName, Revision revision) {
         artefacts.get(artefactName).reviewArtefact(revision);
-        revisions.add(revision);
+        numRevisions++;
     }
 
     @Override
