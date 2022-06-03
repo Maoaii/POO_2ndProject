@@ -2,6 +2,12 @@ package versionControlSystem.project;
 
 import java.time.LocalDate;
 
+/**
+ * @author Lucas Girotto / Pedro Afonso
+ *
+ * <code>Revision</code> Interface. Resembles a revision of the content of an <code>Artefact</code>
+ * Holds all the functions a <code>Revision</code> has access to.
+ */
 public interface Revision {
 
     /**

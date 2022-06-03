@@ -5,6 +5,12 @@ import versionControlSystem.user.User;
 
 import java.util.Comparator;
 
+/**
+ * @author Lucas Girotto / Pedro Afonso
+ *
+ * <code>Workaholic</code> Comparator. Compares number of revisions made, number of projects assigned to,
+ * date of last revision and, lastly, by name
+ */
 public class WorkaholicComparator implements Comparator<User> {
     @Override
     public int compare(User o1, User o2) {
@@ -14,15 +20,15 @@ public class WorkaholicComparator implements Comparator<User> {
             return cmp;
         else {
             // Number of projects compare
-            int a = o1.getNumProjectsAsMember();
+            int o1Projects = o1.getNumProjectsAsMember();
             if (o1 instanceof ProjectManager)
-                a += ((ProjectManager) o1).getNumProjectsAsManagers();
+                o1Projects += ((ProjectManager) o1).getNumProjectsAsManagers();
 
-            int b = o2.getNumProjectsAsMember();
+            int o2Projects = o2.getNumProjectsAsMember();
             if (o2 instanceof ProjectManager)
-                b += ((ProjectManager) o2).getNumProjectsAsManagers();
+                o2Projects += ((ProjectManager) o2).getNumProjectsAsManagers();
 
-            cmp = b - a;
+            cmp = o2Projects - o1Projects;
             if (cmp != 0)
                 return cmp;
             else {
@@ -35,7 +41,6 @@ public class WorkaholicComparator implements Comparator<User> {
                     return o1.getUsername().compareTo(o2.getUsername());
             }
         }
-
 
 
     }

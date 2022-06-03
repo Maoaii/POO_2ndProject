@@ -6,6 +6,11 @@ import versionControlSystem.project.Revision;
 import java.time.LocalDate;
 import java.util.Iterator;
 
+/**
+ * @author Lucas Girotto / Pedro Afonso
+ *
+ * <code>User</code> Interface. Holds all the functions a <code>User</code> has access to.
+ */
 public interface User extends Comparable<User> {
 
     /**
@@ -33,8 +38,8 @@ public interface User extends Comparable<User> {
 
     /**
      * @return a <code>Revision Iterator</code> that iterates through all <code>Revision</code>s this
-     *         <code>User</code> has made as a team member, sorted by:
-     *         <code>date</code>; <code>revisionNumber</code>; <code>projectName</code>;
+     * <code>User</code> has made as a team member, sorted by:
+     * <code>date</code>; <code>revisionNumber</code>; <code>projectName</code>;
      */
     Iterator<Revision> getUserRevisions();
 
@@ -72,7 +77,6 @@ public interface User extends Comparable<User> {
      * <code>other</code> <code>Project</code>s
      *
      * @param other - <code>User</code>s to iterate <code>Project</code>s over
-     *
      * @return the sum of common <code>Project</code>s
      */
     int getCommonProjects(User other);

@@ -1,5 +1,8 @@
 package versionControlSystem.exceptions;
 
+/**
+ * @author Lucas Girotto / Pedro Afonso
+ */
 public class UnknownJobPositionException extends Exception {
     // Constants
     private static final String ERROR_MESSAGE = "Unknown job position.";
@@ -8,7 +11,6 @@ public class UnknownJobPositionException extends Exception {
      * Exception constructor
      */
     public UnknownJobPositionException() {
-        super();
     }
 
     /**

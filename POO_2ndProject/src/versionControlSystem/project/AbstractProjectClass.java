@@ -2,6 +2,12 @@ package versionControlSystem.project;
 
 import versionControlSystem.user.User;
 
+/**
+ * @author Lucas Girotto / Pedro Afonso
+ * <p>
+ * <code>Project</code> Abstract Class. Represents a single <code>Project</code> entity. Has a manager,
+ * project name and a list of keywords.
+ */
 public class AbstractProjectClass implements Project {
     // Instance variables
     private final User manager;

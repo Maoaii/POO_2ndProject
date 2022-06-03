@@ -4,6 +4,12 @@ import versionControlSystem.user.User;
 
 import java.util.Iterator;
 
+/**
+ * @author Lucas Girotto / Pedro Afonso
+ *
+ * <code>Commonality</code> Interface. Represents the top two <code>User</code>s that have the most <code>Project</code>s
+ * in common.
+ */
 public interface Commonality {
 
     /**

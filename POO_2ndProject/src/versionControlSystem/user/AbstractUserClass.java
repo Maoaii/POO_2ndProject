@@ -7,6 +7,12 @@ import versionControlSystem.user.comparators.RevisionComparatorByDateNumberProje
 import java.time.LocalDate;
 import java.util.*;
 
+/**
+ * @author Lucas Girotto / Pedro Afonso
+ *
+ * <code>User</code> Abstract Class. Has an username, clearance level, map and collection of <code>Project</code>s,
+ * stored by insertion order,and a collection of <code>Revision</code>s, stored by date, number and project name.
+ */
 public class AbstractUserClass implements User {
     // Instance variables
     private final String username;

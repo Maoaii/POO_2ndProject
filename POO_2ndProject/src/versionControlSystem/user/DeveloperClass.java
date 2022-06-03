@@ -1,5 +1,10 @@
 package versionControlSystem.user;
 
+/**
+ * @author Lucas Girotto / Pedro Afonso
+ *
+ * <code>Developer</code> Class. A subclass of <code>User</code>. Has a manager username.
+ */
 public class DeveloperClass extends AbstractUserClass implements Developer {
     // Instance variables
     private final String managerUsername;

@@ -1,5 +1,8 @@
 package versionControlSystem.exceptions;
 
+/**
+ * @author Lucas Girotto / Pedro Afonso
+ */
 public class ManagerUsernameInvalidException extends Exception {
     // Constants
     private static final String ERROR_MESSAGE = "Project manager %s does not exist.\n";

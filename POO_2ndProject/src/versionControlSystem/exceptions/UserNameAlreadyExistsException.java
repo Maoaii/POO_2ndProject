@@ -1,5 +1,8 @@
 package versionControlSystem.exceptions;
 
+/**
+ * @author Lucas Girotto / Pedro Afonso
+ */
 public class UserNameAlreadyExistsException extends Exception {
     // Constants
     private static final String ERROR_MESSAGE = "User %s already exists.\n";

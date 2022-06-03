@@ -4,18 +4,23 @@ import versionControlSystem.project.Revision;
 
 import java.util.Comparator;
 
+/**
+ * @author Lucas Girotto / Pedro Afonso
+ *
+ * <code>Revision</code> Comparator by <code>revisionDate</code>, <code>revisionNumber</code> and <code>projectName</code>
+ */
 public class RevisionComparatorByDateNumberProjectName implements Comparator<Revision> {
     @Override
     public int compare(Revision o1, Revision o2) {
-        int cmp = o1.getRevisionDate().compareTo(o2.getRevisionDate());
+        int cmp = o2.getRevisionDate().compareTo(o1.getRevisionDate());
 
         if (cmp != 0)
-            return -cmp; // -cmp because ordered from newest to oldest
+            return cmp;
         else {
-            cmp = o1.getRevisionNumber() - o2.getRevisionNumber();
+            cmp = o2.getRevisionNumber() - o1.getRevisionNumber();
 
             if (cmp != 0)
-                return -cmp; // -cmp because ordered from last revision to first
+                return cmp;
             else
                 return o1.getProjectName().compareTo(o2.getProjectName());
         }

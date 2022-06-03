@@ -4,6 +4,12 @@ import versionControlSystem.project.Project;
 
 import java.util.Iterator;
 
+/**
+ * @author Lucas Girotto / Pedro Afonso
+ *
+ * <code>ProjectManager</code> Interface. Holds all the functions a <code>ProjectManager</code>
+ * has access to.
+ */
 public interface ProjectManager {
 
     /**
@@ -27,13 +33,13 @@ public interface ProjectManager {
 
     /**
      * @return the number of <code>Project</code>s this <code>ProjectManager</code> participates in, as a
-     *         <code>ProjectManager</code>
+     * <code>ProjectManager</code>
      */
     int getNumProjectsAsManagers();
 
     /**
      * @return a <code>Developer Iterator</code> that iterates through all of the <code>Developer</code>s this
-     *         <code>ProjectManager</code> manages, by alphabetic order.
+     * <code>ProjectManager</code> manages, by alphabetic order.
      */
     Iterator<User> getDevelopers();
 }

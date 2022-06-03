@@ -7,6 +7,11 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
+/**
+ * Artefact Class. Its an artefact to add to an existing <code>Project</code>.
+ * Has a name, confidentiality level, description, number, collection of <code>Revision</code>s, sorted by their number,
+ * and the last <code>Revision</code> made.
+ */
 public class ArtefactClass implements Artefact {
     // Instance variables
     private final String artefactName;

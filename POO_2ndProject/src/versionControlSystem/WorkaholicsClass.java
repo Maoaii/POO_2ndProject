@@ -7,6 +7,13 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
+/**
+ * @author Lucas Girotto / Pedro Afonso
+ *
+ * <code>Workaholics</code> Class. Has a collection of, at most, three <code>User</code>s, stored
+ * by number of <code>Revision</code>s made, number of <code>Project</code>s assigned to,
+ * date of the last <code>Revision</code> and by name.
+ */
 public class WorkaholicsClass implements Workaholics {
     // Constants
     private static final int MAX_WORKAHOLICS = 3;
@@ -25,7 +32,7 @@ public class WorkaholicsClass implements Workaholics {
     public void addWorkaholic(User workaholic) {
         workaholics.add(workaholic);
         if (workaholics.size() > MAX_WORKAHOLICS) {
-            workaholics.remove(((TreeSet) workaholics).last());
+            workaholics.remove(((TreeSet<User>) workaholics).last());
         }
     }
 

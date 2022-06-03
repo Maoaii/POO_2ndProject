@@ -4,6 +4,13 @@ import versionControlSystem.user.User;
 
 import java.util.Iterator;
 
+/**
+ * @author Lucas Girotto / Pedro Afonso
+ *
+ * <code>Workaholics</code> Interface. Resembles the top three workaholics in the system.
+ * A workaholic is determined by the number of <code>Revision</code>s made, <code>Project</code>s assigned in,
+ * date of the last revision and by name.
+ */
 public interface Workaholics {
 
     /**

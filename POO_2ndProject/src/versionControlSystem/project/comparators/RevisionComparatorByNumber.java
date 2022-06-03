@@ -4,6 +4,11 @@ import versionControlSystem.project.Revision;
 
 import java.util.Comparator;
 
+/**
+ * @author Lucas Girotto / Pedro Afonso
+ *
+ * <code>Revision</code> Comparator by <code>revisionNumer</code>
+ */
 public class RevisionComparatorByNumber implements Comparator<Revision> {
     @Override
     public int compare(Revision o1, Revision o2) {

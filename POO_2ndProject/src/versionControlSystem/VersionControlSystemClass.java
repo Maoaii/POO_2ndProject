@@ -13,6 +13,13 @@ import versionControlSystem.user.User;
 import java.time.LocalDate;
 import java.util.*;
 
+/**
+ * @author Lucas Girotto / Pedro Afonso
+ *
+ * <code>VersionControlSystem</code> Class. Has a map of <code>User</code>s, a collection of <code>User</code>s,
+ * stored alphabetically, a map of <code>Project</code>s and a collection of <code>Project</code>s, stored
+ * by insertion order.
+ */
 public class VersionControlSystemClass implements VersionControlSystem {
     // Instance variables
     private final Map<String, User> users; // Stores users for easy access. username -> User
@@ -236,7 +243,7 @@ public class VersionControlSystemClass implements VersionControlSystem {
 
 
     @Override
-    public Iterator<Project> listProjectsByKeyword(String keyword) throws NoProjectsWithKeywordException {
+    public Iterator<Project> listProjectsByKeyword(String keyword) {
         Set<Project> projectsWithKeyword = new TreeSet<>(new ProjectComparator());
         Iterator<Project> it = projectsByInsertion.iterator();
 
@@ -245,10 +252,6 @@ public class VersionControlSystemClass implements VersionControlSystem {
             if (project.hasKeyword(keyword)) {
                 projectsWithKeyword.add(project);
             }
-        }
-
-        if (projectsWithKeyword.size() == 0) {
-            throw new NoProjectsWithKeywordException(keyword);
         }
 
         return projectsWithKeyword.iterator();
@@ -301,23 +304,20 @@ public class VersionControlSystemClass implements VersionControlSystem {
 
             Iterator<User> secondUserIterator = listAllUsers();
             while (secondUserIterator.hasNext()) {
-                int sumProject = 0;
+                int sumProjects = 0;
                 User secondUser = secondUserIterator.next();
 
                 if (!firstUser.equals(secondUser)) {
-                    sumProject += firstUser.getCommonProjects(secondUser);
+                    sumProjects += firstUser.getCommonProjects(secondUser);
                 }
 
-                if (sumProject > 0) {
-                    if (sumProject > sumMostProjects) {
-                        sumMostProjects = sumProject;
+                if (sumProjects > 0) {
+                    if (sumProjects > sumMostProjects) {
+                        sumMostProjects = sumProjects;
                         user1 = firstUser;
                         user2 = secondUser;
-                    } else if (sumProject == sumMostProjects) {
-                        if (user1.compareTo(firstUser) > 0) {
-                            user1 = firstUser;
-                            user2 = secondUser;
-                        } else if (user2.compareTo(secondUser) > 0) {
+                    } else if (sumProjects == sumMostProjects) {
+                        if (user1.compareTo(firstUser) > 0 || user2.compareTo(secondUser) > 0) {
                             user1 = firstUser;
                             user2 = secondUser;
                         }
@@ -332,3 +332,4 @@ public class VersionControlSystemClass implements VersionControlSystem {
         return commonality;
     }
 }
+

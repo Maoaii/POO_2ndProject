@@ -5,6 +5,11 @@ import versionControlSystem.user.User;
 import java.time.LocalDate;
 import java.util.Iterator;
 
+/**
+ * @author Lucas Girotto / Pedro Afonso
+ *
+ * <code>InHouseProject</code> Interface. Holds all the functions a <code>InHouseProject</code> has access to.
+ */
 public interface InHouseProject {
 
     /**
@@ -26,8 +31,8 @@ public interface InHouseProject {
      * @return this <code>InHouseProject</code>s number of <code>Revision</code>s
      */
     int getNumRevisions();
-    
-    
+
+
     /**
      * @return the most recent date within the <code>InHouseProject</code>, whether it is a new <code>Artefact</code> or a <code>Revision</code>
      */
@@ -62,19 +67,19 @@ public interface InHouseProject {
      * Reviews an <code>Artefact</code> from this <code>InHouseProject</code>
      *
      * @param artefactName - reviewed <code>Artefact</code>
-     * @param revision - <code>Revision</code> to be made
+     * @param revision     - <code>Revision</code> to be made
      */
     void reviewArtefact(String artefactName, Revision revision);
 
     /**
      * @return an <code>User Iterator</code> that iterates through all of the <code>Project</code>s members,
-     *         by insertion order
+     * by insertion order
      */
     Iterator<User> getProjectMembers();
 
     /**
      * @return an <code>Artefact Iterator</code> that iterates through all of the <code>Project</code>s members,
-     *         by: <code>Date</code> of the last revision number; <code>artefactName</code>
+     * by: <code>Date</code> of the last revision number; <code>artefactName</code>
      */
     Iterator<Artefact> getProjectArtefacts();
 }

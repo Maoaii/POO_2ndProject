@@ -1,13 +1,14 @@
 package versionControlSystem.exceptions;
 
+/**
+ * @author Lucas Girotto / Pedro Afonso
+ */
 public class UnknownProjectTypeException extends Exception {
     // Constants
     private static final String ERROR_MESSAGE = "Unknown project type.\n";
 
     /**
      * Exception constructor
-     *
-     * @param username - <code>username</code> that caused the exception
      */
     public UnknownProjectTypeException() {
 

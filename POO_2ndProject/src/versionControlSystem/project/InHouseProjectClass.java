@@ -6,13 +6,20 @@ import versionControlSystem.user.User;
 import java.time.LocalDate;
 import java.util.*;
 
+/**
+ * @author Lucas Girotto / Pedro Afonso
+ *
+ * <code>InHouseProject</code> Class. A subclass of <code>Project</code>.
+ * Has a confidentiality level, a collection of <code>User</code>s, store by insertion order,
+ * and a map and collection of <code>Artefact</code>s, sorted by insertion.
+ */
 public class InHouseProjectClass extends AbstractProjectClass implements InHouseProject {
     // Instance variables
     private final int confidentialityLevel;
-    private int numRevisions;
     private final List<User> membersByInsertion; // Stores members by insertion order
     private final Map<String, Artefact> artefacts; // Stores artefacts for easy access. artefactName -> Artefact
     private final List<Artefact> artefactsByInsertion; // Stores artefacts by insertion
+    private int numRevisions;
 
     /**
      * InHouse Project constructor
@@ -62,7 +69,6 @@ public class InHouseProjectClass extends AbstractProjectClass implements InHouse
         }
         return date;
     }
-
 
     @Override
     public int getNumArtefactRevisions(String artefactName) {

@@ -6,6 +6,12 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
+/**
+ * @author Lucas Girotto / Pedro Afonso
+ *
+ * <code>Commonality</code> Class. Has a collection of two <code>User</code>s sorted alphabetically and the number
+ * of common <code>Project</code>s the two <code>User</code>s have
+ */
 public class CommonalityClass implements Commonality {
     // Instance variables
     private final Set<User> commonUsers;

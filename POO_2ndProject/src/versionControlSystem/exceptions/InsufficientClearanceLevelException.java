@@ -1,5 +1,8 @@
 package versionControlSystem.exceptions;
 
+/**
+ * @author Lucas Girotto / Pedro Afonso
+ */
 public class InsufficientClearanceLevelException extends Exception {
     // Constants
     private static final String ERROR_MESSAGE = "%s: insufficient clearance level.\n";

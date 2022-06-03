@@ -3,6 +3,11 @@ package versionControlSystem.project;
 import java.time.LocalDate;
 import java.util.Iterator;
 
+/**
+ * @author Lucas Girotto / Pedro Afonso
+ * <p>
+ * Artefact Interface. Holds all the methods a <code>Artefact</code> has access to
+ */
 public interface Artefact {
 
     /**

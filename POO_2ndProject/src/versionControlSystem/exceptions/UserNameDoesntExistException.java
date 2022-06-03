@@ -1,5 +1,8 @@
 package versionControlSystem.exceptions;
 
+/**
+ * @author Lucas Girotto / Pedro Afonso
+ */
 public class UserNameDoesntExistException extends Exception {
     // Constants
     private static final String ERROR_MESSAGE = "User %s does not exist.\n";

@@ -1,5 +1,10 @@
 package versionControlSystem.project;
 
+/**
+ * @author Lucas Girotto / Pedro Afonso
+ *
+ * <code>Project</code> Interface. Holds all the functions a <code>Project</code> has access to.
+ */
 public interface Project extends Comparable<Project> {
 
     /**
@@ -21,7 +26,7 @@ public interface Project extends Comparable<Project> {
      * @return this <code>Project</code>s <code>keywords</code>
      */
     String[] getKeywords();
-    
+
     /**
      * @param keyword - the keyword to be tested
      * @return true if the project contains this keyword

@@ -8,10 +8,10 @@ import java.time.LocalDate;
 import java.util.Iterator;
 
 /**
- * <code>VersionControlSystem</code> object. Holds the information on all <code>Project</code>s and all
- * <code>User</code>s and computes the logic behind commands on a system level.
- *
  * @author Lucas Girotto / Pedro Afonso
+ *
+ * <code>VersionControlSystem</code> Interface. Holds the information on all <code>Project</code>s and all
+ * <code>User</code>s and computes the logic behind commands on a system level.
  */
 public interface VersionControlSystem {
     /**
@@ -34,7 +34,7 @@ public interface VersionControlSystem {
      * Lists out all <code>User</code>'s registered in the <code>VersionControlSystem</code> by insertion order.
      * <code>Manager</code>'s and <code>Developer</code>'s are listed in different format.
      *
-     * <code>Manager</code> -  (manager "userName" [number of developers, projects as manager, projects as members])
+     * <code>Manager</code> -  (manager "userName" [number of developers, projects as manager, projects as member and manager])
      * <code>Developer</code> - (developer username is managed by manager [number of projects])
      *
      * @return a <code>User Iterator</code> that iterates through the system's <code>User</code>'s
@@ -211,9 +211,8 @@ public interface VersionControlSystem {
      * @param keyword - keyword to filter <code>Project</code>s to
      * @return a filtered <code>Project Iterator</code> that iterates through all <code>Project</code>s that
      * have <code>keyword</code>
-     * @throws NoProjectsWithKeywordException - if there are no projects with this keyword
      */
-    Iterator<Project> listProjectsByKeyword(String keyword) throws NoProjectsWithKeywordException;
+    Iterator<Project> listProjectsByKeyword(String keyword);
 
     /**
      * Presents all <code>InHouse Project</code>s that have a <code>confidentialityLevel</code>

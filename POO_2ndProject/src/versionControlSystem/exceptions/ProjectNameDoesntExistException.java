@@ -1,5 +1,8 @@
 package versionControlSystem.exceptions;
 
+/**
+ * @author Lucas Girotto / Pedro Afonso
+ */
 public class ProjectNameDoesntExistException extends Exception {
     // Constants
     private static final String ERROR_MESSAGE = "%s project does not exist.\n";

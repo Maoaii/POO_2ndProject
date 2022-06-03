@@ -1,5 +1,8 @@
 package versionControlSystem.exceptions;
 
+/**
+ * @author Lucas Girotto / Pedro Afonso
+ */
 public class ConfidentialityLevelHigherThanManagerException extends Exception {
     // Constants
     private static final String ERROR_MESSAGE = "Project manager %s has clearance level %s.\n";

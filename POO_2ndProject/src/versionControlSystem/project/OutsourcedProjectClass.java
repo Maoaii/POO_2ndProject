@@ -2,6 +2,12 @@ package versionControlSystem.project;
 
 import versionControlSystem.user.User;
 
+/**
+ * @author Lucas Girotto / Pedro Afonso
+ *
+ * <code>OutsourcedProjectClass</code> Class. A subclass of <code>Project</code>. Has the name of the
+ * company it belongs to.
+ */
 public class OutsourcedProjectClass extends AbstractProjectClass implements OutsourcedProject {
     // Instance variables
     private final String companyName;

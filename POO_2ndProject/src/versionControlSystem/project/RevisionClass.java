@@ -2,6 +2,13 @@ package versionControlSystem.project;
 
 import java.time.LocalDate;
 
+/**
+ * @author Lucas Girotto / Pedro Afonso
+ *
+ * <code>Revision</code> Class. <code>Revision</code>s are made to <code>Artefact</code>s.
+ * Has a project name, artefact name, revision number,
+ * author username, revision date and revision comment.
+ */
 public class RevisionClass implements Revision {
     // Instance variables
     private final String projectName;
